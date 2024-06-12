@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { RiSearchLine } from 'react-icons/ri';
 import axios from 'axios';
+import Modal from '@/app/modal_search/page'; // Asegúrate de importar el Modal
 
 interface SearchResult {
   id: string;
@@ -23,25 +24,31 @@ const Search: React.FC = () => {
   const [results, setResults] = useState<SearchResult[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleSearch = async (event: React.FormEvent) => {
     event.preventDefault();
     setLoading(true);
     setError('');
     setResults([]);
-    console.log('Searching for:', searchTerm); 
+    console.log('Searching for:', searchTerm);
     try {
       const response = await axios.get('https://huellasdesperanza.onrender.com/search', {
-        params: { q: searchTerm }, 
+        params: { q: searchTerm },
       });
-      console.log('Response data:', response.data); 
+      console.log('Response data:', response.data);
       setResults(response.data);
+      setIsModalOpen(true); // Abrir el modal al obtener resultados
     } catch (error) {
       console.error('Error realizando la búsqueda:', error);
       setError('Error realizando la búsqueda');
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
   };
 
   return (
@@ -61,22 +68,22 @@ const Search: React.FC = () => {
       <div className="w-full">
         {loading && <p className="text-gray-700">Cargando...</p>}
         {error && <p className="text-red-500">{error}</p>}
-        {results.length > 0 ? (
-          <ul className="list-disc pl-5">
-            {results.map((result) => (
-              <li key={result.id} className="mb-2">
-                <div>
-                  <h3>{result.name}</h3>
-                  <p>{result.description}</p>
-                  <img src={result.imgUrl} alt={result.name} className="w-16 h-16"/>
-                </div>
-              </li>
-            ))}
-          </ul>
-        ) : !loading && (
-          <p className="text-gray-700">No se encontraron resultados.</p>
-        )}
       </div>
+      <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
+        {results.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {results.map((result) => (
+              <div key={result.id} className="bg-white p-4 rounded-lg shadow-lg">
+                <img src={result.imgUrl} alt={result.name} className="w-full h-40 object-cover rounded-t-lg mb-2" />
+                <h3 className="text-lg font-semibold mb-2">{result.name}</h3>
+                <p className="text-gray-700">{result.description}</p>
+              </div>
+            ))}
+          </div>
+        ) : !loading && (
+          <p>No se encontraron resultados.</p>
+        )}
+      </Modal>
     </div>
   );
 };
