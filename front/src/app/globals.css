@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 
+
 @layer utilities {
   .custom-scrollbar::-webkit-scrollbar {
     width: 8px;
@@ -37,4 +38,5 @@
 body {
   background-color: #F3F4F6;
 }
+
 
