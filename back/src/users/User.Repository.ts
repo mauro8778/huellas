@@ -23,7 +23,7 @@ export class UserRepository implements OnModuleInit {
   }
   async getUsers() {
     const users = await this.usersRepository.find({
-      relations:['pets','favorite_shelters','favorite_pets']
+      relations:['pets','favorite_shelters','favorite_pets','orders']
     });
 
     if (users.length === 0) {
@@ -31,7 +31,7 @@ export class UserRepository implements OnModuleInit {
     }
 
     return users;
-}
+  }
 
 
 
