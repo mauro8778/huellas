@@ -1,5 +1,6 @@
-import type { Config } from "tailwindcss";
-import {nextui} from "@nextui-org/react";
+
+import { Config } from "tailwindcss";
+import { nextui } from "@nextui-org/react";
 
 const config: Config = {
   content: [
@@ -12,21 +13,25 @@ const config: Config = {
     extend: {
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic":
-          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+
+        "gradient-conic": "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
       colors: {
-        primary: '#41d3be', // Rosado intenso
-        secondary: '#8AFF70', // Verde neón
-        tertiary: '#708aff', // Azul lavanda 
-        quaternary: '#A47AFF ', // Azul celeste
+        primary: '#41d3be',
+        secondary: '#8AFF70',
+        tertiary: '#708aff',
+        quaternary: '#A47AFF',
         quinary: '#FF3D60',
-        neutral:'#7f7f7f'// gris 
+        neutral: '#7f7f7f'
       },
     },
-   
   },
   darkMode: "class",
-  plugins: [nextui()]
+  plugins: [
+    nextui(),
+    require('tailwind-scrollbar'),
+  ],
 };
+
+
 export default config;
