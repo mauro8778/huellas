@@ -38,6 +38,13 @@ export interface IRefugios {
     zona?: string
     image: string
     description?: string
+    shelter_name?: string
+    email?: string
+    phone?: string
+    pets?: IMascotas[]
+    isActive?: boolean
+    location?: string
+    imgUrl?: string
 }
 
 export interface JwtPayload {
@@ -54,7 +61,7 @@ export interface JwtPayload {
   }
 
   export interface IShelter {
-    id: string;
+    id?: string;
     name: string;
   }
   

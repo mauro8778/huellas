@@ -87,7 +87,7 @@ const Search: React.FC = () => {
             {results.map((result) => (
               <div
                 key={result.id}
-                className=" flex flex-col backdrop-filter backdrop-blur bg-opacity-20 bg-quaternary p-4 rounded-lg shadow-lg flex-shrink-0 w-64"
+                className=" flex flex-col backdrop-filter backdrop-blur bg-opacity-20 bg-gray-100 p-4 rounded-lg shadow-lg flex-shrink-0 w-64"
               >
                 <Image
                   src={result.imgUrl}

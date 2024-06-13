@@ -39,8 +39,8 @@ const SideNav: React.FC = () => {
 
   const handleSignOut = () => {
     localStorage.removeItem('userSession');
-    localStorage.removeItem('donations');
-    localStorage.removeItem('token');
+    // localStorage.removeItem('donations');
+    // localStorage.removeItem('token');
     setIsLoggedIn(false);
     setUserData(null);
     setIsGoogleAuthenticated(false);

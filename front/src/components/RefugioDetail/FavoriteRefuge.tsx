@@ -4,7 +4,7 @@ interface FavoriteStarProps {
   isFavorite: boolean;
   onToggleFavorite: (petId: string) => void;
   isLoggedIn: boolean;
-  id: string;
+  id: string  ;
 }
 
 const FavoriteRefuge: React.FC<FavoriteStarProps> = ({ isFavorite, onToggleFavorite, isLoggedIn, id }) => {

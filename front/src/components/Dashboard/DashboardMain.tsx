@@ -1,11 +1,9 @@
 import React from 'react';
 import { FaDonate, FaPaw, FaBell } from 'react-icons/fa';
 import Card from '../ui/Card';
-import { useDonations } from '@/app/context/DonationsContext';
 
 const DashboardMain: React.FC = () => {
-  const { totalDonations } = useDonations();
-
+  const totalDonations = 0; // Actualiza este valor según sea necesario
   return (
     <div className="p-6 bg-gray-100">
       <h1 className="text-3xl font-bold mb-6">Dashboard</h1>
@@ -39,15 +37,8 @@ const DashboardMain: React.FC = () => {
         <h2 className="text-2xl font-bold mb-4">Notificaciones y Alertas</h2>
         <ul>
           <li className="mb-2">Notificación 1: Donación reciente</li>
-          <li className="mb-2">Notificación 2: Nuevo refugio añadido</li>
-        </ul>
-      </div>
-
-      <div className="bg-white shadow-lg rounded-lg p-6">
-        <h2 className="text-2xl font-bold mb-4">Actividades Recientes</h2>
-        <ul>
-          <li className="mb-2">Donación de $100 realizada a Refugio X</li>
-          <li className="mb-2">Refugio Y añadido a favoritos</li>
+          <li className="mb-2">Notificación 2: Actualización del refugio</li>
+          <li className="mb-2">Notificación 3: Recordatorio de donación</li>
         </ul>
       </div>
     </div>
