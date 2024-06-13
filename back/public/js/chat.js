@@ -1,10 +1,8 @@
 const username = localStorage.getItem('name');
-
 if (!username) {
     window.location.replace('/')
     throw new Error('usuario requerido')
 }
-
 const socket = io({
     auth: {
         token: "abc-123",
