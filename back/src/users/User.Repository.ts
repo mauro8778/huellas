@@ -198,7 +198,7 @@ export class UserRepository implements OnModuleInit {
 
     await this.usersRepository.save(user);
 
-    return "Refugio eliminado de favoritos";
+    return "Refugio eliminado de favoritoss";
   }
    
 }
