@@ -4,12 +4,17 @@ import { UpdateUserDto } from 'src/dto/updateUser.dto';
 import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from 'src/guards/auth.guard';
 import { Auth0Guard } from 'src/guards/auth0.guard';
+import { RoleGuard } from 'src/guards/role.guard';
+import { Roles } from 'src/decorators/role.decorator';
+import { Role } from './user.enum';
 
 @ApiTags("Users")
 @Controller('users')
 export class UserController {
     constructor(private readonly usersService : UserService){}
 
+    @Roles(Role.Shelter)
+    @UseGuards(AuthGuard, RoleGuard)
     @Get()
     getUsers(){
         return this.usersService.getUsers()

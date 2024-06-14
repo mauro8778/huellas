@@ -3,6 +3,7 @@ import {
   ConflictException,
   Injectable,
   Logger,
+  NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
 import { UserEntity } from 'src/entidades/user.entity';
@@ -85,13 +86,26 @@ export class AuthService {
       metadata.shelter_name,
       password,
     );
-    const geocodeData = await this.mapsservice.geocodeShelterAddress(metadata.address);
-    metadata.lat = parseFloat(geocodeData.lat);
-        metadata.lon = parseFloat(geocodeData.lon);
-    metadata.display_name = geocodeData.display_name;
+    try {
+      const geocodeData = await this.mapsservice.geocodeShelterAddress(metadata.address);
 
-    return this.Register(email, password, metadata, accessToken, 'shelter');
+      if (!geocodeData || !geocodeData.lat || !geocodeData.lon || !geocodeData.display_name) {
+        throw new Error('Invalid geocoding data');
+      }
+
+      metadata.lat = parseFloat(geocodeData.lat);
+      metadata.lon = parseFloat(geocodeData.lon);
+      metadata.display_name = geocodeData.display_name;
+
+      return this.Register(email, password, metadata, accessToken, 'shelter');
+
+    } catch (error) {
+      console.error('Error geocoding address:', error);
+      throw new NotFoundException('Invalid address: Address could not be geocoded');
+    }
+  
   }
+  
 
   async Register(
     email: string,
