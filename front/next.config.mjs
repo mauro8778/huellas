@@ -5,7 +5,8 @@ const nextConfig = {
         'res.cloudinary.com',
         's.gravatar.com', 
         'cdn.auth0.com',
-        'via.placeholder.com'
+        'via.placeholder.com',
+        'flowbite.com'
       ],
     },
     

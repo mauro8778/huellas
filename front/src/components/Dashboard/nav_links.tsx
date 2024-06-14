@@ -1,12 +1,11 @@
-"use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
-import { FaHome } from "react-icons/fa";
-import { MdOutlinePets, MdDashboardCustomize } from "react-icons/md";
+import { FaChartBar, FaHome, FaUsers } from "react-icons/fa";
+import { MdOutlinePets, MdDashboardCustomize, MdOutlineMiscellaneousServices, MdSettings } from "react-icons/md";
 import { BiSolidDonateHeart } from "react-icons/bi";
 
-const links = [
+const userLinks = [
   { name: "Home", href: "/Home", icon: FaHome },
   { name: "Dashboard", href: "/dashboard", icon: MdDashboardCustomize },
   { name: "Donaciones", href: "/dashboard/donations", icon: BiSolidDonateHeart },
@@ -14,10 +13,25 @@ const links = [
   { name: "Favoritos", href: "/dashboard/favorites", icon: MdOutlinePets },
 ];
 
-export default function NavLinks() {
+const adminLinks = [
+  { name: "Home", href: "/Home", icon: FaHome },
+  { name: "Dashboard", href: "/dashboard", icon: MdDashboardCustomize },
+  { name: "Usuarios", href: "/dashboard/all_users", icon: FaUsers },
+  { name: "Refugios", href: "/dashboard/shelters", icon: MdOutlinePets },
+  // { name: "Mascotas Perdidas", href: "/dashboard/lost-pets", icon: MdOutlinePets},
+  // { name: "Mascotas Adoptadas", href: "/dashboard/adopted-pets", icon: MdOutlinePets },
+  // { name: "Donaciones", href: "/dashboard/donations", icon: BiSolidDonateHeart },
+  // { name: "Servicios Ofrecidos", href: "/dashboard/services", icon: MdOutlineMiscellaneousServices },
+  { name: "Reportes", href: "/dashboard/reports", icon: FaChartBar },
+  { name: "Configuración", href: "/dashboard/settings", icon: MdSettings },
+];
+
+const NavLinks = ({ isAdmin }: { isAdmin: boolean }) => {
   const pathname = usePathname();
+  const links = isAdmin ? adminLinks : userLinks;
+
   return (
-    <>
+    <div className="flex flex-col gap-2 ">
       {links.map((link) => {
         const LinkIcon = link.icon;
         return (
@@ -36,6 +50,8 @@ export default function NavLinks() {
           </Link>
         );
       })}
-    </>
+    </div>
   );
-}
+};
+
+export default NavLinks;

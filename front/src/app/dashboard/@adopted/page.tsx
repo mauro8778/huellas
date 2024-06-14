@@ -1,12 +1,13 @@
 'use client';
 
+import AllUsers from '@/components/admin/AllUsers';
 import React from 'react';
 
 const AdoptedPage = () => {
   return (
     <div>
-      <h1 className="text-2xl font-bold mb-4">Adopciones</h1>
-      {/* Contenido de la página de adopciones */}
+      <AllUsers />
+      
     </div>
   );
 };

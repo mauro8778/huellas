@@ -53,6 +53,7 @@ export interface JwtPayload {
     email: string;
     nickname: string;
     picture?: string;
+    role?: string;
   }
 
   export interface IDonation {
