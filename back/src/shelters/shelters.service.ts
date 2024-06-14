@@ -21,9 +21,10 @@ export class SheltersService {
     return this.sheltersRepository.deleteShelter(id, accessToken);
   }
 
- ActiveShelter(id: string, accessToken) {
+  ActiveShelter(id: string, accessToken) {
     return this.sheltersRepository.ActiveShelter(id, accessToken);
   }
+
   adminShelter(id:string,accessToken){
     return this.sheltersRepository.adminShelter(id,accessToken)
   }

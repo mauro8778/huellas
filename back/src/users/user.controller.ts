@@ -3,6 +3,7 @@ import { UserService } from './user.service';
 import { UpdateUserDto } from 'src/dto/updateUser.dto';
 import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from 'src/guards/auth.guard';
+import { Auth0Guard } from 'src/guards/auth0.guard';
 
 @ApiTags("Users")
 @Controller('users')
@@ -90,6 +91,7 @@ export class UserController {
         return this.usersService.PutShelterFavorite(id, userId)
     }
 
+    @UseGuards(Auth0Guard)
     @Put('admin/:id')
     adminUsers(@Req() req, @Param('id',ParseUUIDPipe) id:string){
         const accessToken = req.auth0Token
