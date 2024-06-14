@@ -8,10 +8,15 @@ export class UserService {
     getUsers() {
         return this.usersRepository.getUsers()
     }
+
     getFavorites() {
         return this.usersRepository.getFavorites()
     }
-    
+
+    getOrders(userId) {
+        return this.usersRepository.getOrders(userId)
+    }
+
     getUserById(id: string) {
         return this.usersRepository.getUserById(id)
     }
@@ -29,23 +34,23 @@ export class UserService {
     }
 
     addShelterFavorite(shelterId: string, userId: any) {
-        return this.usersRepository.addShelterFavorite(shelterId,userId)
+        return this.usersRepository.addShelterFavorite(shelterId, userId)
     }
 
     addPetFavorite(petId: string, userId: any) {
-        return this.usersRepository.addPetFavorite(petId,userId)
+        return this.usersRepository.addPetFavorite(petId, userId)
     }
 
     PutPetFavorite(petId: any, userId: string) {
-        return this.usersRepository.PutPetFavorite(petId,userId)
+        return this.usersRepository.PutPetFavorite(petId, userId)
     }
 
     PutShelterFavorite(shelterId: any, userId: string) {
-        return this.usersRepository.PutShelterFavorite(shelterId,userId)
+        return this.usersRepository.PutShelterFavorite(shelterId, userId)
     }
 
-    adminUsers(id:string,accessToken){
-        return this.usersRepository.adminUsers(id,accessToken)
+    adminUsers(id: string, accessToken) {
+        return this.usersRepository.adminUsers(id, accessToken)
     }
 
 }
