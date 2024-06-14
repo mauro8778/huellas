@@ -20,13 +20,12 @@
 
 import  { ReactNode } from 'react';
 
-interface CardProps {
+export interface CardProps {
   title: string;
-  children: ReactNode;
-  icon?: ReactNode;
+  icon: React.ReactNode;
+  children: React.ReactNode;
 }
-
-const Card: React.FC<CardProps> = ({ title, children, icon }) => {
+export const Card: React.FC<CardProps> = ({ title, children, icon }) => {
     return (
       <div className="bg-white shadow-2xl rounded-lg p-6 flex items-center hover:shadow-lg transition-shadow duration-300 ease-in-out">
         {icon && <div className="mr-4">{icon}</div>}

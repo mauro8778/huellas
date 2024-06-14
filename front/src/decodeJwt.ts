@@ -14,3 +14,8 @@ export function decodeJwt(token: string): any {
   }
 
   export default decodeJwt
+// * USO ESCLUSIVO PARA SIMULAR UNA SESION DE ADMINISTRADOR O USUARIO CODIGO ORIGINAL ARRIBA  */
+
+
+
+

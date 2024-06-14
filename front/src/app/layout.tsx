@@ -29,6 +29,7 @@ export default function RootLayout({
         <HiddenNavBar> 
           <Navbar/>
         </HiddenNavBar>
+        
         {children}
         <Footer/>
         
