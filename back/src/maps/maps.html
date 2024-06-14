@@ -52,18 +52,19 @@
                 }
 
                 const data = await response.json();
+                const shelter= data.shelter
                 console.log('que mierda tiene data',data)
                 document.getElementById('response').innerHTML = `
                     <h2>Shelter Location:</h2>
-                    <p>Shelter Name: ${data.display_name}</p>
-                    <p>Latitude: ${data.lat}</p>
-                    <p>Longitude: ${data.lon}</p>
+                    <p>Shelter Name: ${shelter.display_name}</p>
+                    <p>Latitude: ${shelter.lat}</p>
+                    <p>Longitude: ${shelter.lon}</p>
                 `;
                 console.log('Latitude data type:', typeof data.lat);
                 console.log('Longitude data type:', typeof data.lon);
 
                 // Inicializar el mapa con la ubicación del refugio
-                initMap(data.lat, data.lon);
+                initMap(shelter.lat, shelter.lon,shelter.display_name);
 
             } catch (error) {
                 console.error('Error:', error);

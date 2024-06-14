@@ -1,9 +1,13 @@
-import { Controller, Post, Body, Get, Param, NotFoundException } from '@nestjs/common';
+import { Controller, Post, Body, Get, Param, NotFoundException, Put, ParseUUIDPipe } from '@nestjs/common';
 import { MapsService } from './maps.service';
+import { UserService } from 'src/users/user.service';
+
 
 @Controller('maps')
 export class MapsController {
-  constructor(private readonly mapsService: MapsService) {}
+  constructor(private readonly mapsService: MapsService,
+   
+  ) {}
 
   @Post('geocode')
   async geocodeAddress(@Body() addressData: { address: string }) {
@@ -18,16 +22,21 @@ export class MapsController {
     }
   }
 
-  @Get('geocode/:shelterId')
-  async geocodeShelterById(@Param('shelterId') shelterId: string) {
-    console.log('Recibida solicitud para geocodificar refugio por ID:', shelterId);
+  @Put('geocode/:shelterId')
+  async updateShelterGeocode(
+    @Param('shelterId') shelterId: string,
+    @Body('address') address: string
+  ): Promise<any> {
+    if (!address) {
+      throw new NotFoundException('La dirección es requerida');
+    }
 
     try {
-      const geocodeData = await this.mapsService.updateShelterGeocode(shelterId);
-      return { message: 'Geocodificación actualizada correctamente.', ...geocodeData };
+      const result = await this.mapsService.updateShelterGeocode(shelterId, address);
+      return result;
     } catch (error) {
-      console.error('Error al actualizar la geocodificación:', error);
       throw new NotFoundException(error.message);
     }
   }
-}
+  }
+

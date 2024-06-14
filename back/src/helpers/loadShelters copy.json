@@ -12,9 +12,9 @@
         "exotic_animals": false,
         "isActive": true,
         "rate": 4.5,
-        "lat": -34.5885,
-        "lon": -58.3973,
-        "display_name": "Refugio de Animales Palermo"
+       "lat": -34.5922414,
+  "lon": -58.4064758,
+  "display_name": "Avenida Santa Fe, Barrio Norte, Recoleta, Buenos Aires, Comuna 2, Ciudad Autónoma de Buenos Aires, C1425BGQ, Argentina"
     },
     {
         "name": "Juan",
@@ -29,9 +29,9 @@
         "exotic_animals": false,
         "isActive": true,
         "rate": 4.7,
-        "lat": -34.5614,
-        "lon": -58.4467,
-        "display_name": "Centro de Rescate Belgrano"
+        "lat": -34.559615594444445,
+  "lon": -58.458522711111115,
+  "display_name": "2345, Avenida Cabildo, Belgrano, Buenos Aires, Comuna 13, Ciudad Autónoma de Buenos Aires, C1428AAF, Argentina"
     },
     {
         "name": "Sofia",
@@ -46,9 +46,9 @@
         "exotic_animals": false,
         "isActive": true,
         "rate": 4.6,
-        "lat": -34.6352,
-        "lon": -58.3728,
-        "display_name": "Santuario de Animales Barracas"
+        "lat": -34.63502915714286,
+  "lon": -58.375436344897956,
+  "display_name": "567, Avenida Manuel A. Montes de Oca, Barracas, Buenos Aires, Comuna 4, Ciudad Autónoma de Buenos Aires, 1270, Argentina"
     },
     {
         "name": "Pedro",
@@ -63,9 +63,9 @@
         "exotic_animals": false,
         "isActive": true,
         "rate": 4.8,
-        "lat": -34.7605,
-        "lon": -58.4256,
-        "display_name": "Refugio de Mascotas Lomas de Zamora"
+        "lat": -34.7640895,
+  "lon": -58.4033937,
+  "display_name": "Avenida Hipólito Yrigoyen, Lomitas, Lomas de Zamora, Partido de Lomas de Zamora, Buenos Aires, B1832, Argentina"
     },
     {
         "name": "Refugio Canino de Morón",
@@ -80,9 +80,9 @@
         "exotic_animals": false,
         "isActive": true,
         "rate": 4.4,
-        "lat": -34.6514,
-        "lon": -58.6195,
-        "display_name": "Refugio Canino de Morón"
+        "lat": -34.6489065,
+  "lon": -58.6287593,
+  "display_name": "Avenida Rivadavia, Morón, Partido de Morón, Buenos Aires, B1712, Argentina"
     },
     {
         "name": "Hogar de Gatos de Ituzaingó",
@@ -97,9 +97,9 @@
         "exotic_animals": false,
         "isActive": true,
         "rate": 4.9,
-        "lat": -34.6588,
-        "lon": -58.6751,
-        "display_name": "Hogar de Gatos de Ituzaingó"
+        "lat": -34.6288828,
+  "lon": -58.7030939,
+  "display_name": "Avenida Presidente Juan Domingo Perón, Villa León, Ituzaingó, Partido de Ituzaingó, Buenos Aires, B1715CBC, Argentina"
     },
     {
         "name": "Refugio Canino de San Isidro",
@@ -114,9 +114,9 @@
         "exotic_animals": false,
         "isActive": true,
         "rate": 4.3,
-        "lat": -34.4721,
-        "lon": -58.5125,
-        "display_name": "Refugio Canino de San Isidro"
+        "lat": -34.4687955,
+  "lon": -58.5087815,
+  "display_name": "Avenida del Libertador, La Calabria, San Isidro, Partido de San Isidro, Buenos Aires, B1642DMD, Argentina"
     },
     {
         "name": "Hogar de Gatos de Vicente López",
@@ -131,9 +131,9 @@
         "exotic_animals": false,
         "isActive": true,
         "rate": 4.6,
-        "lat": -34.5311,
-        "lon": -58.4715,
-        "display_name": "Hogar de Gatos de Vicente López"
+        "lat": -34.53494813469388,
+  "lon": -58.47766225510204,
+  "display_name": "345, Avenida Maipú, Vicente López, Partido de Vicente López, Buenos Aires, C1429ABH, Argentina"
     },
     {
         "name": "Refugio de Animales de Tandil",
@@ -148,9 +148,9 @@
         "exotic_animals": false,
         "isActive": true,
         "rate": 4.7,
-        "lat": -37.3216,
-        "long": -59.1332,
-        "display_name": "Refugio de Animales de Tandil"
+        "lat": -37.32528939387755,
+  "lon": -59.14530982244898,
+  "display_name": "123, Avenida España, Centro, Cuatro Avenidas, Tandil, Partido de Tandil, Buenos Aires, B7000GKN, Argentina"
     },
     {
         "name": "Hogar de Mascotas de Junín",
@@ -165,9 +165,9 @@
         "exotic_animals": false,
         "isActive": true,
         "rate": 4.8,
-        "lat": -34.5842,
-        "lon": -60.9489,
-        "display_name": "Hogar de Mascotas de Junín"
+        "lat": -34.58368866666667,
+  "lon": -60.937579666666664,
+  "display_name": "567, Avenida San Martín, El Picaflor, Junín, Partido de Junín, Buenos Aires, B6000, Argentina"
     }
 ]
 
