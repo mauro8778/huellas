@@ -1,5 +1,4 @@
 import {
-  BadRequestException,
   Injectable,
   Logger,
   NotFoundException,
@@ -196,4 +195,46 @@ return ` el usuario con id ${id}  y nombre ${updateShelter.name} se ah actualiza
 
     return await this.sheltersRepository.find({ where: conditions });
   }
+
+  async adminShelter(id:string,accessToken){
+
+    const shelter= await this.sheltersRepository.findOne({where:{id}})
+  
+  if(!shelter){
+    throw new NotFoundException('no se encontro usuario')
+  }
+  const auth0Domain = process.env.AUTH0_DOMAIN;
+    const token = accessToken;
+
+    const userResponse = await axios.get(
+      `https://${auth0Domain}/api/v2/user-by-email`,
+      {
+        params: { email: shelter.email },
+        headers: { Authorization: `Bearer ${token}` },
+      },
+    );
+
+    if (userResponse.data.length === 0) {
+      throw new Error('User not found');
+    }
+    const userId = userResponse.data[0].user_id;
+
+    try {
+      await axios.patch(
+        `https://${auth0Domain}/api/v2/users/${userId}`,
+        {
+           user_metadata: { roles: ['Admin'] },
+        },
+        {
+            headers: { Authorization: `Bearer ${token}` },
+        },
+    );
+    } catch (error) {
+      console.error('Error updating user role:', error);
+    }
+
+    
+
+
+}
 }

@@ -6,6 +6,7 @@ import { Repository } from "typeorm";
 import * as cron from 'node-cron';
 import { ShelterEntity } from "src/entidades/shelter.entity";
 import { PetsEntity } from "src/entidades/pets.entity";
+import axios from "axios";
 
 
 @Injectable()
@@ -23,17 +24,27 @@ export class UserRepository implements OnModuleInit {
   }
   async getUsers() {
     const users = await this.usersRepository.find({
-      relations:['pets','favorite_shelters','favorite_pets']
+      relations: ['pets', 'favorite_shelters', 'favorite_pets', 'orders']
     });
 
     if (users.length === 0) {
-        throw new NotFoundException('No existen usuarios');
+      throw new NotFoundException('No existen usuarios');
     }
 
     return users;
-}
+  }
 
+  async getOrders(userId: string) {
+    const User: UserEntity[] = await this.usersRepository.find({where: {id: userId},
+    relations: {
+      orders: true
+    }})
+    if (!User) {
+      throw new NotFoundException('Se necesita estar iniciado sesión para historial de donaciones')
+    }
 
+    return User
+  }
 
   async getUserById(id: string) {
     const user = await this.usersRepository.find({ where: { id } })
@@ -86,23 +97,23 @@ export class UserRepository implements OnModuleInit {
   }
   async scheduleEmails() {
     cron.schedule('0 0 1 */3 *', async () => {
-        const users = await this.usersRepository.find();
-        const subject = '¡Castraciones gratuitas en Huellas de Esperanza!';
-        const text = '¡Te traemos una promoción especial! Huellas de Esperanza ofrece castraciones gratuitas para tu mascota. La próxima jornada se realizará pronto en nuestro refugio. ¡Visita nuestra página para obtener más información!';
-        const html = `<div style="border: 2px solid #ff3366; padding: 20px; background: #ffffff; border-radius: 15px; text-align: center;">
+      const users = await this.usersRepository.find();
+      const subject = '¡Castraciones gratuitas en Huellas de Esperanza!';
+      const text = '¡Te traemos una promoción especial! Huellas de Esperanza ofrece castraciones gratuitas para tu mascota. La próxima jornada se realizará pronto en nuestro refugio. ¡Visita nuestra página para obtener más información!';
+      const html = `<div style="border: 2px solid #ff3366; padding: 20px; background: #ffffff; border-radius: 15px; text-align: center;">
             <p style="color: #ff3366; font-size: 24px; font-weight: bold; margin-bottom: 10px;">¡Castraciones gratuitas en Huellas de Esperanza!</p>
             <p style="color: #000; font-size: 16px;">¡Te traemos una promoción especial! Huellas de Esperanza ofrece <span style="font-weight: bold;">castraciones gratuitas</span> para tu mascota. La próxima jornada se realizará pronto en nuestro refugio. ¡Visita nuestra página para obtener más información!</p>
             <p style="color: #000; font-size: 16px;">¡No pierdas esta oportunidad y visita nuestra página para informarte sobre cómo participar!</p>
             <a href="http://tu-pagina-web.com" style="display: inline-block; padding: 10px 20px; background: #ff3366; color: #ffffff; text-decoration: none; border-radius: 5px; margin-top: 20px;">Visitar Huellas de Esperanza</a>
         </div>`;
 
-        for (const user of users) {
-            await this.mailService.sendMail(user.email, subject, text, html);
-        }
+      for (const user of users) {
+        await this.mailService.sendMail(user.email, subject, text, html);
+      }
 
-        this.logger.log('Scheduled emails sent');
+      this.logger.log('Scheduled emails sent');
     });
-}
+  }
 
 
 
@@ -173,7 +184,7 @@ export class UserRepository implements OnModuleInit {
 
 
   async PutPetFavorite(petId: any, userId: string) {
-    const user: UserEntity = await this.usersRepository.findOne({where:{id: userId}});
+    const user: UserEntity = await this.usersRepository.findOne({ where: { id: userId } });
 
     if (!user) {
       throw new BadRequestException("Usuario no encontrado")
@@ -188,7 +199,7 @@ export class UserRepository implements OnModuleInit {
 
 
   async PutShelterFavorite(shelterId: any, userId: string) {
-    const user: UserEntity = await this.usersRepository.findOne({where:{id: userId}});
+    const user: UserEntity = await this.usersRepository.findOne({ where: { id: userId } });
 
     if (!user) {
       throw new BadRequestException("Usuario no encontrado")
@@ -202,5 +213,55 @@ export class UserRepository implements OnModuleInit {
     return "Refugio eliminado de favoritos";
 
   }
-   
+
+  async adminUsers(id: string, accessToken) {
+
+    const user = await this.usersRepository.findOne({ where: { id } })
+
+    if (!user) {
+      throw new NotFoundException('no se encontro usuario')
+    }
+    const auth0Domain = process.env.AUTH0_DOMAIN;
+    const token = accessToken;
+
+    const userResponse = await axios.get(
+      `https://${auth0Domain}/api/v2/users-by-email`,
+      {
+        params: { email: user.email },
+        headers: { Authorization: `Bearer ${token}` },
+      },
+    );
+
+    if (userResponse.data.length === 0) {
+      throw new Error('User not found');
+    }
+    const userId = userResponse.data[0].user_id;
+
+    try {
+      await axios.patch(
+        `https://${auth0Domain}/api/v2/users/${userId}`,
+        {
+          user_metadata: { roles: ['Admin'] },
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        },
+      );
+    }
+    catch (error) {
+      if (error.response) {
+
+        console.error('Error de respuesta del servidor:', error.response.data);
+        console.error('Estado de la respuesta:', error.response.status);
+        console.error('Encabezados de la respuesta:', error.response.headers);
+      } else if (error.request) {
+
+        console.error('No se recibió respuesta del servidor:', error.request);
+      } else {
+
+        console.error('Error durante la configuración de la solicitud:', error.message);
+      }
+      throw new Error('Error al actualizar el rol del usuario en Auth0');
+    }
+  }
 }

@@ -24,7 +24,14 @@ export class UserController {
         return this.usersService.getUserById(id)
     }
 
-    @Put('profile')
+    // @ApiBearerAuth()
+    // @UseGuards(AuthGuard)
+    @Get('orders/:id')
+    getOrders(@Param('id', ParseUUIDPipe) id : string) {
+       return this.usersService.getOrders(id)
+    }
+
+    @Put('profile/:id')
     updatedProfile(
         @Param('id',ParseUUIDPipe) id : string,
         @Body() user : UpdateUserDto){
@@ -81,5 +88,11 @@ export class UserController {
         const userId = request.user['https://huellasdesperanza.com/userID']
 
         return this.usersService.PutShelterFavorite(id, userId)
+    }
+
+    @Put('admin/:id')
+    adminUsers(@Req() req, @Param('id',ParseUUIDPipe) id:string){
+        const accessToken = req.auth0Token
+        return this.usersService.adminUsers(id,accessToken)
     }
 }

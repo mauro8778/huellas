@@ -68,17 +68,7 @@ export class UpdateShelterDto{
 
     @IsOptional()
     @IsString()
-    @ApiProperty({
-        example: "Ubicacion"
-    })
-    location?: string
-
-    @IsOptional()
-    @IsString()
-    @ApiProperty({
-        example: "Ubicacion"
-    })
-    zona: string
+    address: string;
 
 
     @IsOptional()

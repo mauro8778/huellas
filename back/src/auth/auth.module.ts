@@ -8,10 +8,11 @@ import { Auth0Guard } from 'src/guards/auth0.guard';
 import { ShelterEntity } from 'src/entidades/shelter.entity';
 import { MailService } from 'src/mails/mail.service';
 import { ConfigModule } from '@nestjs/config';
+import { MapsService } from 'src/maps/maps.service';
 
 @Module({
   imports:[TypeOrmModule.forFeature([UserEntity, ShelterEntity]), Auth0Module],
-  providers: [AuthService, Auth0Guard,MailService, ConfigModule],
+  providers: [AuthService, Auth0Guard,MailService, ConfigModule,MapsService],
   controllers: [AuthController]
 })
 export class AuthModule {}

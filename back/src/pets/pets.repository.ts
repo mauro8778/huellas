@@ -131,4 +131,24 @@ export class PetsRepository {
 
         return pet
 }
+
+async deletePetImg(id: string, imgUrl: string): Promise<PetsEntity> {
+    const pet: PetsEntity = await this.petsRepository.findOne({ where: { id } });
+
+    if (!pet) {
+        throw new BadRequestException("Mascota no encontrada");
+    }
+
+    const imgIndex = pet.listImg.findIndex(img => img === imgUrl);
+    
+    if (imgIndex === -1) {
+        throw new BadRequestException("Imagen no encontrada");
+    }
+
+    pet.listImg.splice(imgIndex, 1);
+
+    await this.petsRepository.save(pet);
+
+    return pet;
+}
 }
