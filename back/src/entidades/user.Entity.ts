@@ -1,10 +1,10 @@
 import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { v4 as uuid } from 'uuid';
-// import { DonationEntity } from './donation.entity';
 import { AdoptionEntity } from './adoption.entity';
 import { OrdersEntity } from './orders.entity';
 import { ShelterEntity } from './shelter.entity';
 import { PetsEntity } from './pets.entity';
+import { CarritoPendienteEntity } from './carrito.entity';
 
 @Entity({
   name: 'users',
@@ -76,4 +76,8 @@ export class UserEntity {
   @OneToMany(() => PetsEntity, pets => pets.users)
   @JoinColumn()
   pets: PetsEntity[];
+
+  @OneToMany(() => CarritoPendienteEntity, (carrito) => carrito.user)
+  @JoinColumn()
+  carrito: CarritoPendienteEntity[];
 }

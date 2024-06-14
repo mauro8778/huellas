@@ -1,6 +1,8 @@
 import { BadRequestException, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
+import { CarritoPendienteDto } from "src/dto/Carrito.dto";
 import { ShelterOrderDto } from "src/dto/shelterOrderDto";
+import { CarritoPendienteEntity } from "src/entidades/carrito.entity";
 import { OrderDetailsEntity } from "src/entidades/orderDetail.entity";
 import { OrdersEntity } from "src/entidades/orders.entity";
 import { ShelterEntity } from "src/entidades/shelter.entity";
@@ -18,7 +20,8 @@ export class CarritoRepository {
         private usersRepository: Repository<UserEntity>,
         @InjectRepository(ShelterEntity)
         private shelterRepository: Repository<ShelterEntity>,
-
+        @InjectRepository(CarritoPendienteEntity)
+        private carritoRepository: Repository<CarritoPendienteEntity>,
     ) { }
 
     async getOrder(uid) {
@@ -36,6 +39,15 @@ export class CarritoRepository {
         }
 
         return order;
+    }
+
+    async getCarrito(userId: string) {
+        const user: UserEntity[] = await this.usersRepository.find({where:{id: userId}, relations:{
+            carrito: true
+        }});
+
+        
+        return user;
     }
 
     async addOrder(ordershelter, userId) {
@@ -78,9 +90,23 @@ export class CarritoRepository {
         orderDetail.shelters = sheltersArray;
         orderDetail.order = newOrder;
 
-        await this.ordersDetailsRepository.save(orderDetail);
+        const save = await this.ordersDetailsRepository.save(orderDetail);
 
+        if (!save) {
+            throw new BadRequestException('no se guardó en la base de datos')
+        }
 
+        const carrito = await this.carritoRepository.find({
+            where: {user: {id: userId}},
+            relations: {user: true}
+        })
+
+        await Promise.all(
+            carrito.map(async(shelter)=> {
+                await this.carritoRepository.remove(shelter)
+            })
+        )
+        
 
         return await this.ordersRepository.find({
             where: { id: newOrder.id },
@@ -90,4 +116,31 @@ export class CarritoRepository {
         })
     }
 
+
+    async addOrderPendiente(order: CarritoPendienteDto, userId: any) {
+        const price = Number(order.price);
+
+        const user = await this.usersRepository.findOne({where: {id: userId},
+        relations:{carrito: true}
+    });
+
+    let carrito = await this.carritoRepository.findOne({ where: { shelter_id: order.shelter_id } });
+
+    if (carrito) {
+        carrito.price += price;
+        await this.carritoRepository.update(carrito.id, { price: carrito.price });
+    }else{
+        const newCarrito = new CarritoPendienteEntity()
+        newCarrito.price = price;
+        newCarrito.shelter_id = order.shelter_id;
+        await this.carritoRepository.save(newCarrito)
+
+        user.carrito.push(newCarrito)
+    }
+
+        await this.usersRepository.save(user)
+
+
+        return user
+    }
 } 

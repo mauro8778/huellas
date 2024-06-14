@@ -8,9 +8,10 @@ import { OrderDetailsEntity } from 'src/entidades/orderDetail.entity';
 import { UserEntity } from 'src/entidades/user.entity';
 import { ShelterEntity } from 'src/entidades/shelter.entity';
 import { JwtService } from '@nestjs/jwt';
+import { CarritoPendienteEntity } from 'src/entidades/carrito.entity';
 
 @Module({
-  imports:[TypeOrmModule.forFeature([OrdersEntity,OrderDetailsEntity,UserEntity,ShelterEntity])],
+  imports:[TypeOrmModule.forFeature([OrdersEntity,OrderDetailsEntity,UserEntity,ShelterEntity,CarritoPendienteEntity])],
   controllers: [CarritoController],
   providers: [CarritoService, CarritoRepository,JwtService]
 })
