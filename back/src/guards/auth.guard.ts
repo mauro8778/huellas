@@ -36,13 +36,6 @@ export class AuthGuard implements CanActivate {
       decodedToken.expDate = new Date(decodedToken.exp * 1000).toISOString();
       request.user = decodedToken
 
-
-      /* const userRoles = decodedToken['https://huellasdesperanza.com/roles']; */
-
-/*       if (!this.hasRequiredRole(userRoles, ['Admin'])) {
-        throw new ForbiddenException('No tienes los permisos necesarios');
-      } */
-
       return true;
     } catch (error) {
       if (error instanceof ForbiddenException) {
@@ -82,12 +75,5 @@ export class AuthGuard implements CanActivate {
       issuer: `https://dev-r34ulqlg6mkaafee.us.auth0.com/`,
       audience: 'https://dev-r34ulqlg6mkaafee.us.auth0.com/api/v2/',
     });
-  }
-
-  private hasRequiredRole(
-    userRoles: string[],
-    requiredRoles: string[],
-  ): boolean {
-    return requiredRoles.every((role) => userRoles.includes(role));
   }
 }
