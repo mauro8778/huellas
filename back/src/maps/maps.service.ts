@@ -3,12 +3,18 @@ import axios from 'axios';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ShelterEntity } from 'src/entidades/shelter.entity';
+import { UserService } from 'src/users/user.service';
+import { SheltersService } from 'src/shelters/shelters.service';
+import { UserEntity } from 'src/entidades/user.entity';
 
 @Injectable()
 export class MapsService {
   constructor(
     @InjectRepository(ShelterEntity)
     private shelterRepository: Repository<ShelterEntity>,
+  
+  
+    
   ) {}
 
   async geocodeShelterAddress(address: string): Promise<any> {
@@ -40,7 +46,7 @@ export class MapsService {
     }
   }
 
-  async updateShelterGeocode(shelterId: string): Promise<any> {
+  async updateShelterGeocode(shelterId: string, address:string): Promise<any> {
     try {
       const shelter = await this.shelterRepository.findOne({where:{id:shelterId}});
 
@@ -48,17 +54,28 @@ export class MapsService {
         throw new NotFoundException('Refugio no encontrado');
       }
 
-      const geocodeData = await this.geocodeShelterAddress(shelter.address);
+      const geocodeData = await this.geocodeShelterAddress(address);
 
+      if (!geocodeData || !geocodeData.lat || !geocodeData.lon || !geocodeData.display_name) {
+        throw new Error('Datos de geocodificación no válidos');
+      }
+
+      // Actualizar los datos del refugio
+      shelter.address = address;
       shelter.lat = geocodeData.lat.toString();
       shelter.lon = geocodeData.lon.toString();
       shelter.display_name = geocodeData.display_name;
 
       await this.shelterRepository.save(shelter);
 
-      return geocodeData; 
+      return geocodeData;
     } catch (error) {
       throw new Error(`Error al actualizar la geocodificación del refugio: ${error.message}`);
     }
   }
+
+  
+
+  
+  
 }
