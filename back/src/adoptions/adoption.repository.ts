@@ -95,7 +95,7 @@ export class AdoptionRepository {
       throw new NotFoundException(`Error en la Adopción`);
     }
     await this.mailservice.sendPostulacion(
-      shelter.name,
+      shelter.shelter_name,
       pet.name,
       user.name,
       user.email,
@@ -267,8 +267,8 @@ export class AdoptionRepository {
     pet: string,
     userEmail: string,
   ) {
-    //const task = cron.schedule('0 0 */78 * * *',async () => {
-        const task = cron.schedule('* * * * *', async () => {
+    const task = cron.schedule('0 0 */78 * * *',async () => {
+        //const task = cron.schedule('* * * * *', async () => {
         const adoption = await this.adoptionrepository.findOne({
           where: { id: adoptionId },
           relations: ['user', 'shelter', 'pet'],

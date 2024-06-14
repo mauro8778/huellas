@@ -43,38 +43,46 @@ export class MailService  {
   }
 
 
-  async registerUserMail(userEmail: string, username: string,password: string) {
+  async registerUserMail(userEmail: string, username: string, password: string) {
     const subject = 'Bienvenido a Huellas de Esperanza';
-    const text = `Hola ${username},
+
+    // Cuerpo del correo en formato texto
+    const textBody = `Hola ${username},
 
     ¡Bienvenido/a a Huellas de Esperanza!
 
     Nos alegra mucho que te hayas unido a nuestra comunidad. En Huellas de Esperanza, trabajamos para conectar a adorables mascotas con personas llenas de amor como tú. Ahora puedes explorar y adoptar mascotas que necesitan un hogar y todo tu cariño.
+
+    Tus credenciales son:
+    Usuario: ${userEmail}
+    Contraseña: ${password}
 
     Si tienes alguna pregunta o necesitas ayuda, no dudes en contactarnos.
 
     Saludos cordiales,
     El equipo de Huellas de Esperanza`;
 
-    const html = `
-     <div style="border: 2px solid #ff3366; padding: 20px; background: white; border-radius: 15px; text-align: center; max-width: 600px; margin: 0 auto;">
+
+    const htmlBody = `
+    <div style="border: 2px solid #ff3366; padding: 20px; background: white; border-radius: 15px; text-align: center; max-width: 600px; margin: 0 auto;">
         <p><strong>¡Hola, ${username}!</strong></p>
         <p><strong>¡Bienvenido/a a Huellas de Esperanza!</strong></p>
         <p>Nos alegra mucho que te hayas unido a nuestra comunidad. En Huellas de Esperanza, trabajamos para conectar a adorables mascotas con personas llenas de amor como tú. Ahora puedes explorar y adoptar mascotas que necesitan un hogar y todo tu cariño.</p>
-        <p>Tus credenciales son: </p>
-        <div style="display: flex; flex-direction: column; align-items: center;">
-            <div style="border: 2px solid #ff3366; padding: 10px; border-radius: 10px; margin-bottom: 10px; background: white; text-align: left; display: inline-block;">
-                <p style="margin: 0;">usuario: ${userEmail}</p>
-                <p style="margin: 0;">contraseña: ${password}</p>
-            </div>
+        <p>Tus credenciales son:</p>
+        <div style="border: 2px solid #ff3366; padding: 10px; border-radius: 10px; margin-bottom: 10px; background: white; text-align: left;">
+            <p style="margin: 0;"><strong>Usuario:</strong> ${userEmail}</p>
+            <p style="margin: 0;"><strong>Contraseña:</strong> ${password}</p>
         </div>
         <p>Si tienes alguna pregunta o necesitas ayuda, no dudes en contactarnos.</p>
         <p>¡Saludos!</p>
         <p>El Equipo de Huellas de Esperanza</p>
     </div>`;
-    this.logger.log(`Enviando correo a ${userEmail} con asunto "${subject}" y texto "${text}"`);
-    await this.sendMail(userEmail, subject, text, html);
+    this.logger.log(
+        `Enviando correo a ${userEmail} con asunto "${subject}" y texto "${textBody}"`,
+    );
+    await this.sendMail(userEmail, subject, textBody, htmlBody);
 }
+
 async cambioPasswordMail(userEmail: string, username: string) {
   const subject = 'Solicitud de Cambio de Contraseña - Huellas de Esperanza';
   const text = `Hola ${username},
@@ -243,14 +251,14 @@ async sendPostulacion(sheltername: string, pet: string, username: string, userEm
   this.logger.log(`Enviando correo a ${userEmail} con asunto "${subject}" y texto "${text}"`);
   await this.sendMail(userEmail, subject, text, html);
 }
-async confirmPostulacion(userEmail: string, nombreDelPerro: string, nombreDelUsuario: string) {
+async confirmPostulacion(userEmail: string, username: string, petname: string) {
   const subject = '¡Confirmación de Adopción!';
-  const text = `¡Hola ${nombreDelUsuario}!\n\n¡Estamos llenos de alegría al anunciarte que tu solicitud de adopción para ${nombreDelPerro} ha sido aceptada! Es un momento emocionante para ti y para ${nombreDelPerro}, el comienzo de una nueva y hermosa aventura juntos! No dudes en contactarnos si necesitas cualquier cosa en este nuevo viaje. ¡Felicidades una vez más por esta maravillosa adopción!\n\nCon cariño, El Equipo de Huellas de Esperanza`;
+  const text = `¡Hola ${username}!\n\n¡Estamos llenos de alegría al anunciarte que tu solicitud de adopción para ${petname} ha sido aceptada! Es un momento emocionante para ti y para ${petname}, el comienzo de una nueva y hermosa aventura juntos! No dudes en contactarnos si necesitas cualquier cosa en este nuevo viaje. ¡Felicidades una vez más por esta maravillosa adopción!\n\nCon cariño, El Equipo de Huellas de Esperanza`;
 
   const html = `<div style="position: relative; border: 2px solid #ff3366; padding: 20px; background: white; border-radius: 15px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); text-align: center; max-width: 600px; margin: 0 auto;">
-      <p>¡Hola, <strong>${nombreDelUsuario}</strong>!</p>
-      <p>¡Estamos llenos de alegría al anunciarte que tu solicitud de adopción para <strong>${nombreDelPerro}</strong> ha sido aceptada!</p>
-      <p>Es un momento emocionante para ti y para <strong>${nombreDelPerro}</strong>, el comienzo de una nueva y hermosa aventura juntos! No dudes en contactarnos si necesitas cualquier cosa en este nuevo viaje.</p>
+      <p>¡Hola, <strong>${username}</strong>!</p>
+      <p>¡Estamos llenos de alegría al anunciarte que tu solicitud de adopción para <strong>${petname}</strong> ha sido aceptada!</p>
+      <p>Es un momento emocionante para ti y para <strong>${petname}</strong>, el comienzo de una nueva y hermosa aventura juntos! No dudes en contactarnos si necesitas cualquier cosa en este nuevo viaje.</p>
       <p>¡Felicidades una vez más por esta maravillosa adopción!</p>
       <p>Con cariño,</p>
       <p>El Equipo de Huellas de Esperanza</p>
