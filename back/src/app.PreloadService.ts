@@ -28,11 +28,10 @@ export class PreloadService implements OnModuleInit {
                     email: shelter.email,
                     phone: shelter.phone,
                     dni: shelter.dni,
+                    address:shelter.address,
                     shelter_name: shelter.shelter_name,
-                    location: shelter.location,
                     description: shelter.description,
                     imgUrl:shelter.imgUrl,
-                    zona: shelter.zona,
                     rate:shelter.rate
                 },
             });

@@ -1,9 +1,4 @@
-import {
-  BadRequestException,
-  Injectable,
-  Logger,
-  NotFoundException,
-} from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import axios from 'axios';
 import { ShelterEntity } from 'src/entidades/shelter.entity';
@@ -21,8 +16,8 @@ export class ShelterRepository {
 
   async getShelters() {
     const shelters = await this.sheltersRepository.find({
-    relations:['pets']
-  });
+      relations: ['pets'],
+    });
 
     if (shelters.length === 0) {
       throw new NotFoundException('no existen usuarios');
@@ -64,7 +59,7 @@ export class ShelterRepository {
       await axios.patch(
         `https://${auth0Domain}/api/v2/users/${userId}`,
         {
-          app_metadata: { roles: ['Shelter'] },
+          user_metadata: { roles: ['Shelter'] },
         },
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -85,7 +80,10 @@ export class ShelterRepository {
   }
 
   async getShelterById(id: string) {
-    const shelter = await this.sheltersRepository.findOne({ where: { id },relations:['pets'] });
+    const shelter = await this.sheltersRepository.findOne({
+      where: { id },
+      relations: ['pets'],
+    });
     if (!shelter) {
       throw new NotFoundException('no se encontro el refugio');
     }
@@ -123,35 +121,10 @@ export class ShelterRepository {
 
       const userId = userResponse.data[0].user_id;
 
-      const rolesResponse = await axios.get(
-        `https://${auth0Domain}/api/v2/users/${userId}/roles`,
-        {
-          headers: { Authorization: `Bearer ${accessToken}` },
-        },
-      );
-
-      const roles = rolesResponse.data;
-
-      const shelterRole = roles.find((role) => role.name === 'Shelter');
-
-      if (!shelterRole) {
-        throw new Error('Shelter role not found');
-      }
-
-      const shelterRoleId = shelterRole.id;
-
-      await axios.delete(
-        `https://${auth0Domain}/api/v2/users/${userId}/roles`,
-        {
-          data: { roles: [shelterRoleId] },
-          headers: { Authorization: `Bearer ${accessToken}` },
-        },
-      );
-
       await axios.patch(
         `https://${auth0Domain}/api/v2/users/${userId}`,
         {
-          app_metadata: { roles: ['User'] },
+          user_metadata: { roles: ['User'] },
         },
         {
           headers: { Authorization: `Bearer ${accessToken}` },
@@ -169,20 +142,26 @@ export class ShelterRepository {
       throw new Error('Failed to delete shelter and update user roles');
     }
   }
-  async updatedProfile(id : string, shelter : Partial<ShelterEntity>){
-    const updateShelter= await this.sheltersRepository.findOne({ where: { id } });
-if (!updateShelter) {
 
-  throw new NotFoundException(`no se encontro el usuario con id ${id}`);
-}
-await this.sheltersRepository.merge(updateShelter, shelter);
-await this.sheltersRepository.save(updateShelter);
+  async updatedProfile(id: string, shelter: Partial<ShelterEntity>) {
+    const updateShelter = await this.sheltersRepository.findOne({
+      where: { id },
+    });
+    if (!updateShelter) {
+      throw new NotFoundException(`no se encontro el usuario con id ${id}`);
+    }
+    await this.sheltersRepository.merge(updateShelter, shelter);
+    await this.sheltersRepository.save(updateShelter);
 
-return ` el usuario con id ${id}  y nombre ${updateShelter.name} se ah actualizado con exito`;
-}
+    return ` el usuario con id ${id}  y nombre ${updateShelter.name} se ah actualizado con exito`;
+  }
 
-  async filterShelters(exotic_animals?: string, location?: string,zona?:string) {
-    const conditions: any = {isActive: true};
+  async filterShelters(
+    exotic_animals?: string,
+    location?: string,
+    zona?: string,
+  ) {
+    const conditions: any = { isActive: true };
 
     if (exotic_animals) {
       conditions.exotic_animals = exotic_animals;
@@ -195,5 +174,43 @@ return ` el usuario con id ${id}  y nombre ${updateShelter.name} se ah actualiza
     }
 
     return await this.sheltersRepository.find({ where: conditions });
+  }
+
+  async adminShelter(id: string, accessToken) {
+    const shelter = await this.sheltersRepository.findOne({ where: { id } });
+
+    if (!shelter) {
+      throw new NotFoundException('no se encontro usuario');
+    }
+
+    const auth0Domain = process.env.AUTH0_DOMAIN;
+
+    const userResponse = await axios.get(
+      `https://${auth0Domain}/api/v2/users-by-email`,
+      {
+        params: { email: shelter.email },
+        headers: { Authorization: `Bearer ${accessToken}` },
+      },
+    );
+
+    if (userResponse.data.length === 0) {
+      throw new Error('User not found');
+    }
+
+    const userId = userResponse.data[0].user_id;
+
+    try {
+      await axios.patch(
+        `https://${auth0Domain}/api/v2/users/${userId}`,
+        {
+          user_metadata: { roles: ['Admin'] },
+        },
+        {
+          headers: { Authorization: `Bearer ${accessToken}` },
+        },
+      );
+    } catch (error) {
+      console.error('Error updating user role:', error);
+    }
   }
 }

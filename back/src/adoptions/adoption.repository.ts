@@ -95,11 +95,18 @@ export class AdoptionRepository {
       throw new NotFoundException(`Error en la Adopción`);
     }
     await this.mailservice.sendPostulacion(
-      shelter.name,
+      shelter.shelter_name,
       pet.name,
       user.name,
       user.email,
     );
+    this.sendPostulacionShelter(
+      adop.shelter.email,
+      adop.shelter.name,
+      adop.shelter.shelter_name,
+      adop.user.name,
+      adop.pet.name
+    )
 
     this.scheduleAdoptionCheck(
       adop.id,
@@ -183,7 +190,7 @@ export class AdoptionRepository {
     }
 }
 
-  async sendPostulacion(
+  async sendPostulacionUser(
     shelter_name: string,
     pet: string,
     username: string,
@@ -213,6 +220,45 @@ export class AdoptionRepository {
     );
     await this.mailservice.sendMail(userEmail, subject, text, html);
   }
+  async sendPostulacionShelter(
+    shelteremail: string,
+    sheltername: string,
+    shelter_name: string,
+    username: string,
+    petname: string,
+    comment?: string,
+) {
+    const subject = 'Consulta de Adopción';
+
+    // Cuerpo del correo en formato texto
+    const textBody = `Hola ${sheltername},
+    
+        Nos alegra informarte que ${username} ha mostrado interés en adoptar a ${petname} del refugio ${shelter_name}.
+        En un lapso de 72 horas, recibirás una respuesta por correo electrónico confirmando la disponibilidad y detalles adicionales sobre ${petname}.
+    
+        Saludos cordiales,
+        El Equipo de Huellas de Esperanza`;
+
+    // Cuerpo del correo en formato HTML
+    const htmlBody = `<div style="position: relative; border: 2px solid #ff3366; padding: 20px; background: white; border-radius: 15px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); text-align: center; max-width: 600px; margin: 0 auto;">
+        <p>¡Hola, <strong>${shelter_name}</strong>!</p>
+        <p>${username} ha mostrado interés en adoptar a <strong>${petname}</strong> del refugio <strong>${shelter_name}</strong>.</p>
+        <p>Por favor, toma en cuenta que el refugio tiene un plazo de 72 horas para notificar si se acepta o no la adopción de <strong>${petname}</strong>.</p>
+        ${comment ? `<p>Comentario adicional: ${comment}</p>` : ''}
+        <p>¡Saludos cordiales!</p>
+        <p>El Equipo de Huellas de Esperanza</p>
+    </div>`;
+
+    // Logging para registrar el envío del correo
+    this.logger.log(
+        `Enviando correo a ${shelter_name} con asunto "${subject}" y texto "${textBody}"`,
+    );
+
+    // Llamada al servicio de correo para enviar el mensaje
+    await this.mailservice.sendMail(shelteremail, subject, textBody, htmlBody);
+}
+
+
 
   scheduleAdoptionCheck(
     adoptionId: string,
@@ -221,8 +267,8 @@ export class AdoptionRepository {
     pet: string,
     userEmail: string,
   ) {
-    //const task = cron.schedule('0 0 */78 * * *',async () => {
-        const task = cron.schedule('* * * * *', async () => {
+    const task = cron.schedule('0 0 */78 * * *',async () => {
+        //const task = cron.schedule('* * * * *', async () => {
         const adoption = await this.adoptionrepository.findOne({
           where: { id: adoptionId },
           relations: ['user', 'shelter', 'pet'],

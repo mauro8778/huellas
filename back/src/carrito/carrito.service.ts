@@ -4,14 +4,21 @@ import { ShelterOrderDto } from '../dto/shelterOrderDto';
 
 @Injectable()
 export class CarritoService {
-    constructor( private carritoRepository: CarritoRepository ){}
+    constructor(private carritoRepository: CarritoRepository) { }
 
-    addOrder(order, userId:string) {
-        return this.carritoRepository.addOrder(order, userId)
+    addOrder(order, userId: string) {
+        return this.carritoRepository.addOrder(order, userId);
     }
 
     getOrder(id: string) {
-        return this.carritoRepository.getOrder(id)
+        return this.carritoRepository.getOrder(id);
     }
 
+    getCarrito(userId: string) {
+        return this.carritoRepository.getCarrito(userId);
+    }
+
+    addOrderPendiente(order, userId: any) {
+        return this.carritoRepository.addOrderPendiente(order,userId)
+    }
 }

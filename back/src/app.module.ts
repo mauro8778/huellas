@@ -23,6 +23,7 @@ import { CarritoModule } from './carrito/carrito.module';
 import { ChatModule } from './chat/chat.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
+import { MapsModule } from './maps/maps.module';
 
 @Module({
   imports: [
@@ -48,6 +49,7 @@ import { join } from 'path';
       GoogleModule,
       MercadoPagoModule,
       CarritoModule,
+      MapsModule
       
     
   ],
