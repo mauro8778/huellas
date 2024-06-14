@@ -82,4 +82,10 @@ export class UserController {
 
         return this.usersService.PutShelterFavorite(id, userId)
     }
+
+    @Put('admin/:id')
+    adminUsers(@Req() req, @Param('id',ParseUUIDPipe) id:string){
+        const accessToken = req.auth0Token
+        return this.usersService.adminUsers(id,accessToken)
+    }
 }

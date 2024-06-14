@@ -44,4 +44,8 @@ export class UserService {
         return this.usersRepository.PutShelterFavorite(shelterId,userId)
     }
 
+    adminUsers(id:string,accessToken){
+        return this.usersRepository.adminUsers(id,accessToken)
+    }
+
 }

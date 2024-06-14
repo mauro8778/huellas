@@ -48,4 +48,10 @@ export class SheltersController {
     const accessToken = req.auth0Token;
     return this.sheltersService.deleteShelter(id, accessToken);
   }
+  
+  @Put('admin')
+  adminUsers(@Req() req, @Param('id',ParseUUIDPipe) id:string){
+      const accessToken = req.auth0Token
+      return this.sheltersService.adminShelter(id,accessToken)
+  }
 }
