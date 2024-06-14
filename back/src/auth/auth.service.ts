@@ -11,6 +11,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ShelterEntity } from 'src/entidades/shelter.entity';
 import { MailService } from 'src/mails/mail.service';
+import { MapsService } from 'src/maps/maps.service';
 
 @Injectable()
 export class AuthService {
@@ -21,6 +22,7 @@ export class AuthService {
     @InjectRepository(ShelterEntity)
     private shelterRepository: Repository<ShelterEntity>,
     private readonly mailService: MailService,
+    private readonly mapsservice:MapsService
   ) {}
 
   async RegisterUser(
@@ -69,7 +71,7 @@ export class AuthService {
     const existingShelter = await this.shelterRepository.findOne({
       where: {
         shelter_name: metadata.shelter_name,
-        zona: metadata.zona,
+       
       },
     });
 
@@ -83,6 +85,11 @@ export class AuthService {
       metadata.shelter_name,
       password,
     );
+    const geocodeData = await this.mapsservice.geocodeShelterAddress(metadata.address);
+    metadata.lat = parseFloat(geocodeData.lat);
+        metadata.lon = parseFloat(geocodeData.lon);
+    metadata.display_name = geocodeData.display_name;
+
     return this.Register(email, password, metadata, accessToken, 'shelter');
   }
 

@@ -44,17 +44,18 @@ export class ShelterEntity {
   })
   shelter_name: string;
 
-  @Column({
-    type: 'varchar',
-    nullable: false,
-  })
-  location: string;
+   @Column()
+  address: string;
 
-  @Column({
-    type: 'varchar',
-    nullable: false,
-  })
-  zona: string;
+  @Column({ nullable: true, type: 'float' }) 
+  lat: number;
+
+  @Column({ nullable: true, type: 'float' })
+  lon: number;
+
+  @Column({ nullable: true })
+  display_name: string;
+  
 
   @Column({
     type: 'varchar',

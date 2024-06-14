@@ -69,18 +69,7 @@ export class CreateShelterDto {
 
     @IsNotEmpty()
     @IsString()
-    @ApiProperty({
-        example: "Ubicacion"
-    })
-    location: string
-
-    @IsNotEmpty()
-    @IsString()
-    @ApiProperty({
-        example: "Ubicacion"
-    })
-    zona: string
-
+    address: string;
 
     @IsNotEmpty()
     @IsString()

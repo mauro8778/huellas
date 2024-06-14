@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shelter Geolocation</title>
+    <!-- Incluir Leaflet.js y estilos CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <style>
+        /* Estilo básico para el mapa */
+        #map {
+            height: 400px;
+            width: 100%;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Shelter Geolocation</h1>
+    <form id="shelterForm">
+        <label for="shelterId">Enter Shelter ID:</label><br>
+        <input type="text" id="shelterId" name="shelterId" required><br><br>
+        <button type="submit">Get Shelter Location</button>
+    </form>
+    <div id="response"></div>
+
+    <!-- Div para contener el mapa -->
+    <div id="map"></div>
+
+    <script>
+        document.getElementById('shelterForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            const shelterId = document.getElementById('shelterId').value.trim();
+
+            try {
+                const response = await fetch(`http://localhost:3000/shelters/${shelterId}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+
+                const contentType = response.headers.get('content-type');
+                if (!contentType || !contentType.includes('application/json')) {
+                    throw new Error('Server response was not in JSON format');
+                }
+
+                const data = await response.json();
+                console.log('que mierda tiene data',data)
+                document.getElementById('response').innerHTML = `
+                    <h2>Shelter Location:</h2>
+                    <p>Shelter Name: ${data.display_name}</p>
+                    <p>Latitude: ${data.lat}</p>
+                    <p>Longitude: ${data.lon}</p>
+                `;
+                console.log('Latitude data type:', typeof data.lat);
+                console.log('Longitude data type:', typeof data.lon);
+
+                // Inicializar el mapa con la ubicación del refugio
+                initMap(data.lat, data.lon);
+
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('response').innerHTML = `<p>Error: ${error.message}</p>`;
+            }
+        });
+
+        // Función para inicializar el mapa
+        function initMap(latitude, longitude) {
+            // Crear el mapa con Leaflet.js
+            const map = L.map('map').setView([latitude, longitude], 13);
+
+            // Añadir el mapa base de OpenStreetMap
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+
+            // Añadir un marcador en la posición geocodificada
+            L.marker([latitude, longitude]).addTo(map)
+                .bindPopup('Shelter Location').openPopup();
+        }
+    </script>
+</body>
+</html>
