@@ -6,6 +6,7 @@ import { Repository } from "typeorm";
 import * as cron from 'node-cron';
 import { ShelterEntity } from "src/entidades/shelter.entity";
 import { PetsEntity } from "src/entidades/pets.entity";
+import axios from "axios";
 
 
 @Injectable()
@@ -200,5 +201,54 @@ export class UserRepository implements OnModuleInit {
 
     return "Refugio eliminado de favoritoss";
   }
-   
+
+  async adminUsers(id:string,accessToken){
+
+    const user= await this.usersRepository.findOne({where:{id}})
+  
+  if(!user){
+    throw new NotFoundException('no se encontro usuario')
+  }
+  const auth0Domain = process.env.AUTH0_DOMAIN;
+    const token = accessToken;
+
+    const userResponse = await axios.get(
+      `https://${auth0Domain}/api/v2/users-by-email`,
+      {
+        params: { email: user.email },
+        headers: { Authorization: `Bearer ${token}` },
+      },
+    );
+
+    if (userResponse.data.length === 0) {
+      throw new Error('User not found');
+    }
+    const userId = userResponse.data[0].user_id;
+
+    try {
+      await axios.patch(
+        `https://${auth0Domain}/api/v2/users/${userId}`,
+        {
+            app_metadata: { roles: ['Admin'] },
+        },
+        {
+            headers: { Authorization: `Bearer ${token}` },
+        },
+    );}
+    catch (error) {
+      if (error.response) {
+         
+          console.error('Error de respuesta del servidor:', error.response.data);
+          console.error('Estado de la respuesta:', error.response.status);
+          console.error('Encabezados de la respuesta:', error.response.headers);
+      } else if (error.request) {
+          
+          console.error('No se recibió respuesta del servidor:', error.request);
+      } else {
+         
+          console.error('Error durante la configuración de la solicitud:', error.message);
+      }
+      throw new Error('Error al actualizar el rol del usuario en Auth0');
+  }
+}
 }

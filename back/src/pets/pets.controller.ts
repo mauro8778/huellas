@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, ParseUUIDPipe, Post, Put, Req, UseGuards } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Delete, Get, NotFoundException, Param, ParseUUIDPipe, Post, Put, Req, UseGuards } from '@nestjs/common';
 import { PetsService } from './pets.service';
 import { CreatePetsDto } from 'src/dto/createPets.dto';
 import { UpdatePetsDto } from 'src/dto/updatePets.dto';
@@ -7,6 +7,7 @@ import { Auth0Guard } from 'src/guards/auth0.guard';
 import { AuthGuard } from 'src/guards/auth.guard';
 import { CreateListImgDto } from 'src/dto/CreateListImg.dto';
 import { ImgDto } from 'src/dto/imgList.dto';
+import { PetsEntity } from 'src/entidades/pets.entity';
 
 @ApiTags("Pets")
 @Controller('pets')
@@ -51,6 +52,21 @@ export class PetsController {
     addPetImg(@Param('id', ParseUUIDPipe) id: string, @Body() imgUrl: ImgDto[]) {
 
         return this.petsService.addPetImg(id, imgUrl);
+    }
+
+    @Delete(':petId')
+    async removePetImg(
+        @Param('petId') petId: string, 
+        @Body('imgUrl') imgUrl: string
+    ): Promise<PetsEntity> {
+        try {
+            return await this.petsService.removePetImg(petId, imgUrl);
+        } catch (error) {
+            if (error instanceof BadRequestException || error instanceof NotFoundException) {
+                throw error;
+            }
+            throw new NotFoundException("Imagen no encontrada");
+        }
     }
 
 }

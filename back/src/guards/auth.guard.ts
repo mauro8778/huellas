@@ -37,11 +37,11 @@ export class AuthGuard implements CanActivate {
       request.user = decodedToken
 
 
-      /* const userRoles = decodedToken['https://huellasdesperanza.com/roles']; */
+     const userRoles = decodedToken['https://huellasdesperanza.com/roles'];
 
-/*       if (!this.hasRequiredRole(userRoles, ['Admin'])) {
+      if (!this.hasRequiredRole(userRoles, ['Admin'])) {
         throw new ForbiddenException('No tienes los permisos necesarios');
-      } */
+      } 
 
       return true;
     } catch (error) {
