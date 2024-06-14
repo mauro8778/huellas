@@ -239,7 +239,7 @@ export class UserRepository implements OnModuleInit {
       await axios.patch(
         `https://${auth0Domain}/api/v2/users/${userId}`,
         {
-          app_metadata: { roles: ['Admin'] },
+          user_metadata: { roles: ['Admin'] },
         },
         {
           headers: { Authorization: `Bearer ${token}` },
