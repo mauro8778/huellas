@@ -220,13 +220,12 @@ export class UserRepository implements OnModuleInit {
       throw new NotFoundException('no se encontro usuario')
     }
     const auth0Domain = process.env.AUTH0_DOMAIN;
-    const token = accessToken;
 
     const userResponse = await axios.get(
       `https://${auth0Domain}/api/v2/users-by-email`,
       {
         params: { email: user.email },
-        headers: { Authorization: `Bearer ${token}` },
+        headers: { Authorization: `Bearer ${accessToken}` },
       },
     );
 
@@ -242,7 +241,7 @@ export class UserRepository implements OnModuleInit {
           user_metadata: { roles: ['Admin'] },
         },
         {
-          headers: { Authorization: `Bearer ${token}` },
+          headers: { Authorization: `Bearer ${accessToken}` },
         },
       );
     }
