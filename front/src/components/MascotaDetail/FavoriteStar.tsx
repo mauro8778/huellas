@@ -65,7 +65,7 @@ const FavoriteStar: React.FC<FavoriteStarProps> = ({ isFavorite, onToggleFavorit
     <>
       <button onClick={handleClick} className="focus:outline-none">
         <svg
-          className={`h-7 w-7 ${isFavorite ? 'text-yellow-500' : 'text-gray-400'} transition-transform duration-200 transform hover:scale-125 hover:text-yellow-500`}
+          className={`h-8 w-8 ${isFavorite ? 'text-yellow-500' : 'text-gray-400'} mr-5 mt-5 transition-transform duration-200 transform hover:scale-125 hover:text-yellow-500`}
           viewBox="0 0 24 24"
           fill="currentColor"
           stroke="none">
