@@ -15,7 +15,7 @@ export class MapsService {
     
   ) {}
 
-  async geocodeShelterAddress(address: string): Promise<any> {
+   async geocodeShelterAddress(address: string): Promise<any> {
     try {
       const response = await axios.get('https://nominatim.openstreetmap.org/search', {
         params: {
