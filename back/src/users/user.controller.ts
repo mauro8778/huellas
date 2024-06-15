@@ -14,8 +14,7 @@ import { get } from 'http';
 export class UserController {
     constructor(private readonly usersService : UserService){}
 
-    @Roles(Role.Shelter, Role.Admin)
-    @UseGuards(AuthGuard, RoleGuard)
+    
     @Get()
     getUsers(){
         return this.usersService.getUsers()
@@ -104,8 +103,9 @@ export class UserController {
         return this.usersService.adminUsers(id,accessToken)
     }
 
-    @Get('location/:id')
-    getLocation(@Param('id',ParseUUIDPipe)userId:string){
+    @Get('location')
+    getLocation(@Req()req){
+        const userId = req.user['https://huellasdesperanza.com/userID']
         return this.usersService.getLocation(userId)
     }
 }
