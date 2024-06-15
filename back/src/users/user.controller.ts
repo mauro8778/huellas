@@ -15,8 +15,7 @@ export class UserController {
     constructor(private readonly usersService : UserService){}
 
 
-    @Roles(Role.Shelter, Role.Admin)
-    @UseGuards(AuthGuard, RoleGuard)
+ 
     @Get()
     getUsers(){
         return this.usersService.getUsers()
