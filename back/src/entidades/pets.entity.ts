@@ -1,7 +1,7 @@
 import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { v4 as uuid } from "uuid"
 import { ShelterEntity } from "./shelter.entity";
-import { UserEntity } from "./user.entity";
+import { UserEntity } from "./users.entity";
 import { AdoptionEntity } from "./adoption.entity";
 
 

@@ -1,6 +1,6 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import {v4 as uuid} from "uuid"
-import { UserEntity } from "./user.entity";
+import { UserEntity } from "./users.entity";
 import { OrderDetailsEntity } from "./orderDetail.entity";
 
 @Entity({

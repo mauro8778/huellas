@@ -5,7 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { ShelterEntity } from 'src/entidades/shelter.entity';
 import { UserService } from 'src/users/user.service';
 import { SheltersService } from 'src/shelters/shelters.service';
-import { UserEntity } from 'src/entidades/user.entity';
+import { UserEntity } from 'src/entidades/users.entity';
 
 @Injectable()
 export class MapsService {
