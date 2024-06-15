@@ -3,9 +3,6 @@ import axios from 'axios';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ShelterEntity } from 'src/entidades/shelter.entity';
-import { UserService } from 'src/users/user.service';
-import { SheltersService } from 'src/shelters/shelters.service';
-import { UserEntity } from 'src/entidades/user.entity';
 
 
 @Injectable()
