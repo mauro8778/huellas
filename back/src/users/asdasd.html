@@ -36,7 +36,7 @@
 
       L.marker([userLocation.lat, userLocation.lon])
         .addTo(map)
-        .bindPopup(userLocation.displayName)
+        .bindPopup('<span style="color: red; font-weight: bold;">¡Estás aquí!</span>')
         .openPopup();
 
       shelterLocation.forEach(shelter => {
