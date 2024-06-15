@@ -3,9 +3,7 @@ import axios from 'axios';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ShelterEntity } from 'src/entidades/shelter.entity';
-import { UserService } from 'src/users/user.service';
-import { SheltersService } from 'src/shelters/shelters.service';
-import { UserEntity } from 'src/entidades/users.entity';
+
 
 @Injectable()
 export class MapsService {
@@ -17,15 +15,17 @@ export class MapsService {
     
   ) {}
 
-  async geocodeShelterAddress(address: string): Promise<any> {
+   async geocodeShelterAddress(address: string): Promise<any> {
     try {
       const response = await axios.get('https://nominatim.openstreetmap.org/search', {
         params: {
           q: address,
           format: 'json',
+          addressdetails: 1,
           limit: 1,
-          countrycodes: 'ar',  
-          viewbox: '-61.084171,-41.321321,-56.804462,-34.020882', 
+        },
+        headers: {
+          'User-Agent': 'HuellasApp/1.0 (contacto@huellasapp.com)', 
         },
       });
 
