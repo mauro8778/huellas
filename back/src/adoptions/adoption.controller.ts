@@ -3,12 +3,17 @@ import { AdoptionService } from './adoption.service';
 import { CreateAdopcionDto } from 'src/dto/createAdopcion.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from 'src/guards/auth.guard';
+import { Role } from 'src/users/user.enum';
+import { Roles } from 'src/decorators/role.decorator';
+import { RoleGuard } from 'src/guards/role.guard';
 
 @ApiTags("Adoption")
 @Controller('adoption')
 export class AdoptionController {
     constructor(private readonly adopcionservice : AdoptionService){}
-
+    
+    @Roles(Role.Shelter, Role.Admin)
+    @UseGuards(AuthGuard, RoleGuard)
     @Get()
     async AllAdoptions(){
         return await this.adopcionservice.AllAdoptions()

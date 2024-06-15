@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Get, Injectable } from '@nestjs/common';
 import { UserRepository } from './User.Repository';
 
 @Injectable()
@@ -52,5 +52,8 @@ export class UserService {
     adminUsers(id: string, accessToken) {
         return this.usersRepository.adminUsers(id, accessToken)
     }
-
+    getLocation(userId:string){
+        return this.usersRepository.getLocation(userId)
+    }
+    
 }

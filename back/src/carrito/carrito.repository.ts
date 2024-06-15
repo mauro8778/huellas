@@ -6,7 +6,7 @@ import { CarritoPendienteEntity } from "src/entidades/carrito.entity";
 import { OrderDetailsEntity } from "src/entidades/orderDetail.entity";
 import { OrdersEntity } from "src/entidades/orders.entity";
 import { ShelterEntity } from "src/entidades/shelter.entity";
-import { UserEntity } from "src/entidades/user.entity";
+import { UserEntity } from "src/entidades/users.entity";
 import { Repository } from "typeorm";
 
 @Injectable()

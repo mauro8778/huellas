@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { HttpException, Injectable, NotFoundException } from '@nestjs/common';
 import axios from 'axios';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -6,6 +6,7 @@ import { ShelterEntity } from 'src/entidades/shelter.entity';
 import { UserService } from 'src/users/user.service';
 import { SheltersService } from 'src/shelters/shelters.service';
 import { UserEntity } from 'src/entidades/user.entity';
+
 
 @Injectable()
 export class MapsService {
@@ -17,32 +18,37 @@ export class MapsService {
     
   ) {}
 
-  async geocodeShelterAddress(address: string): Promise<any> {
+   async geocodeShelterAddress(address: string): Promise<any> {
     try {
       const response = await axios.get('https://nominatim.openstreetmap.org/search', {
         params: {
           q: address,
           format: 'json',
+          addressdetails: 1,
           limit: 1,
-          countrycodes: 'ar',  
-          viewbox: '-61.084171,-41.321321,-56.804462,-34.020882', 
+        },
+        headers: {
+          'User-Agent': 'HuellasApp/1.0 (contacto@huellasapp.com)', 
         },
       });
-
-      if (response.data.length === 0) {
-        throw new NotFoundException('No se encontraron resultados para la dirección especificada.');
+      if (response.status !== 200) {
+        throw new HttpException(`Request failed with status code ${response.status}`, response.status);
       }
 
-      const location = response.data[0];
+      const data = response.data;
+      if (!data || data.length === 0) {
+        throw new HttpException('No se encontraron resultados para la dirección especificada', 404);
+      }
+
+      const location = data[0];
       return {
-        lat: parseFloat(location.lat),
-        lon: parseFloat(location.lon),
+        lat: location.lat,
+        lon: location.lon,
         display_name: location.display_name,
       };
-
-      
     } catch (error) {
-      throw new Error(`Error al geocodificar la dirección: ${error.message}`);
+      console.error('Error geocoding address:', error.message);
+      throw new HttpException(`Error al geocodificar la dirección: ${error.message}`, error.response?.status || 500);
     }
   }
 
@@ -60,7 +66,6 @@ export class MapsService {
         throw new Error('Datos de geocodificación no válidos');
       }
 
-      // Actualizar los datos del refugio
       shelter.address = address;
       shelter.lat = geocodeData.lat.toString();
       shelter.lon = geocodeData.lon.toString();

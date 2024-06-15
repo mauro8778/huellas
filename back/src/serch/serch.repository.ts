@@ -48,7 +48,7 @@ export class SearchRepository {
         if (age) {
             pconditions.age = age;
         }
-        
+
 
 
         const pets: PetsEntity[] = await this.petsRepository.find({ where: pconditions })
@@ -62,34 +62,35 @@ export class SearchRepository {
     }
 
     async searchGeneral(query: string) {
-            if (!query) {
-              return [];
-            }
-        
-    const pets = await this.petsRepository.createQueryBuilder('pet')
-    .where('shelter.isActive = :isActive', { isActive: true })
-    .andWhere(
-      qb => {
-    qb.where('pet.name ILIKE :query', { query: `%${query}%` })
-    .orWhere('pet.sexo ILIKE :query', { query: `%${query}%` })
-    .orWhere('pet.breed ILIKE :query', { query: `%${query}%` })
-    .orWhere('pet.pet_size ILIKE :query', { query: `%${query}%` })
-    .orWhere('pet.month ILIKE :query', { query: `%${query}%` })
-    .orWhere('pet.species ILIKE :query', { query: `%${query}%` })
-    .orWhere('CAST(pet.age AS TEXT) ILIKE :query', { query: `%${query}%` })
-})  .getMany();
+        if (!query) {
+            return [];
+        }
 
-    const shelters = await this.sheltersRepository.createQueryBuilder('shelter')
-    .where('shelter.isActive = :isActive', { isActive: true })
-    .andWhere(
-      qb => {
-    qb.where('shelter.shelter_name ILIKE :query', { query: `%${query}%` })
-    .orWhere('shelter.zona ILIKE :query', { query: `%${query}%` })
-    .orWhere('shelter.location ILIKE :query', { query: `%${query}%` })
-})  .getMany();
+        const pets = await this.petsRepository.createQueryBuilder('pet')
+            .where('shelter.isActive = :isActive', { isActive: true })
+            .andWhere(
+                qb => {
+                    qb.where('pet.name ILIKE :query', { query: `%${query}%` })
+                        .orWhere('pet.sexo ILIKE :query', { query: `%${query}%` })
+                        .orWhere('pet.breed ILIKE :query', { query: `%${query}%` })
+                        .orWhere('pet.pet_size ILIKE :query', { query: `%${query}%` })
+                        .orWhere('pet.month ILIKE :query', { query: `%${query}%` })
+                        .orWhere('pet.species ILIKE :query', { query: `%${query}%` })
+                        .orWhere('CAST(pet.age AS TEXT) ILIKE :query', { query: `%${query}%` })
+                }).getMany();
 
-    return [...pets, ...shelters];
-  }
+        const shelters = await this.sheltersRepository.createQueryBuilder('shelter')
+            .where('shelter.isActive = :isActive', { isActive: true })
+            .andWhere(
+                qb => {
+                    qb.where('shelter.shelter_name ILIKE :query', { query: `%${query}%` })
+                        .orWhere('shelter.display_name ILIKE :query', { query: `%${query}%` })
+                        .orWhere('shelter.address ILIKE :query', { query: `%${query}%` })
+                        .orWhere('shelter.name ILIKE :query', { query: `%${query}%` })
+                }).getMany();
+
+        return [...pets, ...shelters];
+    }
 
 
 }

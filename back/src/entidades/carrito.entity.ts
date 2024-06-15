@@ -1,5 +1,5 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import { UserEntity } from "./user.entity";
+import { UserEntity } from "./users.entity";
 import {v4 as uuid} from "uuid"
 
 

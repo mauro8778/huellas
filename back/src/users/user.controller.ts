@@ -7,13 +7,16 @@ import { Auth0Guard } from 'src/guards/auth0.guard';
 import { RoleGuard } from 'src/guards/role.guard';
 import { Roles } from 'src/decorators/role.decorator';
 import { Role } from './user.enum';
+import { get } from 'http';
 
 @ApiTags("Users")
 @Controller('users')
 export class UserController {
     constructor(private readonly usersService : UserService){}
 
-    @Roles(Role.Shelter)
+
+    @Roles(Role.Shelter, Role.Admin)
+
     @UseGuards(AuthGuard, RoleGuard)
     @Get()
     getUsers(){
@@ -101,5 +104,10 @@ export class UserController {
     adminUsers(@Req() req, @Param('id',ParseUUIDPipe) id:string){
         const accessToken = req.auth0Token
         return this.usersService.adminUsers(id,accessToken)
+    }
+
+    @Get('location/:id')
+    getLocation(@Param('id',ParseUUIDPipe)userId:string){
+        return this.usersService.getLocation(userId)
     }
 }
