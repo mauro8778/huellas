@@ -7,6 +7,7 @@ import * as cron from 'node-cron';
 import { ShelterEntity } from "src/entidades/shelter.entity";
 import { PetsEntity } from "src/entidades/pets.entity";
 import axios from "axios";
+import { MapsService } from "src/maps/maps.service";
 
 
 @Injectable()
@@ -18,7 +19,8 @@ export class UserRepository implements OnModuleInit {
     private readonly sheltersRepository: Repository<ShelterEntity>,
     @InjectRepository(PetsEntity)
     private readonly petsRepository: Repository<PetsEntity>,
-    private readonly mailService: MailService,) { }
+    private readonly mailService: MailService,
+  private readonly mapsservice: MapsService) { }
   async onModuleInit() {
     this.scheduleEmails();
   }
@@ -263,4 +265,34 @@ export class UserRepository implements OnModuleInit {
       throw new Error('Error al actualizar el rol del usuario en Auth0');
     }
   }
+
+  async getLocation(userId: string){
+
+    const user= await this.usersRepository.findOne({where:{id:userId}})
+    if(!user){
+      throw new NotFoundException('usuario no encontrado')
+    }
+      const location = user.location
+
+      const geocode= await this.mapsservice.geocodeShelterAddress(location)
+
+      if (!geocode || !geocode.lat || !geocode.lon || !geocode.display_name) {
+        throw new Error('Datos de geocodificación no válidos');
+  }
+
+  const shelters= await this.sheltersRepository.find()
+  
+  const userLocation = {lat:geocode.lat, lon:geocode.lon, display_name: geocode.display_name}
+
+  const shelterLocation = shelters.map(shelter=>({
+    lat: shelter.lat,
+    lon: shelter.lon,
+    name: shelter.display_name
+  }))
+
+  console.log(shelterLocation)
+
+  return {userLocation,shelterLocation}
+}
+
 }
