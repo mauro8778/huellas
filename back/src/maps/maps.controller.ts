@@ -38,6 +38,5 @@ export class MapsController {
       throw new NotFoundException(error.message);
     }
   }
-  
-  }
+
 

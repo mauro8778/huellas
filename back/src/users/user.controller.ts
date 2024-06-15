@@ -14,7 +14,9 @@ import { get } from 'http';
 export class UserController {
     constructor(private readonly usersService : UserService){}
 
+
     @Roles(Role.Shelter, Role.Admin)
+
     @UseGuards(AuthGuard, RoleGuard)
     @Get()
     getUsers(){

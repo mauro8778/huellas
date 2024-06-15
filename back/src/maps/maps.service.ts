@@ -3,6 +3,9 @@ import axios from 'axios';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ShelterEntity } from 'src/entidades/shelter.entity';
+import { UserService } from 'src/users/user.service';
+import { SheltersService } from 'src/shelters/shelters.service';
+import { UserEntity } from 'src/entidades/user.entity';
 
 
 @Injectable()
@@ -62,6 +65,7 @@ export class MapsService {
       if (!geocodeData || !geocodeData.lat || !geocodeData.lon || !geocodeData.display_name) {
         throw new Error('Datos de geocodificación no válidos');
       }
+
       shelter.address = address;
       shelter.lat = geocodeData.lat.toString();
       shelter.lon = geocodeData.lon.toString();
