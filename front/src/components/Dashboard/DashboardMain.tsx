@@ -5,6 +5,7 @@ import DonationChart from '@/components/admin/DonationChart'; // Importa tu nuev
 import StatCard from '../ui/StatCard';
 import { BarChartShelter } from '../ui/BarChart';
 import AllUsers from '../admin/AllUsers';
+import SheltersAll from '../admin/SheltesAll';
 
 const DashboardMain: React.FC<{ isAdmin: boolean }> = ({ isAdmin }) => {
   const totalDonations = 1000; // Ejemplo de valor
@@ -27,6 +28,10 @@ const DashboardMain: React.FC<{ isAdmin: boolean }> = ({ isAdmin }) => {
             <div className=" col-span-1 md:col-span-1 lg:col-span-1">
               <BarChartShelter />
             </div>
+            <div className="  col-span-1 md:col-span-1 lg:col-span-1">
+              <SheltersAll />
+            </div>
+            
           </div>
         </div>
       ) : (
