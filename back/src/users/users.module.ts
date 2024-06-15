@@ -16,9 +16,13 @@ import { Auth0Module } from 'src/auth0/auth0.module';
 import { MapsModule } from 'src/maps/maps.module';
 import { MapsService } from 'src/maps/maps.service';
 
+
 @Module({
   imports:[TypeOrmModule.forFeature([UserEntity,VolunteerEntity,ShelterEntity,PetsEntity]), Auth0Module],
   controllers: [UserController],
+
   providers: [UserService,UserRepository,MailService, ConfigService, ShelterRepository,JwtService, Auth0Guard,MapsService]
+
+
 })
 export class UsersModule {}

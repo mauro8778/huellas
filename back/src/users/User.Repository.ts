@@ -211,7 +211,9 @@ export class UserRepository implements OnModuleInit {
 
     await this.usersRepository.save(user);
 
-    return "Refugio eliminado de favoritoss";
+
+    return "Refugio eliminado de favoritos";
+
   }
 
   async adminUsers(id: string, accessToken) {

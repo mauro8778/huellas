@@ -14,6 +14,7 @@ const dbConfig: DataSourceOptions = {
   logging: false,
   synchronize: false,
   dropSchema: false,
+
 };
 
 export const databaseConfig = TypeOrmModule.forRoot({
