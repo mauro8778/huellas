@@ -62,8 +62,6 @@ export class MapsService {
       if (!geocodeData || !geocodeData.lat || !geocodeData.lon || !geocodeData.display_name) {
         throw new Error('Datos de geocodificación no válidos');
       }
-
-      // Actualizar los datos del refugio
       shelter.address = address;
       shelter.lat = geocodeData.lat.toString();
       shelter.lon = geocodeData.lon.toString();
