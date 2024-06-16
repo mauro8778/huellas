@@ -17,7 +17,7 @@ export const DashboardPage: React.FC = () => {
     <div className="flex h-screen">
      
       <main className="flex-1 p-4 bg-gray-100 overflow-y-auto">
-        <SimulateLogin /> {/*//*SIMULACION DE LOGIN "BORRAR"   */}
+        {/* <SimulateLogin /> //*SIMULACION DE LOGIN "BORRAR"    */}
         <DashboardMain isAdmin={isAdmin} />
       </main>
     </div>

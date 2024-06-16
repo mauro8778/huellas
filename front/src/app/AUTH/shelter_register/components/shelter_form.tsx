@@ -1,11 +1,15 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 'use client';
 
+import ImageUpload from '@/components/ui/ImageUpload';
 import { useState, FormEvent, ChangeEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import Button from '@/components/ui/button';
 import Input from '@/components/ui/input';
+import TextArea from '@/components/ui/Textarea';
 import Swal from 'sweetalert2';
+import HomeButton from '@/components/ui/HomeButton';
+import Link from 'next/link';
 
 interface FormData {
   name: string;
@@ -14,10 +18,8 @@ interface FormData {
   dni: number | '';
   phone: number | '';
   shelter_name: string;
-  // locality: string;
+  address: string;
   description: string;
-  location: string;
-  zona: string;
 }
 
 interface Validations {
@@ -28,10 +30,8 @@ interface Validations {
   dniValid: boolean | null;
   phoneValid: boolean | null;
   shelterNameValid: boolean | null;
-  // localityValid: boolean | null;
+  addressValid: boolean | null;
   descriptionValid: boolean | null;
-  locationValid: boolean | null;
-  zonaValid: boolean | null;
 }
 
 const ShelterForm: React.FC = () => {
@@ -43,10 +43,8 @@ const ShelterForm: React.FC = () => {
     dni: '',
     phone: '',
     shelter_name: '',
-    // locality: '',
-    description: '',
-    location: '',
-    zona: ''
+    address: '',
+    description: ''
   });
 
   const [validations, setValidations] = useState<Validations>({
@@ -57,13 +55,12 @@ const ShelterForm: React.FC = () => {
     dniValid: null,
     phoneValid: null,
     shelterNameValid: null,
-    // localityValid: null,
-    descriptionValid: null,
-    locationValid: null,
-    zonaValid: null
+    addressValid: null,
+    descriptionValid: null
   });
 
   const [error, setError] = useState<string | null>(null);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null); // Estado para la imagen seleccionada
 
   const validateEmail = (email: string) => {
     const re = /\S+@\S+\.\S+/;
@@ -93,10 +90,12 @@ const ShelterForm: React.FC = () => {
     return re.test(phone);
   };
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
 
     setFormData({ ...formData, [name]: name === 'dni' || name === 'phone' ? Number(value) : value });
+
+    console.log('Cambio en el formulario:', { name, value });  // <--- Añadir este console.log
 
     switch (name) {
       case 'email':
@@ -114,12 +113,19 @@ const ShelterForm: React.FC = () => {
         setValidations({ ...validations, phoneValid: value ? validatePhone(value) : null });
         break;
       case 'dni':
+        setValidations({ ...validations, dniValid: value ? !isNaN(Number(value)) && Number(value) > 0 : null });
+        break;
+      case 'name':
+        setValidations({ ...validations, nameValid: value ? value.length >= 2 : null });
+        break;
       case 'shelter_name':
-      // case 'locality':
+        setValidations({ ...validations, shelterNameValid: value ? value.length >= 2 : null });
+        break;
+      case 'address':
+        setValidations({ ...validations, addressValid: value ? value.length > 0 : null });
+        break;
       case 'description':
-      case 'location':
-      case 'zona':
-        setValidations({ ...validations, [`${name}Valid`]: value ? value.length > 0 : null });
+        setValidations({ ...validations, descriptionValid: value ? value.length >= 10 && value.length <= 300 : null });
         break;
       default:
         break;
@@ -129,29 +135,37 @@ const ShelterForm: React.FC = () => {
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setError(null);
-
+  
     const someInvalid = Object.values(validations).some(valid => valid === false);
-
+  
     if (!someInvalid) {
       try {
-
-        const formDataToSend = {
-          ...formData,
-          dni: formData.dni === '' ? null : formData.dni,
-          phone: formData.phone === '' ? null : formData.phone
-        };
-
-        console.log('Form Data to Send:', formDataToSend);
-
+        const formDataToSend = new FormData();
+        formDataToSend.append('name', formData.name);
+        formDataToSend.append('email', formData.email);
+        formDataToSend.append('password', formData.password);
+        formDataToSend.append('dni', formData.dni === '' ? '' : formData.dni.toString());
+        formDataToSend.append('phone', formData.phone === '' ? '' : formData.phone.toString());
+        formDataToSend.append('shelter_name', formData.shelter_name);
+        formDataToSend.append('address', formData.address);
+        formDataToSend.append('description', formData.description);
+        if (selectedFile) {
+          formDataToSend.append('image', selectedFile);
+        }
+  
+        // Imprimir todas las entradas del FormData para depuración
+        for (let [key, value] of formDataToSend.entries()) {
+          console.log(`${key}: ${value}`);
+        }
+  
         const response = await fetch('https://huellasdesperanza.onrender.com/auth/register/shelter', {
           method: 'POST',
-          //  credentials: 'include',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(formDataToSend),
+          body: formDataToSend,
         });
-
+  
+        // Imprimir la respuesta completa del servidor
+        console.log('Respuesta del servidor:', response);
+  
         if (response.ok) {
           Swal.fire({
             title: "¡Registro exitoso!",
@@ -162,18 +176,16 @@ const ShelterForm: React.FC = () => {
           }).then(() => {
             router.push('/AUTH/login');
           });
-          
         } else {
           const errorData = await response.json();
           console.error('Error en la respuesta:', errorData);
           setError(`Error en el registro: ${errorData.message || 'Error desconocido'}`);
           Swal.fire({
-            title: "¡Algo salio mal!",
+            title: "¡Algo salió mal!",
             text: "Tu refugio no pudo ser registrado. Por favor, inténtalo de nuevo.",
             icon: "error",
             confirmButtonText: "Aceptar",
             timer: 3000,
-            
           });
         }
       } catch (error) {
@@ -184,6 +196,7 @@ const ShelterForm: React.FC = () => {
       setError('Por favor, completa todos los campos correctamente.');
     }
   };
+  
 
   return (
     <div className="w-full max-w-md">
@@ -197,18 +210,15 @@ const ShelterForm: React.FC = () => {
         {error && <div className="mb-4 text-red-500">{error}</div>}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {[
-            { name: 'name', placeholder: 'Nombre', validation: validations.nameValid, errorMessage: 'El nombre no puede estar vacío.' },
+            { name: 'name', placeholder: 'Nombre', validation: validations.nameValid, errorMessage: 'El nombre debe tener al menos 2 caracteres.' },
             { name: 'email', placeholder: 'Email', validation: validations.emailValid, errorMessage: 'Ingrese un correo electrónico válido.' },
             { name: 'password', placeholder: 'Contraseña', validation: validations.passwordValid, errorMessage: 'La contraseña debe tener al menos 8 caracteres.', isPassword: true },
             { name: 'dni', placeholder: 'DNI', validation: validations.dniValid, errorMessage: 'El DNI no puede estar vacío.' },
             { name: 'phone', placeholder: 'Teléfono', validation: validations.phoneValid, errorMessage: 'El teléfono debe tener 10 dígitos.' },
-            { name: 'shelter_name', placeholder: 'Nombre del Refugio', validation: validations.shelterNameValid, errorMessage: 'El nombre del refugio no puede estar vacío.' },
-            // { name: 'locality', placeholder: 'Localidad', validation: validations.localityValid, errorMessage: 'La localidad no puede estar vacía.' },
-            { name: 'description', placeholder: 'Descripción', validation: validations.descriptionValid, errorMessage: 'La descripción no puede estar vacía.' },
-            { name: 'location', placeholder: 'Ubicación', validation: validations.locationValid, errorMessage: 'La ubicación no puede estar vacía.' },
-            { name: 'zona', placeholder: 'Zona', validation: validations.zonaValid, errorMessage: 'La zona no puede estar vacía.' }
-          ].map(({ name, placeholder, validation, errorMessage, isPassword = false }) => (
-            <div key={name} className="relative">
+            { name: 'shelter_name', placeholder: 'Nombre del Refugio', validation: validations.shelterNameValid, errorMessage: 'El nombre del refugio debe tener al menos 2 caracteres.' },
+            { name: 'address', placeholder: 'Dirección: nombre de la calle y número, localidad', validation: validations.addressValid, errorMessage: 'La dirección no puede estar vacía.', fullWidth: true }
+          ].map(({ name, placeholder, validation, errorMessage, isPassword = false, fullWidth = false }) => (
+            <div key={name} className={`relative ${fullWidth ? 'col-span-2' : ''}`}>
               <Input
                 type={isPassword ? 'password' : name === 'dni' || name === 'phone' ? 'number' : 'text'}
                 name={name}
@@ -216,8 +226,8 @@ const ShelterForm: React.FC = () => {
                 value={formData[name as keyof typeof formData]}
                 onChange={handleChange}
                 className={`border ${
-                  validation === null ? 'border-gray-300' : validation ? 'border-green-500' : 'border-red-500'
-                }`}
+                  validation === null ? '' : validation ? 'border-green-500' : 'border-red-500'
+                } w-full`}
               />
               {validation === false && <p className="text-red-500 text-xs">{errorMessage}</p>}
               {name === 'password' && validation !== null && (
@@ -228,9 +238,30 @@ const ShelterForm: React.FC = () => {
             </div>
           ))}
         </div>
+        <div className="relative w-full">
+          <TextArea
+            name="description"
+            placeholder="Describe aquí tu refugio..."
+            value={formData.description}
+            onChange={handleChange}
+            className={`border ${
+              validations.descriptionValid === null ? 'border-gray-300' : validations.descriptionValid ? 'border-green-500' : 'border-red-500'
+            } w-full`}
+            rows={4}
+          />
+          {validations.descriptionValid === false && (
+            <p className="text-red-500 text-xs">La descripción debe tener entre 10 y 300 caracteres.</p>
+          )}
+        </div>
+
+        <ImageUpload onUpload={(file) => {
+          setSelectedFile(file);
+          console.log('Imagen seleccionada:', file);  // <--- Añadir este console.log
+        }} />
+
         <Button type="submit" label="Crear cuenta" className="w-full mt-4" />
         <div className="mt-5 mb-10 flex items-center justify-center gap-x-2">
-          <p className="text-gray-500">¿Tienes una cuenta?</p>
+          <p className="text-yellow500">¿Tienes una cuenta?</p>
           <button
             type="button"
             onClick={() => router.push('/AUTH/login')}
@@ -238,6 +269,12 @@ const ShelterForm: React.FC = () => {
           >
             Iniciar sesión
           </button>
+        </div>
+        <div className='flex justify-center'>
+            <Link href={'/Home'}>
+             <HomeButton />
+            </Link>
+       
         </div>
       </form>
     </div>

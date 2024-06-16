@@ -1,4 +1,5 @@
 
+import HomeButton from '@/components/ui/HomeButton';
 import Image from 'next/image';
 import Link from 'next/link';
 import { FaUser, FaHome } from 'react-icons/fa';
@@ -36,6 +37,12 @@ export const RegistroPage: React.FC = () => {
           </Link>
         </div>
       </div>
+      <div className='flex justify-center'>
+            <Link href={'/Home'}>
+             <HomeButton />
+            </Link>
+       
+        </div>
      
     </div>
   );

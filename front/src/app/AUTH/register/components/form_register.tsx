@@ -1,11 +1,14 @@
 'use client';
-
 import { useState, FormEvent, ChangeEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import Button from '@/components/ui/button';
 import Input from '@/components/ui/input';
 import Swal from 'sweetalert2';
+import ButtonGoogle from '@/components/ui/ButtonGoogle';
+import ButtonFacebook from '@/components/ui/ButtonFacebook';
+import HomeButton from '@/components/ui/HomeButton';
 import Link from 'next/link';
+
 
 const Form_Register: React.FC = () => {
   const router = useRouter();
@@ -155,20 +158,20 @@ const Form_Register: React.FC = () => {
   const handleGoogleLogin = () => {
     console.log("Redirigiendo a Google");
     alert("Redirigiendo a Google");
-    window.location.href = 'https://huellasdesperanza.onrender.com/google/redirect';
+    window.location.href = 'https://huellasdesperanza.onrender.com/google/redirect';//REVISAR  RUTA y pasar la logica al boton
   };
 
   const handleFacebookLogin = () => {
     console.log("Redirigiendo a Facebook");
     alert("Redirigiendo a Facebook");
-    window.location.href = 'https://huellasdesperanza.onrender.com/facebook/redirect';
+    window.location.href = 'https://huellasdesperanza.onrender.com/facebook/redirect'; //REVISAR RUTA
   };
 
   return (
     <div className='w-full max-w-md'>
       <div className='mb-5'>
         <h2 className='text-2xl font-semibold'>Regístrate</h2>
-        <p className='text-gray-500 text-sm'>
+        <p className='text-yellow500 text-sm'>
           Por favor, regístrate para poder iniciar sesión y dejar tu huella de esperanza.
         </p>
       </div>
@@ -178,45 +181,45 @@ const Form_Register: React.FC = () => {
             {error}
           </div>
         )}
-        {['name', 'last_name', 'email', 'password', 'confirm_password', 'birthdate', 'phone', 'location' ].map((field) => (
-          <div key={field} className="relative mt-4">
-            <Input
-              type={field === 'password' || field === 'confirm_password' ? 'password' : field === 'birthdate' ? 'date' : field === 'phone' ? 'number' : 'text'}
-              name={field}
-              placeholder={field.charAt(0).toUpperCase() + field.slice(1).replace('_', ' ')}
-              value={formData[field as keyof typeof formData]}
-              onChange={handleChange}
-              className={`border-2 ${
-                formValidations[`${field}Valid` as keyof typeof formValidations] === null
-                  ? 'border-gray-300'
-                  : formValidations[`${field}Valid` as keyof typeof formValidations]
-                  ? 'border-green-500'
-                  : 'border-red-500'
-              }`}
-            />
-            {formValidations[`${field}Valid` as keyof typeof formValidations] === false && (
-              <p className="text-red-500 text-xs">
-                {field === 'name' ? 'El nombre no puede estar vacío.' : ''}
-                {field === 'last_name' ? 'El apellido no puede estar vacío.' : ''}
-                {field === 'email' ? 'Ingrese un correo electrónico válido.' : ''}
-                {field === 'password' ? 'La contraseña debe tener al menos 6 caracteres.' : ''}
-                {field === 'confirm_password' ? 'La contraseña no coincide.' : ''}
-                {field === 'birthdate' ? 'Ingrese una fecha de nacimiento.' : ''}
-                {field === 'phone' ? 'Ingrese un número de teléfono válido (10 dígitos).' : ''}
-                {field === 'location' ? 'Ingrese una ubicación.' : ''}
-              </p>
-            )}
-          </div>
-        ))}
-        <Button type='submit' label='Crear cuenta' />
+        <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
+          {['name', 'last_name', 'email', 'password', 'confirm_password', 'birthdate', 'phone', 'location' ].map((field) => (
+            <div key={field} className="relative mt-4">
+              <Input
+                type={field === 'password' || field === 'confirm_password' ? 'password' : field === 'birthdate' ? 'date' : field === 'phone' ? 'number' : 'text'}
+                name={field}
+                placeholder={field.charAt(0).toUpperCase() + field.slice(1).replace('_', ' ')}
+                value={formData[field as keyof typeof formData]}
+                onChange={handleChange}
+                className={`border-2 w-full ${
+                  formValidations[`${field}Valid` as keyof typeof formValidations] === null
+                    ? ''
+                    : formValidations[`${field}Valid` as keyof typeof formValidations]
+                    ? 'border-green-500'
+                    : 'border-red-500'
+                }`}
+              />
+              {formValidations[`${field}Valid` as keyof typeof formValidations] === false && (
+                <p className="text-red-500 text-xs">
+                  {field === 'name' ? 'El nombre no puede estar vacío.' : ''}
+                  {field === 'last_name' ? 'El apellido no puede estar vacío.' : ''}
+                  {field === 'email' ? 'Ingrese un correo electrónico válido.' : ''}
+                  {field === 'password' ? 'La contraseña debe tener al menos 6 caracteres.' : ''}
+                  {field === 'confirm_password' ? 'La contraseña no coincide.' : ''}
+                  {field === 'birthdate' ? 'Ingrese una fecha de nacimiento.' : ''}
+                  {field === 'phone' ? 'Ingrese un número de teléfono válido (10 dígitos).' : ''}
+                  {field === 'location' ? 'Ingrese una ubicación.' : ''}
+                </p>
+              )}
+            </div>
+          ))}
+        </div>
+        <Button type='submit' label='Crear cuenta' className='w-full mt-4' />
         <div className='mt-5 mb-10 flex flex-col items-center justify-center gap-y-2'>
-          <Link href={'https://huellasdesperanza.onrender.com/google/redirect'} >
-          <Button type='button' label='Registrarse con Google' onClick={handleGoogleLogin} />
-          </Link>
-
+          <ButtonGoogle type='button' label='Registrarse con Google' onClick={handleGoogleLogin} className='w-full' />
+          <ButtonFacebook type='button' label='Registrarse con Facebook' onClick={handleFacebookLogin} className='w-full' />
         </div>
         <div className='mt-5 mb-10 flex items-center justify-center gap-x-2'>
-          <p className='text-gray-500'>¿Tienes una cuenta?</p>
+          <p className='text-yellow500'>¿Tienes una cuenta?</p>
           <button
             type='button'
             onClick={() => router.push('/AUTH/login')}
@@ -224,6 +227,12 @@ const Form_Register: React.FC = () => {
           >
             Inicia sesión
           </button>
+        </div>
+        <div className='flex justify-center'>
+            <Link href={'/Home'}>
+             <HomeButton />
+            </Link>
+       
         </div>
       </form>
     </div>

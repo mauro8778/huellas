@@ -64,19 +64,19 @@ const Search: React.FC = () => {
   };
 
   return (
-    <div className="hidden lg:flex flex-col items-center">
+    <div className="hidden lg:flex flex-col items-center  ">
       <form onSubmit={handleSearch} className="flex w-full mb-4">
         <input
           type="text"
           value={searchTerm}
           onChange={(event) => setSearchTerm(event.target.value)}
           placeholder="Buscar..."
-          className="flex-grow px-2 text-gray-700 focus:outline-none rounded-l-lg"
+          className="flex-grow px-2 text-gray-700 focus:outline-none rounded-l-2xl  "
         />
 
         <button
           type="submit"
-          className="flex items-center justify-center px-4 text-white bg-gray-700 rounded-r-lg focus:outline-none"
+          className="flex items-center justify-center px-4 text-white bg-gray-700 rounded-r-2xl focus:outline-none"
         >
 
           <RiSearchLine className="w-5 h-5" />

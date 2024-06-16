@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Image from 'next/image';
 import Link from 'next/link';
-import ToggleShelter from './ToggleShelter';
+import ToggleActiveShelter from './ToggleActive';
 
 const defaultAvatarUrl = '/shelter.webp';
 
@@ -14,16 +14,18 @@ interface Shelter {
   location: string;
   image?: string;
   description: string;
+  isActive: boolean; // Nueva propiedad para indicar si el refugio está activo o pendiente
 }
 
-const SheltersAll: React.FC = () => {
+const PendingShelters: React.FC = () => {
   const [shelters, setShelters] = useState<Shelter[]>([]);
 
   useEffect(() => {
     const fetchShelters = async () => {
       try {
         const response = await axios.get<Shelter[]>('https://huellasdesperanza.onrender.com/shelters');
-        setShelters(response.data);
+        const pendingShelters = response.data.filter(shelter => !shelter.isActive); // Filtrar refugios pendientes
+        setShelters(pendingShelters);
       } catch (error) {
         console.error('Error fetching shelters:', error);
       }
@@ -36,9 +38,9 @@ const SheltersAll: React.FC = () => {
     <div className="max-w-2xl mx-auto">
       <div className="p-4 max-w-xl bg-white rounded-xl border shadow-xl h-[390px] overflow-y-auto custom-scrollbar sm:p-8 dark:bg-gray-800 dark:border-gray-700">
         <div className="flex justify-between items-center mb-4">
-          <h3 className="text-xl font-bold leading-none text-gray-600 dark:text-white">Refugios</h3>
+          <h3 className="text-xl font-bold leading-none text-gray-600 dark:text-white">Refugios Postulados</h3>
           <Link href="#" className="text-sm font-medium text-blue-600 hover:underline dark:text-blue-500">
-            Ver todos
+            View all
           </Link>
         </div>
         <div className="flow-root">
@@ -64,7 +66,7 @@ const SheltersAll: React.FC = () => {
                       {shelter.description}
                     </p>
                   </div>
-                  <ToggleShelter shelterId={shelter.id}/>
+                  <ToggleActiveShelter shelterId={shelter.id} />
                 </div>
               </li>
             ))}
@@ -75,4 +77,4 @@ const SheltersAll: React.FC = () => {
   );
 };
 
-export default SheltersAll;
+export default PendingShelters;

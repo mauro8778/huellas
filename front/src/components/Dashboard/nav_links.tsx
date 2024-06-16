@@ -26,7 +26,7 @@ const adminLinks = [
   { name: "Configuración", href: "/dashboard/settings", icon: MdSettings },
 ];
 
-const NavLinks = ({ isAdmin }: { isAdmin: boolean }) => {
+const NavLinks: React.FC<{ isAdmin: boolean }> = ({ isAdmin }) => {
   const pathname = usePathname();
   const links = isAdmin ? adminLinks : userLinks;
 

@@ -5,6 +5,8 @@ import Button from '@/components/ui/button';
 import Input from '@/components/ui/input';
 import { IErrorProps, ILogingProps } from '@/types';
 import Swal from "sweetalert2";
+import ButtonGoogle from '@/components/ui/ButtonGoogle';
+import ButtonFacebook from '@/components/ui/ButtonFacebook';
 
 const Form_Login: React.FC = () => {
   const router = useRouter();
@@ -125,7 +127,7 @@ const Form_Login: React.FC = () => {
     <div className='w-full max-w-md'>
       <div className='mb-5'>
         <h2 className='text-2xl font-semibold'>Bienvenido, ingresa!</h2>
-        <p className='text-gray-500 text-sm'>
+        <p className='text-yellow500 text-sm'>
           Por favor, ingresa tu mail y contraseña para entrar en la aplicación
         </p>
       </div>
@@ -163,22 +165,22 @@ const Form_Login: React.FC = () => {
           <button
             type='button'
             onClick={() => router.push('/AUTH/forgot_password')}
-            className='text-gray-500 hover:text-primary transition-colors duration-300'
+            className='text-yellow500 hover:text-indigo-500 transition-colors duration-300'
           >
             ¿Olvidaste tu contraseña?
           </button>
         </div>
         <Button type='submit' label='Ingresar' />
         <div className='mt-5 mb-10 flex flex-col items-center justify-center gap-y-2'>
-          <Button type='button' label='Ingresar con Google' onClick={handleGoogleLogin} />
-          <Button type='button' label='Ingresar con Facebook' onClick={handleFacebookLogin} />
+          <ButtonGoogle type='button' label='Ingresar con Google' onClick={handleGoogleLogin} className={''} />
+          <ButtonFacebook type='button' label='Ingresar con Facebook' onClick={handleFacebookLogin} className={''} />
         </div>
         <div className='mt-5 mb-10 flex items-center justify-center gap-x-2'>
-          <p className='text-gray-500'>¿No tienes una cuenta?</p>
+          <p className='text-yellow500'>¿No tienes una cuenta?</p>
           <button
             type='button'
             onClick={() => router.push('/option_register')}
-            className='font-semibold hover:text-primary transition-colors duration-300'
+            className='font-semibold hover:text-indigo-500 transition-colors duration-300'
           >
             Regístrate
           </button>

@@ -14,7 +14,7 @@ const Button: FC<ButtonProps> = ({ type, label, className }) => {
   return (
     <button
       type={type}
-      className={`w-full bg-pink-600 text-white py-3 px-4 rounded-xl border-2 border-transparent hover:bg-transparent hover:border-pink-600 hover:text-pink-600 transition-colors duration-300 ${className}`}
+      className={`w-full bg-lime500 text-white py-3 px-4 rounded-xl border-2 border-lime500 hover:bg-transparent hover:border-lime500 hover:text-gray-900 transition-colors duration-300 ${className} shadow-xl `}
     >
       {label}
     </button>

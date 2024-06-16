@@ -1,13 +1,23 @@
-// lib/auth.ts
-export function checkUserRole(): 'admin' | 'user' | null {
+import { decodeJwt } from '@/utils/decodeJwt';
+
+export function checkUserRole(): 'admin' | 'user' {
     const session = localStorage.getItem('userSession');
     if (session) {
-      const { id_token } = JSON.parse(session);
-      if (id_token) {
-        const decodedToken = JSON.parse(id_token); // Asumimos que decodeJwt ya lo hace esto
-        return decodedToken.role;
-      }
+        try {
+            const { id_token } = JSON.parse(session);
+            if (id_token) {
+                const decodedToken = decodeJwt(id_token);
+                if (decodedToken) {
+                    const roles = decodedToken['https://huellasdesperanza.com/roles'];
+                    if (roles && roles.includes('Admin')) {
+                        return 'admin';
+                    }
+                }
+            }
+        } catch (error) {
+            console.error('Error decoding or processing token:', error);
+        }
     }
-    return null;
-  }
-  
+
+    return 'user'; // Return 'user' by default or in case of errors
+}

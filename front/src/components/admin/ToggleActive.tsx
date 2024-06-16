@@ -1,38 +1,40 @@
-//*Componente para reutilizar ...
-
-"use client"; 
+'use client';
 
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const Toggle: React.FC = () => {
-  const [isChecked, setIsChecked] = useState<boolean>(false);
+interface ToggleShelterProps {
+  shelterId: string;
+}
+
+const ToggleActiveShelter: React.FC<ToggleShelterProps> = ({ shelterId }) => {
+  const [isActive, setIsActive] = useState<boolean>(false);
 
   useEffect(() => {
-   
     const fetchInitialState = async () => {
       try {
-        const response = await axios.get('/api/CAMBIAME/NO TE OLVIDES'); // URL PARA CAMBIAR
-        setIsChecked(response.data.isChecked);
+        const url = `https://huellasdesperanza.onrender.com/shelters/${shelterId}`;
+        const response = await axios.get(url);
+        setIsActive(response.data.isActive);
       } catch (error) {
-        console.error('Error fetching initial state:', error);
+        console.error('Error al obtener el estado inicial:', error);
       }
     };
 
     fetchInitialState();
-  }, []);
+  }, [shelterId]);
 
   const handleToggleChange = async () => {
-    setIsChecked(!isChecked);
+    const newActiveState = !isActive;
+    setIsActive(newActiveState);
 
     try {
-      await axios.post('/api/toggle', {
-        isChecked: !isChecked,
-      });
+      const url = `https://huellasdesperanza.onrender.com/shelters/active/${shelterId}`;
+      const response = await axios.post(url, { isActive: newActiveState });
+      console.log('Estado del refugio actualizado:', response.data);
     } catch (error) {
-      console.error('Error updating toggle state:', error);
-      
-      setIsChecked(isChecked);
+      console.error('Error al actualizar el estado del refugio:', error);
+      setIsActive(!newActiveState);  // Revertir el cambio si hay un error
     }
   };
 
@@ -41,7 +43,7 @@ const Toggle: React.FC = () => {
       <label className="inline-flex items-center mb-5 cursor-pointer">
         <input
           type="checkbox"
-          checked={isChecked}
+          checked={isActive}
           onChange={handleToggleChange}
           className="sr-only peer"
         />
@@ -52,4 +54,4 @@ const Toggle: React.FC = () => {
   );
 };
 
-export default Toggle;
+export default ToggleActiveShelter;

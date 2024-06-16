@@ -1,38 +1,45 @@
-//*Componente para reutilizar ...
-
-"use client"; 
+'use client';
 
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const Toggle: React.FC = () => {
+interface ToggleShelterProps {
+  shelterId: string;
+}
+
+const ToggleShelter: React.FC<ToggleShelterProps> = ({ shelterId }) => {
   const [isChecked, setIsChecked] = useState<boolean>(false);
 
   useEffect(() => {
-   
     const fetchInitialState = async () => {
       try {
-        const response = await axios.get('/api/CAMBIAME/NO TE OLVIDES'); // URL PARA CAMBIAR
+        const url = `https://huellasdesperanza.onrender.com/shelters/admin/${shelterId}`;
+        console.log('URL de petición GET (para obtener estado):', url);
+        const response = await axios.get(url); 
+        console.log('Estado inicial obtenido:', response.data);
         setIsChecked(response.data.isChecked);
       } catch (error) {
-        console.error('Error fetching initial state:', error);
+        console.error('Error al obtener el estado inicial:', error);
       }
     };
 
     fetchInitialState();
-  }, []);
+  }, [shelterId]);
 
   const handleToggleChange = async () => {
-    setIsChecked(!isChecked);
+    const newCheckedState = !isChecked;
+    setIsChecked(newCheckedState);
 
     try {
-      await axios.post('/api/toggle', {
-        isChecked: !isChecked,
+      const url = `https://huellasdesperanza.onrender.com/shelters/admin/${shelterId}`;
+      console.log('URL de petición PUT (para actualizar estado):', url);
+      const response = await axios.put(url, { // Usamos PUT para actualizar el estado
+        isChecked: newCheckedState,
       });
+      console.log('Estado del toggle actualizado:', response.data);
     } catch (error) {
-      console.error('Error updating toggle state:', error);
-      
-      setIsChecked(isChecked);
+      console.error('Error al actualizar el estado del toggle:', error);
+      setIsChecked(!newCheckedState);  // Revertir el cambio si hay un error
     }
   };
 
@@ -52,4 +59,4 @@ const Toggle: React.FC = () => {
   );
 };
 
-export default Toggle;
+export default ToggleShelter;

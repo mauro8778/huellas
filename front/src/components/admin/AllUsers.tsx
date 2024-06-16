@@ -1,17 +1,17 @@
-'use client';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Image from 'next/image';
 import Link from 'next/link';
-import Toggle from '@/components/ui/Toggle';
+import ToggleUser from './ToggleUser';
 
 const defaultAvatarUrl = '/avatar.webp';
 
 interface User {
+  id: string,
   name: string;
   email: string;
   image?: string;
-  role: string;
+  role: string; 
 }
 
 const AllUsers: React.FC = () => {
@@ -39,10 +39,10 @@ const AllUsers: React.FC = () => {
             View all
           </Link>
         </div>
-        <div className="flow-root  ">
-          <ul role="list" className="divide-y divide-gray-200 dark:divide-gray-700 ml-4 cursor-pointer  ">
+        <div className="flow-root">
+          <ul role="list" className="divide-y divide-gray-200 dark:divide-gray-700 ml-4 cursor-pointer">
             {users.map((user) => (
-              <li key={user.email} className="py-2 sm:py-3 ">
+              <li key={user.email} className="py-2 sm:py-3">
                 <div className="flex items-center space-x-4">
                   <div className="flex-shrink-0">
                     {user.image ? (
@@ -59,10 +59,10 @@ const AllUsers: React.FC = () => {
                       {user.email}
                     </p>
                     <p className="text-sm text-gray-500 truncate dark:text-gray-400">
-                      {user.role}
+                       {user.role }
                     </p>
                   </div>
-                  <Toggle />
+                  <ToggleUser userId={user.id}/>
                 </div>
               </li>
             ))}

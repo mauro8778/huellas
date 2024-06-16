@@ -22,7 +22,8 @@ const HiddenNavBar: React.FC<HiddenNavBarProps> = ({ children }) => {
     '/dashboard/adopted',
     '/AUTH/login',
     '/option_register',
-    '/AUTH/shelter_register'
+    '/AUTH/shelter_register',
+    '/AUTH/new_password'
 
 ];
   const isHidden = hiddenPaths.includes(pathname);

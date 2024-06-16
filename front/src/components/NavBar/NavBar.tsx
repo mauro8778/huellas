@@ -10,7 +10,7 @@ import { JwtPayload } from "@/types";
 import { RiLoginCircleLine } from "react-icons/ri";
 import { BiSolidDonateHeart } from "react-icons/bi";
 import DesplegableUser from "./desplegable";
-import { saira } from "@/fonts/fonts";
+
 
 const Navbar: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -45,7 +45,8 @@ const Navbar: React.FC = () => {
   };
 
   return (
-    <header className="bg-primary   h-36 flex items-center justify-between px-4 border-4 rounded-xl  ">
+    <header className="bg-gradient-to-bl from-purple-600 via-blue-500 to-blue-600   
+     h-36 flex items-center justify-between px-4 border-4 rounded-xl  ">
       <Logo />
       
       <NavMenu />
