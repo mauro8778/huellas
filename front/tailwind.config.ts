@@ -13,6 +13,7 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        // para el degrade:  bg-gradient-to-bl from-purple-600 via-indigo-600 to-indigo-500 
         indigo500: "#6366f1",
         violeta: "#A763F1",
         red500: "#e83c88",
@@ -20,7 +21,7 @@ const config: Config = {
         orange500: "#d17533",
         yellow500: "#af8f2c",
         lime500: "#88a147",
-
+        
 
         // primary: '#41d3be',
         // secondary: '#8AFF70',
