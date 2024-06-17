@@ -14,15 +14,15 @@ export class SearchRepository {
         private readonly petsRepository: Repository<PetsEntity>,
     ) { }
 
-    async searchGeneral1(exotic_animals, location, shelter_name, breed, pet_size, age) {
+    async searchGeneral1(exotic_animals, address, shelter_name, breed, pet_size, age) {
 
         const sconditions: any = { isActive: true };
 
         if (exotic_animals) {
             sconditions.exotic_animals = exotic_animals;
         }
-        if (location) {
-            sconditions.location = location;
+        if (address) {
+            sconditions.address = address;
         }
         if (shelter_name) {
             sconditions.shelter_name = shelter_name;
