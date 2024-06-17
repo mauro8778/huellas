@@ -105,4 +105,13 @@ export class CreateShelterDto {
         example: "colocar url de la imagen"
     })
     rate?: number
+
+    @IsOptional()
+    lat?: number;
+
+    @IsOptional()
+    lon?: number;
+
+    @IsOptional()
+    display_name?: string;
 }
