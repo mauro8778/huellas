@@ -266,7 +266,7 @@ export class UserRepository implements OnModuleInit {
     }
   }
 
-  async getLocation(userId: string){
+  async getLocation( userId : string ){
 
     const user= await this.usersRepository.findOne({where:{id:userId}})
     if(!user){
