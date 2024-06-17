@@ -18,7 +18,7 @@ export const Adopta=() => {
         const queryParams = new URLSearchParams();
         const response = await fetch(`https://huellasdesperanza.onrender.com/search/pets?${queryParams.toString()}`);
         if (!response.ok) {
-          throw new Error('Error al obtener los datos de las mascotas');
+          throw new Error('Error al obtener los datos de las mascotas!');
         }
         const data: IMascotas[] = await response.json();
         setMascotasState(data);
