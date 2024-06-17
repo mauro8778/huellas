@@ -18,7 +18,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
       // Simular un retardo de 2 segundos
       setTimeout(() => {
         setLoading(false);
-      }, 10000);
+      }, 0);
     };
 
     simulateLoading();
@@ -30,7 +30,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         <SkeletonSideNav />
         <div className="flex-1 p-4 bg-gray-100 overflow-y-auto">
           {/* Aquí podrías agregar otros elementos del layout skeleton si es necesario */}
-        <DashboardMainSkeleton />
+        <DashboardMainSkeleton isAdmin={false} />
         </div>
       </div>
     );
