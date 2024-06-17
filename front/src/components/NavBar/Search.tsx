@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { RiSearchLine } from "react-icons/ri";
 import axios from "axios";
-import Modal from "@/app/modal_search/page"; 
+import Modal from "@/components/modal_search/modal_search"; 
 import Image from "next/image";
 import LoadingSpinner from "@/components/LoadingSniper/LoadingSniper"; 
 import { MdOutlinePets } from "react-icons/md";
