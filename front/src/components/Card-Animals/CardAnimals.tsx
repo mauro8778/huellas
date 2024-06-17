@@ -32,13 +32,14 @@ const CardAnimals: React.FC<{ mascota: IMascotas, updateMascota: (mascota: IMasc
     setIsEditing(false);
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setEditedMascota(prevState => ({
       ...prevState,
       [name]: value
     }));
   };
+  
 
   const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = e.target;
