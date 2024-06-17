@@ -117,6 +117,10 @@ export class PetsRepository {
     async addPetImg(id: string, imgUrl) {
         const pet: PetsEntity = await this.petsRepository.findOne({where: {id}});
 
+        if(pet.listImg === null) {
+            pet.listImg = []
+        }
+
         if (!pet) {
             throw new BadRequestException("Mascota no encontrada")
         };

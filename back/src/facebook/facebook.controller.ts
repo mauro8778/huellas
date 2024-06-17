@@ -3,10 +3,6 @@ import { Response } from 'express';
 import { FacebookService } from './facebook.service';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
-
-
-
-
 @ApiTags("Facebook")
 @Controller()
 export class FacebookController {
