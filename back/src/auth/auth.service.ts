@@ -23,8 +23,8 @@ export class AuthService {
     @InjectRepository(ShelterEntity)
     private shelterRepository: Repository<ShelterEntity>,
     private readonly mailService: MailService,
-    private readonly mapsservice:MapsService
-  ) {}
+    private readonly mapsservice: MapsService
+  ) { }
 
   async RegisterUser(
     email: string,
@@ -40,8 +40,20 @@ export class AuthService {
       );
     }
 
-    await this.mailService.registerUserMail(email, metadata.name, password);
-    return this.Register(email, password, metadata, accessToken, 'user');
+
+
+    const register = this.Register(email, password, metadata, accessToken, 'user');
+
+    if (register) {
+
+      await this.mailService.registerUserMail(email, metadata.name, password);
+
+    }
+
+
+    return register
+
+
   }
 
   async RegisterShelter(
@@ -72,7 +84,7 @@ export class AuthService {
     const existingShelter = await this.shelterRepository.findOne({
       where: {
         shelter_name: metadata.shelter_name,
-       
+
       },
     });
 
@@ -81,11 +93,7 @@ export class AuthService {
         'A shelter with the same name already exists in this zone.',
       );
     }
-    await this.mailService.registershelterMail(
-      email,
-      metadata.shelter_name,
-      password,
-    );
+
     try {
       const geocodeData = await this.mapsservice.geocodeShelterAddress(metadata.address);
 
@@ -97,15 +105,25 @@ export class AuthService {
       metadata.lon = parseFloat(geocodeData.lon);
       metadata.display_name = geocodeData.display_name;
 
-      return this.Register(email, password, metadata, accessToken, 'shelter');
+      const register = this.Register(email, password, metadata, accessToken, 'shelter');
+
+      if (register) {
+
+        await this.mailService.registershelterMail(
+          email,
+          metadata.shelter_name,
+          password,
+        );
+
+      }
 
     } catch (error) {
       console.error('Error geocoding address:', error);
       throw new NotFoundException('Invalid address: Address could not be geocoded');
     }
-  
+
   }
-  
+
 
   async Register(
     email: string,
