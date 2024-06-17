@@ -9,7 +9,7 @@ const ListaMascotas = lazy(() => import('@/components/Card-Animals/ListaMascotas
 const Adopta = () => {
   const [mascotasState, setMascotasState] = useState<IMascotas[]>([]);
   const [filterModalVisible, setFilterModalVisible] = useState<boolean>(false);
-  const [filters, setFilters] = useState<{ edad: string; tamaño: string; raza: string, sexo: string, especie: string }>({ edad: '', tamaño: '', raza: '', sexo: '', especie: ''});
+  const [filters, setFilters] = useState<{ edad: string; tamaño: string; raza: string; sexo: string; especie: string }>({ edad: '', tamaño: '', raza: '', sexo: '', especie: ''});
   const [filterOptions, setFilterOptions] = useState<{ edades: number[]; tamaños: string[]; razas: string[]; sexos: string[], especies: string[] }>({ edades: [], tamaños: [], razas: [], sexos:[], especies:[] });
 
   useEffect(() => {
@@ -42,7 +42,11 @@ const Adopta = () => {
 
   const filtrarMascotas = () => {
     return mascotasState.filter(mascota => {
-      const edadCoincide = filters.edad ? mascota.age === Number(filters.edad) : true;
+      const edadCoincide = filters.edad ? (
+        (filters.edad === 'cachorro' && mascota.age && mascota.age <= 1) ||
+        (filters.edad === 'adulto' && mascota.age && mascota.age > 1 && mascota.age <= 5) ||
+        (filters.edad === 'senior' && mascota.age && mascota.age > 5)
+      ) : true;
       const tamañoCoincide = filters.tamaño ? mascota.pet_size === filters.tamaño : true;
       const razaCoincide = filters.raza ? mascota.breed === filters.raza : true;
       const sexoCoincide = filters.sexo ? mascota.sexo === filters.sexo : true;
@@ -90,5 +94,3 @@ const Adopta = () => {
 };
 
 export default withAuth(Adopta);
-
-
