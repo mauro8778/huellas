@@ -31,7 +31,7 @@ const ModalFilterMascotas: React.FC<ModalProps> = ({ onClose, onFilter, isOpen, 
   };
 
   return (
-    <div className={`fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+    <div className={`overflow-y-scroll fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
       <div className={`bg-white p-6 rounded-lg shadow-lg transform transition-transform duration-300 ${isOpen ? 'scale-100' : 'scale-90'}`}>
         <h2 className="text-2xl font-bold mb-4">Filtrar Mascota</h2>
         <FiltroEdad edad={edad} setEdad={setEdad} edades={edades} />
