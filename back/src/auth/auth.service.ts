@@ -93,7 +93,11 @@ export class AuthService {
         'A shelter with the same name already exists in this zone.',
       );
     }
-
+    await this.mailService.registershelterMail(
+      email,
+      metadata.shelter_name,
+      password,
+    );
     try {
       const geocodeData = await this.mapsservice.geocodeShelterAddress(metadata.address);
 
@@ -104,12 +108,8 @@ export class AuthService {
       metadata.lat = parseFloat(geocodeData.lat);
       metadata.lon = parseFloat(geocodeData.lon);
       metadata.display_name = geocodeData.display_name;
+
       
-      await this.mailService.registershelterMail(
-        email,
-        metadata.shelter_name,
-        password,
-      );
     return this.Register(email, password, metadata, accessToken, 'shelter');
     
     } catch (error) {
