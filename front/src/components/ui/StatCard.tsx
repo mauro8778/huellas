@@ -1,5 +1,4 @@
 import { Card, Metric, Text } from '@tremor/react';
-import { Donut } from './DonutChart';
 
 
 export function StatCard() {

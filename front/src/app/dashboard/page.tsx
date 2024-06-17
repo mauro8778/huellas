@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { checkUserRole } from '@/libs/auth';
 import SimulateLogin from '../SIMULATE_LOGIN/page';
 import DashboardMain from '@/components/Dashboard/DashboardMain';
+import withAuth from '@/HOC/withAuth';
 
 export const DashboardPage: React.FC = () => {
   const [isAdmin, setIsAdmin] = useState(false);
@@ -24,4 +25,4 @@ export const DashboardPage: React.FC = () => {
   );
 };
 
-export default DashboardPage;
+export default withAuth(DashboardPage);

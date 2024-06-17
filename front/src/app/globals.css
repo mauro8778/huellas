@@ -38,3 +38,19 @@ body {
   background-color: #F3F4F6;
 }
 
+/* animation skeleton */
+@keyframes pulse {
+  100% {
+    background-color: #e0e0e0;
+  }
+  50% {
+    background-color: #f0f0f0;
+  }
+  0% {
+    background-color: #e0e0e0;
+  }
+}
+
+.skeleton {
+  animation: pulse 1.3s infinite linear;
+}

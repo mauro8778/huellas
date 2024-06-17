@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+// src/components/SideNav.tsx
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import NavLinks from './nav_links';
 import { FaPowerOff } from 'react-icons/fa';
@@ -6,6 +7,7 @@ import ImageLogo from '@/components/ui/imageLogo';
 import Image from 'next/image';
 import { decodeJwt } from '@/utils/decodeJwt';
 import { JwtPayload } from '@/types/index';
+import withAuth from '@/HOC/withAuth';
 
 const SideNav: React.FC<{ isAdmin: boolean }> = ({ isAdmin }) => {
   const [userData, setUserData] = useState<Partial<JwtPayload> | null>(null);
@@ -23,7 +25,7 @@ const SideNav: React.FC<{ isAdmin: boolean }> = ({ isAdmin }) => {
             nickname: decodedToken.nickname,
             picture: decodedToken.picture,
             email: decodedToken.email,
-            role: decodedToken['https://huellasdesperanza.com/roles']?.[0],  // Asumiendo que el token incluye el rol
+            role: decodedToken['https://huellasdesperanza.com/roles']?.[0],
           });
           setIsLoggedIn(true);
         }
@@ -95,4 +97,4 @@ const SideNav: React.FC<{ isAdmin: boolean }> = ({ isAdmin }) => {
   );
 }
 
-export default SideNav;
+export default withAuth(SideNav);

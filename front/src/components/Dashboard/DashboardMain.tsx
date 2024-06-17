@@ -12,7 +12,7 @@ const DashboardMain: React.FC<{ isAdmin: boolean }> = ({ isAdmin }) => {
   const totalDonations = 1000; // Ejemplo de valor
 
   return (
-    <div className="flex-1 p-6 bg-red-100">
+    <div className="flex-1 p-6 ">
       <h1 className="text-2xl font-bold mb-4">Bienvenido Admin</h1>
       {isAdmin ? (
         <div>
