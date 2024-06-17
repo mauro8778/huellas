@@ -1,7 +1,7 @@
 const DeleteMascota: React.FC<{ mascotaId?: string, onDelete: (mascotaId: string) => void }> = ({ mascotaId, onDelete }) => {
     const handleDeleteClick = async () => {
       if (mascotaId) { 
-        if (window.confirm("¿Estás seguro de que quieres eliminar esta mascota?")) {
+        if (window.confirm("¿estás seguro de que quieres eliminar esta mascota?")) {
           try {
             const response = await fetch(
               `https://huellasdesperanza.onrender.com/pets/delete/${mascotaId}`,
@@ -11,7 +11,7 @@ const DeleteMascota: React.FC<{ mascotaId?: string, onDelete: (mascotaId: string
             );
   
             if (response.ok) {
-              console.log("Mascota eliminada exitosamente");
+              console.log("Mascota eliminada exitosamente!!");
               alert("Mascota eliminada exitosamente");
               onDelete(mascotaId); 
             } else {

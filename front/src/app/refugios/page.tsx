@@ -6,8 +6,9 @@ import { IRefugios } from '@/interface/IRefugios';
 import ModalFilter from '@/components/Refugios/FiltroRefugio/ModalFilterRefugios';
 import { IMascotas } from '@/interface/IMascotas';
 import ModalFormularioMascota from '@/components/Refugios/AñadirMascota/ModalPostMascotas';
+import withAuth from '@/HOC/WithAuth';
 
-const Page = () => {
+const Refugio = () => {
   const [refugios, setRefugios] = useState<IRefugios[]>([]);
   const [filterModalVisible, setFilterModalVisible] = useState(false);
   const [addMascotaModalVisible, setAddMascotaModalVisible] = useState(false);
@@ -103,4 +104,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default withAuth(Refugio);

@@ -2,9 +2,11 @@
 import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { IMascotas } from '@/interface/IMascotas';
 import ModalFilterMascotas from '@/components/Card-Animals/FiltroMascotas/ModalFilterMascotas';
+import withAuth from '@/HOC/WithAuth';
+
 const ListaMascotas = lazy(() => import('@/components/Card-Animals/ListaMascotas'));
 
-export default function Adopta() {
+export const Adopta=() => {
   const [mascotasState, setMascotasState] = useState<IMascotas[]>([]);
   const [filterModalVisible, setFilterModalVisible] = useState<boolean>(false);
   const [filters, setFilters] = useState<{ edad: string; tamaño: string; raza: string }>({ edad: '', tamaño: '', raza: '' });
@@ -16,7 +18,7 @@ export default function Adopta() {
         const queryParams = new URLSearchParams();
         const response = await fetch(`https://huellasdesperanza.onrender.com/search/pets?${queryParams.toString()}`);
         if (!response.ok) {
-          throw new Error('Error al obtener los datos de las mascotas');
+          throw new Error('Error al obtener los datos de las mascotas!');
         }
         const data: IMascotas[] = await response.json();
         setMascotasState(data);
@@ -80,3 +82,4 @@ export default function Adopta() {
     </main>
   );
 }
+export default withAuth(Adopta);

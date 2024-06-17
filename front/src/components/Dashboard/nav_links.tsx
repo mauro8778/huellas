@@ -1,12 +1,13 @@
-"use client";
+// src/components/NavLinks.tsx
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
-import { FaHome } from "react-icons/fa";
-import { MdOutlinePets, MdDashboardCustomize } from "react-icons/md";
+import { FaChartBar, FaHome, FaUsers } from "react-icons/fa";
+import { MdOutlinePets, MdDashboardCustomize, MdSettings } from "react-icons/md";
 import { BiSolidDonateHeart } from "react-icons/bi";
+import withAuth from "@/HOC/withAuth";
 
-const links = [
+const userLinks = [
   { name: "Home", href: "/Home", icon: FaHome },
   { name: "Dashboard", href: "/dashboard", icon: MdDashboardCustomize },
   { name: "Donaciones", href: "/dashboard/donations", icon: BiSolidDonateHeart },
@@ -14,10 +15,21 @@ const links = [
   { name: "Favoritos", href: "/dashboard/favorites", icon: MdOutlinePets },
 ];
 
-export default function NavLinks() {
+const adminLinks = [
+  { name: "Home", href: "/Home", icon: FaHome },
+  { name: "Dashboard", href: "/dashboard", icon: MdDashboardCustomize },
+  { name: "Usuarios", href: "/dashboard/all_users", icon: FaUsers },
+  { name: "Refugios", href: "/dashboard/shelters", icon: MdOutlinePets },
+  { name: "Reportes", href: "/dashboard/reports", icon: FaChartBar },
+  { name: "Configuración", href: "/dashboard/settings", icon: MdSettings },
+];
+
+const NavLinks: React.FC<{ isAdmin: boolean }> = ({ isAdmin }) => {
   const pathname = usePathname();
+  const links = isAdmin ? adminLinks : userLinks;
+
   return (
-    <>
+    <div className="flex flex-col gap-2">
       {links.map((link) => {
         const LinkIcon = link.icon;
         return (
@@ -36,6 +48,8 @@ export default function NavLinks() {
           </Link>
         );
       })}
-    </>
+    </div>
   );
-}
+};
+
+export default NavLinks;

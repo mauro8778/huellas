@@ -1,8 +1,8 @@
 import { Controller, Post, Body, Get, Param, NotFoundException, Put, ParseUUIDPipe } from '@nestjs/common';
 import { MapsService } from './maps.service';
-import { UserService } from 'src/users/user.service';
+import { ApiTags } from '@nestjs/swagger';
 
-
+@ApiTags('maps')
 @Controller('maps')
 export class MapsController {
   constructor(private readonly mapsService: MapsService,
@@ -10,7 +10,7 @@ export class MapsController {
   ) {}
 
   @Post('geocode')
-  async geocodeAddress(@Body() addressData: { address: string }) {
+  async geocodeAddress(@Body('address') addressData: { address: string }) {
     console.log('Recibida solicitud para geocodificar dirección:', addressData.address);
 
     try {
@@ -38,5 +38,7 @@ export class MapsController {
       throw new NotFoundException(error.message);
     }
   }
+
+}
 
 

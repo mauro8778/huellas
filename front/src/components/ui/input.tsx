@@ -49,11 +49,11 @@ const Input: FC<InputProps> = ({
   };
 
   return (
-    <div className="w-full relative mb-5">
+    <div className="w-full relative mb-5  ">
       <input
         type={type === 'password' && showPassword ? 'text' : type}
         className={cn(
-          'bg-gray-100 w-full py-3 pl-4 pr-12 outline-none rounded-xl border-2',
+          'bg-gray-50 w-full py-3 pl-4 pr-12 outline-none rounded-xl border-2 border-lime500 shadow-xl',
           className,
           
         )}

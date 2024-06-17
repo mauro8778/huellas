@@ -1,13 +1,9 @@
-import { Body, Controller, Delete, Get, Param, ParseUUIDPipe, Post, Put, Query, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, ParseUUIDPipe, Post, Put, Req, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UpdateUserDto } from 'src/dto/updateUser.dto';
 import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from 'src/guards/auth.guard';
 import { Auth0Guard } from 'src/guards/auth0.guard';
-import { RoleGuard } from 'src/guards/role.guard';
-import { Roles } from 'src/decorators/role.decorator';
-import { Role } from './user.enum';
-import { get } from 'http';
 
 @ApiTags("Users")
 @Controller('users')
@@ -15,9 +11,7 @@ export class UserController {
     constructor(private readonly usersService : UserService){}
 
 
-    @Roles(Role.Shelter, Role.Admin)
-
-    @UseGuards(AuthGuard, RoleGuard)
+ 
     @Get()
     getUsers(){
         return this.usersService.getUsers()
@@ -26,6 +20,11 @@ export class UserController {
     @Get('favorite')
     getFavorites(){
         return this.usersService.getFavorites()
+    }
+    @Get('location/:id')
+    getLocation(@Param('id',ParseUUIDPipe) userId: string){
+        
+        return this.usersService.getLocation(userId)
     }
     
     @Get(':id')
@@ -106,8 +105,5 @@ export class UserController {
         return this.usersService.adminUsers(id,accessToken)
     }
 
-    @Get('location/:id')
-    getLocation(@Param('id',ParseUUIDPipe)userId:string){
-        return this.usersService.getLocation(userId)
-    }
+   
 }

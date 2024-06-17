@@ -59,9 +59,7 @@ const CardAnimals: React.FC<{ mascota: IMascotas, updateMascota: (mascota: IMasc
       });
       
       if (response.ok) {
-
         console.log('Mascota actualizada exitosamente!');
-
         alert('Mascota actualizada exitosamente');
         setIsEditing(false);
         updateMascota(editedMascota);

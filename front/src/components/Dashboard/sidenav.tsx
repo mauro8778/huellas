@@ -1,6 +1,5 @@
-'use client';
-
-import { useEffect, useState } from 'react';
+// src/components/SideNav.tsx
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import NavLinks from './nav_links';
 import { FaPowerOff } from 'react-icons/fa';
@@ -9,10 +8,10 @@ import Image from 'next/image';
 import { decodeJwt } from '@/utils/decodeJwt';
 import { JwtPayload } from '@/types/index';
 
-const SideNav: React.FC = () => {
+
+const SideNav: React.FC<{ isAdmin: boolean }> = ({ isAdmin }) => {
   const [userData, setUserData] = useState<Partial<JwtPayload> | null>(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isGoogleAuthenticated, setIsGoogleAuthenticated] = useState(false);
 
   useEffect(() => {
     const session = localStorage.getItem('userSession');
@@ -26,30 +25,27 @@ const SideNav: React.FC = () => {
             nickname: decodedToken.nickname,
             picture: decodedToken.picture,
             email: decodedToken.email,
+            role: decodedToken['https://huellasdesperanza.com/roles']?.[0],
           });
           setIsLoggedIn(true);
-          setIsGoogleAuthenticated(true);
         }
       }
     } else {
       setIsLoggedIn(false);
-      setIsGoogleAuthenticated(false);
     }
   }, []);
 
   const handleSignOut = () => {
     localStorage.removeItem('userSession');
-    localStorage.removeItem('donations');
     localStorage.removeItem('token');
     setIsLoggedIn(false);
     setUserData(null);
-    setIsGoogleAuthenticated(false);
-    window.location.href = '/Home'; // Pruevo con este metodo
+    window.location.href = '/Home';
   };
 
   return (
     <div className="flex h-full flex-col px-3 w-64 py-4 md:px-2 m-0 p-0">
-      <Link className="mb-2 flex h-20 items-end justify-start rounded-md bg-primary p-4 md:h-40" href="/Home">
+      <Link className="mb-2 flex h-20 items-end justify-start rounded-md bg-indigo-500 p-4 md:h-40" href="/Home">
         <div className="w-32 text-white md:w-40">
           <ImageLogo />
         </div>
@@ -71,6 +67,7 @@ const SideNav: React.FC = () => {
                 <>
                   {userData.nickname && <p className="text-gray-800 text-xl">{userData.nickname}</p>}
                   {userData.name && <p className="text-gray-800 text-base">{userData.name}</p>}
+                  {userData.role && <p className="text-gray-800 text-base">{userData.role}</p>}
                 </>
               )}
             </div>
@@ -83,7 +80,7 @@ const SideNav: React.FC = () => {
         )}
       </div>
       <div className="flex grow flex-row justify-between space-x-2 md:flex-col md:space-x-0 md:space-y-2">
-        <NavLinks />
+        <NavLinks isAdmin={isAdmin} />
         <div className="hidden h-auto w-full grow rounded-md bg-gray-200 md:block"></div>
         <form className="w-full">
           <button

@@ -1,7 +1,10 @@
-import { Column, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 import { v4 as uuid } from "uuid"
 
 
+@Entity({
+    name: 'promotion'
+})
 export class PromotionsEntity {
 
     @PrimaryGeneratedColumn('uuid')

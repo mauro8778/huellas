@@ -2,6 +2,7 @@ import React from "react";
 import Image from "next/image";
 import RandomRefugiosCards from "@/components/Refugios/RandomRefugiosCards";
 import RandomAnimalCards from "@/components/Card-Animals/RandomAnimalsCards";
+// import SimulateLogin from "../SIMULATE_LOGIN/page";
 
 export const Home: React.FC = () => {
   return (
@@ -20,8 +21,10 @@ export const Home: React.FC = () => {
       
 
       <div className="relative z-0 mt-10 ml-10">
+        {/* <SimulateLogin/> */}
         <RandomAnimalCards/>
         <RandomRefugiosCards/>
+
       </div>
       
     </div>

@@ -1,5 +1,4 @@
 
-
 import React, { useState } from "react";
 import { RiSearchLine } from "react-icons/ri";
 import axios from "axios";
@@ -27,7 +26,6 @@ interface SearchResult {
 
 const Search: React.FC = () => {
 
-
   const [searchTerm, setSearchTerm] = useState("");
   const [results, setResults] = useState<SearchResult[]>([]);
   const [loading, setLoading] = useState(false);
@@ -38,7 +36,6 @@ const Search: React.FC = () => {
   const handleSearch = async (event: React.FormEvent) => {
     event.preventDefault();
     setLoading(true);
-
 
     setError("");
     setResults([]);
@@ -56,6 +53,7 @@ const Search: React.FC = () => {
     } catch (error) {
       console.error("Error realizando la búsqueda:", error);
       setError("Error realizando la búsqueda");
+
     } finally {
       setLoading(false);
     }
@@ -66,28 +64,25 @@ const Search: React.FC = () => {
   };
 
   return (
-    <div className="hidden lg:flex flex-col items-center">
+    <div className="hidden lg:flex flex-col items-center  ">
       <form onSubmit={handleSearch} className="flex w-full mb-4">
         <input
           type="text"
           value={searchTerm}
           onChange={(event) => setSearchTerm(event.target.value)}
           placeholder="Buscar..."
-          className="flex-grow px-2 text-gray-700 focus:outline-none rounded-l-lg"
+          className="flex-grow px-2 text-gray-700 focus:outline-none rounded-l-2xl  "
         />
-
 
         <button
           type="submit"
-          className="flex items-center justify-center px-4 text-white bg-gray-700 rounded-r-lg focus:outline-none"
+          className="flex items-center justify-center px-4 text-white bg-gray-700 rounded-r-2xl focus:outline-none"
         >
-
 
           <RiSearchLine className="w-5 h-5" />
         </button>
       </form>
       <div className="w-full">
-
 
         {error && <p className="text-red-500">{error}</p>}
       </div>
@@ -101,7 +96,7 @@ const Search: React.FC = () => {
             {results.map((result) => (
               <div
                 key={result.id}
-                className=" flex flex-col backdrop-filter backdrop-blur bg-opacity-20 bg-quaternary p-4 rounded-lg shadow-lg flex-shrink-0 w-64"
+                className=" flex flex-col backdrop-filter backdrop-blur bg-opacity-20 bg-gray-100 p-4 rounded-lg shadow-lg flex-shrink-0 w-64"
               >
                 <Image
                   src={result.imgUrl}
@@ -117,13 +112,11 @@ const Search: React.FC = () => {
             ))}
           </div>
 
-
         ) : (<div>
          
           <p className="flex items-center justify-center text-gray-700 font-bold text-2xl ">No se encontraron resultados. <span className="text-3xl ml-2" > <MdOutlinePets /> </span> </p>
         </div>
           
-
 
         )}
       </Modal>
