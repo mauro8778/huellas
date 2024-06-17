@@ -1,12 +1,12 @@
 import React from 'react';
 
-interface FiltroRazaProps {
+interface FiltroSexoProps {
   sexo: string;
   setSexo: (sexo: string) => void;
   sexos: string[];
 }
 
-const FiltroSexo: React.FC<FiltroRazaProps> = ({ sexo, setSexo, sexos }) => (
+const FiltroSexo: React.FC<FiltroSexoProps> = ({ sexo, setSexo, sexos }) => (
   <div className="mb-4">
     <label className="block text-sm font-medium text-gray-700 mb-2">Sexo</label>
     <select
