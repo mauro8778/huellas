@@ -17,13 +17,13 @@ export class SerchService {
         return this.petsRepository.filterPets(breed, pet_size, age,sexo);
     };
 
-    filterShelters(exotic_animals?: string, location?: string,zona?:string) {
-        return this.sheltersRepository.filterShelters(exotic_animals, location,zona);
+    filterShelters(exotic_animals?: string, address?: string) {
+        return this.sheltersRepository.filterShelters(exotic_animals, address);
     };
 
 
-    searchGeneral1(exotic_animals?, location?, shelter_name?, breed?, pet_size?, age?) {
-        return this.searchRepository.searchGeneral1(exotic_animals, location, shelter_name, breed, pet_size, age);
+    searchGeneral1(exotic_animals?, address?, shelter_name?, breed?, pet_size?, age?) {
+        return this.searchRepository.searchGeneral1(exotic_animals, address, shelter_name, breed, pet_size, age);
     };
 
     searchGeneral(query: string) {
