@@ -11,7 +11,6 @@ import { Server, Socket } from 'socket.io';
 import { ChatService } from './chat.service';
 import { OnModuleInit } from '@nestjs/common';
 
-
 @WebSocketGateway({
   cors: {
     origin: '*',
@@ -27,7 +26,7 @@ export class ChatGateway implements OnModuleInit {
   onModuleInit() {
     this.server.on('connection', (socket: Socket) => {
 
-      const {name, token} = socket.handshake.auth
+      const { name, token } = socket.handshake.auth
       
       if (!name) {
         socket.disconnect()
@@ -35,46 +34,49 @@ export class ChatGateway implements OnModuleInit {
       }
       console.log('Cliente conectado: ', name, token);
       
+      this.chatService.onClientConnected({ id: socket.id, name: name });
 
-      this.chatService.onClientConnected({id: socket.id, name: name});
-
-
-      // socket.emit('welcome-message', 'Bienvenido al servidor')
+      socket.emit('welcome-message', 'Bienvenido al servidor')
 
       this.server.emit('on-clients-changed', this.chatService.getClients() );
 
-      
       socket.on('disconnect', () => {
-      
-      this.chatService.onClientDisconnected(socket.id);
-
-      this.server.emit('on-clients-changed', this.chatService.getClients() );
-
-      
-      })
-    })
+        this.chatService.onClientDisconnected(socket.id);
+        this.server.emit('on-clients-changed', this.chatService.getClients() );
+      });
+    });
   }
 
   @SubscribeMessage('send-message')
-  handleMenssage( 
+  handleMessage(
     @MessageBody() message: string,
-    @ConnectedSocket() client: Socket){
+    @ConnectedSocket() client: Socket
+  ) {
+    const { name } = client.handshake.auth;
+    console.log(name, message);
+    
+    if (!message) {
+      return;
+    }
 
-      const {name, token} = client.handshake.auth
-      console.log(name, message);
-      
-      if (!message) {
-        return;
-      }
-
-      this.server.emit('on-message',{
-        userId: client.id,
-        message: message,
-        name: name
-      })
+    this.server.emit('on-message', {
+      userId: client.id,
+      message: message,
+      name: name
+    });
   }
 
-  // handleDisconnect(client: Socket) {
-  //   console.log('Cliente desconectado:', client.id);
-  // }
+  @SubscribeMessage('send-private-message')
+  async handleSendPrivateMessage(
+    @MessageBody() data: { senderId: string; receiverId: string; content: string },
+    @ConnectedSocket() client: Socket
+  ) {
+    try {
+      // const message = await this.chatService.sendMessage(data.senderId, data.receiverId, data.content);
+      client.emit('private-message-sent', data);
+      this.server.to(data.receiverId).emit('private-message-received', data);
+    } catch (error) {
+      console.error('Error sending private message:', error.message);
+    }
+  }
 }

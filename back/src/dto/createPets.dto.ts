@@ -87,6 +87,10 @@ export class CreatePetsDto{
 
     @IsOptional()
     @IsString()
+    @ApiProperty({
+        description: "especie de la mascota",
+        example: "perro o gato"
+    })
     species: string
 
     

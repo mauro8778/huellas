@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger"
-import { IsBoolean, IsEmail, IsEmpty, IsInt, IsNotEmpty, IsNumber, IsOptional, IsString, Length, Matches, isNotEmpty } from "class-validator"
+import { IsBoolean, IsEmail, IsEmpty, IsInt, IsNotEmpty, IsNumber, IsOptional, IsString, Length, Matches, Max, Min, isNotEmpty } from "class-validator"
 
 
 export class CreateShelterDto {
@@ -69,6 +69,9 @@ export class CreateShelterDto {
 
     @IsNotEmpty()
     @IsString()
+    @ApiProperty({
+        example: "Av.Victorica 660, Moreno"
+    })
     address: string;
 
     @IsNotEmpty()
@@ -94,6 +97,12 @@ export class CreateShelterDto {
     @IsEmpty()
     isActive: boolean
 
-    @IsEmpty()
-    rate: number
+    @IsOptional()
+    @IsInt()
+    @Min(1, { message: 'El valor mínimo de Rate permitido es 1' })
+    @Max(5, { message: 'El valor máximo de Rate permitido es 5' })
+    @ApiProperty({
+        example: "colocar url de la imagen"
+    })
+    rate?: number
 }
