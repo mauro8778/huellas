@@ -25,6 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
   
     // Función para renderizar un mensaje en el chat general
     const renderMessage = (payload) => {
+
       const { userId, message, name } = payload;
       const divElement = document.createElement('div');
       divElement.classList.add('message');
@@ -38,10 +39,12 @@ document.addEventListener('DOMContentLoaded', () => {
         <p>${message}</p>`;
       chatElements.appendChild(divElement);
       chatElements.scrollTop = chatElements.scrollHeight;
+
     };
   
     // Función para renderizar un mensaje en el chat privado
     const renderPrivateMessage = (payload) => {
+
       const { senderId, content } = payload;
       const divElement = document.createElement('div');
       divElement.classList.add('message');
@@ -58,15 +61,19 @@ document.addEventListener('DOMContentLoaded', () => {
     };
   
     socket.on('connect', () => {
+
       onlineStatus.classList.remove('hidden');
       offlineStatus.classList.add('hidden');
       console.log('Conectado');
+
     });
   
     socket.on('disconnect', () => {
+
       onlineStatus.classList.add('hidden');
       offlineStatus.classList.remove('hidden');
       console.log('Desconectado');
+
     });
   
     socket.on('welcome-message', (data) => {
@@ -74,6 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   
     socket.on('on-clients-changed', (data) => {
+      
       userList.innerHTML = '';
       data.forEach((user) => {
         const liElement = document.createElement('li');
@@ -86,6 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
     socket.on('on-message', renderMessage);
   
     messageForm.addEventListener('submit', (event) => {
+
       event.preventDefault();
       const message = messageInput.value.trim(); // Trim para evitar enviar mensajes vacíos
       if (message === '') return;
@@ -98,6 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
     socket.on('private-message-received', renderPrivateMessage);
   
     privateMessageForm.addEventListener('submit', (event) => {
+      
       event.preventDefault();
       const recipientId = recipientIdInput.value.trim();
       const content = privateMessageInput.value.trim(); // Trim para evitar enviar mensajes vacíos

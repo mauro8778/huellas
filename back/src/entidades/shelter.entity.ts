@@ -5,6 +5,7 @@ import { AdoptionEntity } from './adoption.entity';
 import { PetsEntity } from './pets.entity';
 import { OrderDetailsEntity } from './orderDetail.entity';
 import { UserEntity } from './users.entity';
+import { Message } from './message.entity';
 
 @Entity({
   name: 'shelter',
@@ -44,7 +45,10 @@ export class ShelterEntity {
   })
   shelter_name: string;
 
-   @Column()
+   @Column({
+    type: 'varchar',
+    nullable: false,
+  })
   address: string;
 
   @Column({ nullable: true, type: 'float' }) 
@@ -102,5 +106,11 @@ export class ShelterEntity {
 
   @ManyToMany(() => OrderDetailsEntity, (orderdetail) => orderdetail.shelters)
   orderDetail: OrderDetailsEntity[]
+
+  @OneToMany(() => Message, (message) => message.shelterSender)
+  sentMessages: Message[];
+
+  @OneToMany(() => Message, (message) => message.shelterReceiver)
+  receivedMessages: Message[];
 
 }

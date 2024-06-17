@@ -13,7 +13,7 @@ const dbConfig: DataSourceOptions = {
   migrations: ['dist/migrations/*{.ts,.js}'],
   logging: true,
   synchronize: false,
-  dropSchema:false,
+  dropSchema: false,
 
 };
 
