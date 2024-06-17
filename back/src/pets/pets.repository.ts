@@ -115,21 +115,23 @@ export class PetsRepository {
 
 
     async addPetImg(id: string, imgUrl) {
-        const pet: PetsEntity = await this.petsRepository.findOne({where: {id}})
+        const pet: PetsEntity = await this.petsRepository.findOne({where: {id}});
 
         if (!pet) {
             throw new BadRequestException("Mascota no encontrada")
-        }
+        };
 
         const arrayImg = await Promise.all( imgUrl.map((img) => {
             return img
-        }))
+        }));
 
-        pet.listImg = arrayImg
+        await Promise.all(arrayImg.map(async (img) => {
+            pet.listImg.push(img)
+            await this.petsRepository.save(pet)
+        }));
 
-        await this.petsRepository.save(pet)
 
-        return pet
+        return pet;
 }
 
 async deletePetImg(id: string, imgUrl: string): Promise<PetsEntity> {

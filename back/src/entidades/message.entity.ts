@@ -1,17 +1,30 @@
-import { text } from "stream/consumers";
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, ManyToOne } from 'typeorm';
+import { UserEntity } from './users.entity';
+import {v4 as uuid} from "uuid"
+import { ShelterEntity } from './shelter.entity';
 
-@Entity({
-    name: 'message'
-})
 
-export class MessageEntity {
-    @PrimaryGeneratedColumn('uuid')
-    id : string
+@Entity('messages')
+export class Message {
+  @PrimaryGeneratedColumn('uuid')
+  id: string = uuid()
 
-    @Column({type: 'text'})
-    content : string
+  @ManyToOne(() => UserEntity, user => user.sentMessages, { eager: true })
+  sender: UserEntity;
 
-    @Column()
-    createdAt : Date
+  @ManyToOne(() => UserEntity, user => user.receivedMessages, { nullable: true, eager: true })
+  receiver: UserEntity;
+
+  @ManyToOne(() => ShelterEntity, (shelter) => shelter.sentMessages, { eager: true })
+  shelterSender: ShelterEntity;
+
+  @ManyToOne(() => ShelterEntity, (shelter) => shelter.receivedMessages, { nullable: true, eager: true })
+  shelterReceiver: ShelterEntity;
+
+  @Column()
+  content: string;
+
+  @CreateDateColumn()
+  timestamp: Date;
+
 }

@@ -9,7 +9,7 @@ import {v4 as uuid} from "uuid"
 export class CarritoPendienteEntity {
 
     @PrimaryGeneratedColumn("uuid")
-    id: string
+    id: string = uuid()
 
     @Column({
         nullable: false
