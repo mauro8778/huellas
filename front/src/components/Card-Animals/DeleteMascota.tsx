@@ -11,7 +11,7 @@ const DeleteMascota: React.FC<{ mascotaId?: string, onDelete: (mascotaId: string
             );
   
             if (response.ok) {
-              console.log("Mascota eliminada exitosamente");
+              console.log("Mascota eliminada exitosamente!!");
               alert("Mascota eliminada exitosamente");
               onDelete(mascotaId); 
             } else {
