@@ -48,7 +48,7 @@ export class PetsController {
         return this.petsService.updatedPet(id, dataPet);
     }
 
-    @Post('/addImg/:id')
+    @Post('addImg/:id')
     addPetImg(@Param('id', ParseUUIDPipe) id: string, @Body() imgUrl: ImgDto[]) {
 
         return this.petsService.addPetImg(id, imgUrl);
