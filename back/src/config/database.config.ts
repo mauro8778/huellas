@@ -11,9 +11,9 @@ const dbConfig: DataSourceOptions = {
   password: DB_PASSWORD,
   entities: ['dist/**/*.entity{.ts,.js}'],
   migrations: ['dist/migrations/*{.ts,.js}'],
-  logging: false,
+  logging: true,
   synchronize: false,
-  dropSchema:false,
+  dropSchema: false,
 
 };
 

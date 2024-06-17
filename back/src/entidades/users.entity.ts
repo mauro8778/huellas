@@ -5,6 +5,7 @@ import { OrdersEntity } from './orders.entity';
 import { ShelterEntity } from './shelter.entity';
 import { PetsEntity } from './pets.entity';
 import { CarritoPendienteEntity } from './carrito.entity';
+import { Message } from './message.entity';
 
 @Entity({
   name: 'users',
@@ -80,4 +81,10 @@ export class UserEntity {
   @OneToMany(() => CarritoPendienteEntity, (carrito) => carrito.user)
   @JoinColumn()
   carrito: CarritoPendienteEntity[];
+
+  @OneToMany(() => Message, message => message.sender)
+  sentMessages: Message[];
+
+  @OneToMany(() => Message, message => message.receiver)
+  receivedMessages: Message[];
 }
