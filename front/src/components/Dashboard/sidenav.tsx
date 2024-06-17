@@ -7,7 +7,7 @@ import ImageLogo from '@/components/ui/imageLogo';
 import Image from 'next/image';
 import { decodeJwt } from '@/utils/decodeJwt';
 import { JwtPayload } from '@/types/index';
-import withAuth from '@/HOC/withAuth';
+
 
 const SideNav: React.FC<{ isAdmin: boolean }> = ({ isAdmin }) => {
   const [userData, setUserData] = useState<Partial<JwtPayload> | null>(null);
@@ -97,4 +97,4 @@ const SideNav: React.FC<{ isAdmin: boolean }> = ({ isAdmin }) => {
   );
 }
 
-export default withAuth(SideNav);
+export default SideNav;

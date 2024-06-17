@@ -2,9 +2,11 @@
 import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { IMascotas } from '@/interface/IMascotas';
 import ModalFilterMascotas from '@/components/Card-Animals/FiltroMascotas/ModalFilterMascotas';
+import withAuth from '@/HOC/WithAuth';
+
 const ListaMascotas = lazy(() => import('@/components/Card-Animals/ListaMascotas'));
 
-export default function Adopta() {
+export const Adopta=() => {
   const [mascotasState, setMascotasState] = useState<IMascotas[]>([]);
   const [filterModalVisible, setFilterModalVisible] = useState<boolean>(false);
   const [filters, setFilters] = useState<{ edad: string; tamaño: string; raza: string }>({ edad: '', tamaño: '', raza: '' });
@@ -80,3 +82,4 @@ export default function Adopta() {
     </main>
   );
 }
+export default withAuth(Adopta);
