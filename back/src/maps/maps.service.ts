@@ -25,7 +25,9 @@ export class MapsService {
           limit: 1,
         },
         headers: {
-          'User-Agent': 'HuellasApp/1.0 (contacto@huellasapp.com)', 
+
+          'User-Agent': 'HuellasApp/1.0(conhkhtacto@huellasapp.com)', 
+
         },
       });
       if (response.status !== 200) {

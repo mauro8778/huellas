@@ -104,19 +104,14 @@ export class AuthService {
       metadata.lat = parseFloat(geocodeData.lat);
       metadata.lon = parseFloat(geocodeData.lon);
       metadata.display_name = geocodeData.display_name;
-
-      const register = this.Register(email, password, metadata, accessToken, 'shelter');
-
-      if (register) {
-
-        await this.mailService.registershelterMail(
-          email,
-          metadata.shelter_name,
-          password,
-        );
-
-      }
-
+      
+      await this.mailService.registershelterMail(
+        email,
+        metadata.shelter_name,
+        password,
+      );
+    return this.Register(email, password, metadata, accessToken, 'shelter');
+    
     } catch (error) {
       console.error('Error geocoding address:', error);
       throw new NotFoundException('Invalid address: Address could not be geocoded');
