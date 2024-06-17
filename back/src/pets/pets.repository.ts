@@ -125,9 +125,11 @@ export class PetsRepository {
             return img
         }))
 
-        pet.listImg = arrayImg
+        await Promise.all(arrayImg.map(async (img) => {
+            pet.listImg.push(img)
+            await this.petsRepository.save(pet)
+        }))
 
-        await this.petsRepository.save(pet)
 
         return pet
 }
