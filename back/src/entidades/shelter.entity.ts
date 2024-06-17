@@ -52,13 +52,13 @@ export class ShelterEntity {
   address: string;
 
   @Column({ nullable: true, type: 'float' }) 
-  lat: number;
+  lat?: number;
 
   @Column({ nullable: true, type: 'float' })
-  lon: number;
+  lon?: number;
 
   @Column({ nullable: true })
-  display_name: string;
+  display_name?: string;
   
 
   @Column({
@@ -77,7 +77,7 @@ export class ShelterEntity {
     nullable: true,
     default: false,
   })
-  exotic_animals: boolean;
+  exotic_animals?: boolean;
 
   @Column({
     nullable: true,
@@ -89,7 +89,7 @@ export class ShelterEntity {
     nullable: true,
     type: "decimal"
   })
-  rate: number;
+  rate?: number;
 
 
 
