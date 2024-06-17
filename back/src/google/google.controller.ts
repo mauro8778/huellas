@@ -1,7 +1,9 @@
 import { Controller, Get, Query, Res } from '@nestjs/common';
 import { Response } from 'express';
 import { GoogleService } from './google.service';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('google')
 @Controller()
 export class GoogleController {
   constructor(private readonly googleService: GoogleService) {}

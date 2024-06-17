@@ -20,7 +20,7 @@ export class UserRepository implements OnModuleInit {
     @InjectRepository(PetsEntity)
     private readonly petsRepository: Repository<PetsEntity>,
     private readonly mailService: MailService,
-  private readonly mapsservice: MapsService) { }
+    private readonly mapsservice: MapsService) { }
   async onModuleInit() {
     this.scheduleEmails();
   }
@@ -37,10 +37,12 @@ export class UserRepository implements OnModuleInit {
   }
 
   async getOrders(userId: string) {
-    const User: UserEntity[] = await this.usersRepository.find({where: {id: userId},
-    relations: {
-      orders: true
-    }})
+    const User: UserEntity[] = await this.usersRepository.find({
+      where: { id: userId },
+      relations: {
+        orders: true
+      }
+    })
     if (!User) {
       throw new NotFoundException('Se necesita estar iniciado sesión para historial de donaciones')
     }
@@ -99,6 +101,7 @@ export class UserRepository implements OnModuleInit {
   }
   async scheduleEmails() {
     cron.schedule('0 0 1 */3 *', async () => {
+      //cron.schedule('*/1 * * * *', async () => {
       const users = await this.usersRepository.find();
       const subject = '¡Castraciones gratuitas en Huellas de Esperanza!';
       const text = '¡Te traemos una promoción especial! Huellas de Esperanza ofrece castraciones gratuitas para tu mascota. La próxima jornada se realizará pronto en nuestro refugio. ¡Visita nuestra página para obtener más información!';
@@ -266,33 +269,33 @@ export class UserRepository implements OnModuleInit {
     }
   }
 
-  async getLocation( userId : string ){
+  async getLocation(userId: string) {
 
-    const user= await this.usersRepository.findOne({where:{id:userId}})
-    if(!user){
+    const user = await this.usersRepository.findOne({ where: { id: userId } })
+    if (!user) {
       throw new NotFoundException('usuario no encontrado')
     }
-      const location = user.location
+    const location = user.location
 
-      const geocode= await this.mapsservice.geocodeShelterAddress(location)
+    const geocode = await this.mapsservice.geocodeShelterAddress(location)
 
-      if (!geocode || !geocode.lat || !geocode.lon || !geocode.display_name) {
-        throw new Error('Datos de geocodificación no válidos');
+    if (!geocode || !geocode.lat || !geocode.lon || !geocode.display_name) {
+      throw new Error('Datos de geocodificación no válidos');
+    }
+
+    const shelters = await this.sheltersRepository.find()
+
+    const userLocation = { lat: geocode.lat, lon: geocode.lon, display_name: geocode.display_name }
+
+    const shelterLocation = shelters.map(shelter => ({
+      lat: shelter.lat,
+      lon: shelter.lon,
+      name: shelter.display_name
+    }))
+
+    console.log(shelterLocation)
+
+    return { userLocation, shelterLocation }
   }
-
-  const shelters= await this.sheltersRepository.find()
-  
-  const userLocation = {lat:geocode.lat, lon:geocode.lon, display_name: geocode.display_name}
-
-  const shelterLocation = shelters.map(shelter=>({
-    lat: shelter.lat,
-    lon: shelter.lon,
-    name: shelter.display_name
-  }))
-
-  console.log(shelterLocation)
-
-  return {userLocation,shelterLocation}
-}
 
 }

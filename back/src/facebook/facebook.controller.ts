@@ -1,7 +1,13 @@
 import { Controller, Get, Query, Res } from '@nestjs/common';
 import { Response } from 'express';
 import { FacebookService } from './facebook.service';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
+
+
+
+
+@ApiTags("Facebook")
 @Controller()
 export class FacebookController {
   constructor(private readonly facebookService: FacebookService) {}
