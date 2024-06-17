@@ -40,8 +40,15 @@ export class AuthService {
       );
     }
 
+   
+
+    const register= this.Register(email, password, metadata, accessToken, 'user');
+
     await this.mailService.registerUserMail(email, metadata.name, password);
-    return this.Register(email, password, metadata, accessToken, 'user');
+    
+    return register
+
+    
   }
 
   async RegisterShelter(
