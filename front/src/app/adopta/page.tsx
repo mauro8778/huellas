@@ -2,15 +2,15 @@
 import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { IMascotas } from '@/interface/IMascotas';
 import ModalFilterMascotas from '@/components/Card-Animals/FiltroMascotas/ModalFilterMascotas';
-import withAuth from '@/HOC/WithAuth';
+import withAuth from '@/HOC/withAuth';
 
 const ListaMascotas = lazy(() => import('@/components/Card-Animals/ListaMascotas'));
 
-export const Adopta=() => {
+const Adopta = () => {
   const [mascotasState, setMascotasState] = useState<IMascotas[]>([]);
   const [filterModalVisible, setFilterModalVisible] = useState<boolean>(false);
-  const [filters, setFilters] = useState<{ edad: string; tamaño: string; raza: string }>({ edad: '', tamaño: '', raza: '' });
-  const [filterOptions, setFilterOptions] = useState<{ edades: number[]; tamaños: string[]; razas: string[] }>({ edades: [], tamaños: [], razas: [] });
+  const [filters, setFilters] = useState<{ edad: string; tamaño: string; raza: string; sexo: string; especie: string }>({ edad: '', tamaño: '', raza: '', sexo: '', especie: ''});
+  const [filterOptions, setFilterOptions] = useState<{ edades: number[]; tamaños: string[]; razas: string[]; sexos: string[], especies: string[] }>({ edades: [], tamaños: [], razas: [], sexos:[], especies:[] });
 
   useEffect(() => {
     const fetchMascotas = async () => {
@@ -22,10 +22,12 @@ export const Adopta=() => {
         }
         const data: IMascotas[] = await response.json();
         setMascotasState(data);
-        const edades = Array.from(new Set(data.map(mascota => mascota.age || 0))); 
-        const tamaños = Array.from(new Set(data.map(mascota => mascota.pet_size || ''))); 
+        const edades = Array.from(new Set(data.map(mascota => mascota.age || 0)));
+        const tamaños = Array.from(new Set(data.map(mascota => mascota.pet_size || '')));
         const razas = Array.from(new Set(data.map(mascota => mascota.breed || '')));
-        setFilterOptions({ edades, tamaños, razas });
+        const sexos = Array.from(new Set(data.map(mascota => mascota.sexo || '')));
+        const especies = Array.from(new Set(data.map(mascota => mascota.species || '')));
+        setFilterOptions({ edades, tamaños, razas, sexos, especies });
       } catch (error) {
         console.error(error);
       }
@@ -33,17 +35,23 @@ export const Adopta=() => {
     fetchMascotas();
   }, []);
 
-  const handleFilter = (edad: string, tamaño: string, raza: string) => {
-    setFilters({ edad, tamaño, raza });
+  const handleFilter = (edad: string, tamaño: string, raza: string, sexo: string, especie: string) => {
+    setFilters({ edad, tamaño, raza, sexo, especie });
     setFilterModalVisible(false);
   };
 
   const filtrarMascotas = () => {
     return mascotasState.filter(mascota => {
-      const edadCoincide = filters.edad ? mascota.age === Number(filters.edad) : true;
-      const tamañoCoincide = filters.tamaño ? mascota.pet_size === filters.tamaño : true; 
-      const razaCoincide = filters.raza ? mascota.breed === filters.raza : true; 
-      return edadCoincide && tamañoCoincide && razaCoincide;
+      const edadCoincide = filters.edad ? (
+        (filters.edad === 'cachorro' && mascota.age && mascota.age <= 1) ||
+        (filters.edad === 'adulto' && mascota.age && mascota.age > 1 && mascota.age <= 5) ||
+        (filters.edad === 'senior' && mascota.age && mascota.age > 5)
+      ) : true;
+      const tamañoCoincide = filters.tamaño ? mascota.pet_size === filters.tamaño : true;
+      const razaCoincide = filters.raza ? mascota.breed === filters.raza : true;
+      const sexoCoincide = filters.sexo ? mascota.sexo === filters.sexo : true;
+      const especieCoincide = filters.especie ? mascota.species === filters.especie : true;
+      return edadCoincide && tamañoCoincide && razaCoincide && sexoCoincide && especieCoincide;
     });
   };
 
@@ -78,8 +86,11 @@ export const Adopta=() => {
         edades={filterOptions.edades}
         tamaños={filterOptions.tamaños}
         razas={filterOptions.razas}
+        sexos={filterOptions.sexos}
+        especies={filterOptions.especies}
       />
     </main>
   );
-}
+};
+
 export default withAuth(Adopta);
