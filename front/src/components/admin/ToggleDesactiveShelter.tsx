@@ -14,19 +14,21 @@ const ToggleDesactiveShelter: React.FC<ToggleDesactiveShelterProps> = ({ shelter
   const [isChecked, setIsChecked] = useState<boolean>(initialChecked);
 
   const handleToggleChange = async () => {
+    console.log(`Estado actual del refugio ${shelterId}: ${isChecked}`);
     setIsChecked(!isChecked);
 
     try {
-      await axios.post(`CREAR RUTA PARA DESACTIVAR`, {
+      await axios.post(`https://huellasdesperanza.onrender.com/shelters/${shelterId}`, {
         isActive: !isChecked,
       });
 
+      console.log(`Refugio ${shelterId} desactivado exitosamente`);
       Swal.fire('Refugio desactivado');
       onUpdate(); // Llamamos a la función onUpdate para notificar al componente padre que el refugio se activó o desactivó
     } catch (error) {
-      console.error('Error updating toggle state:', error);
+      console.error('Error al actualizar el estado del refugio:', error);
       Swal.fire('No se pudo desactivar el refugio');
-      setIsChecked(isChecked);
+      setIsChecked(isChecked); // Revertir el cambio si hay un error
     }
   };
 
