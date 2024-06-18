@@ -12,7 +12,7 @@ export class CarritoController {
 
     @ApiBearerAuth()
     @UseGuards(AuthGuard)
-    @Get('my')
+    @Get()
     getCarritoId(@Req() request){
 
         const userId = request.user['https://huellasdesperanza.com/userID'];
@@ -20,7 +20,7 @@ export class CarritoController {
         return this.carritoServices.getCarrito(userId)
     }
 
-    @Get()
+    @Get('orders')
     getCarritoShelter(){
         return this.carritoServices.getCarritoShelter()
     }
