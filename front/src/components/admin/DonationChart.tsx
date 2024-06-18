@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 // DonationChart.tsx
 import React, { useEffect, useState } from 'react';
 import { Bar } from 'react-chartjs-2';
@@ -22,7 +23,7 @@ const DonationChart: React.FC = () => {
 
   useEffect(() => {
     
-    axios.get('/api/donations') //<---- Aca tengo q hace la peticion get para todas las donaciones 
+    axios.get('https://huellasdesperanza.onrender.com/carrito/orders') //<---- Aca tengo q hace la peticion get para todas las donaciones 
       .then(response => {
         const data = response.data;
         const labels = data.map((donation: { refugio: any; }) => donation.refugio);

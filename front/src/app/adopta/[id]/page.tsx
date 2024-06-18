@@ -29,7 +29,11 @@ const DetailAnimals = ({ params }: { params: { id: string } }) => {
         return <div>Mascota no encontrada</div>;
     }
 
-    return <MascotaDetail {...mascota} petId={params.id} />;
+    return (
+        <div>
+            <MascotaDetail {...mascota} petId={params.id} />
+        </div>
+    );
 };
 
 export default DetailAnimals;
