@@ -1,4 +1,5 @@
 'use client';
+import { Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';  
 import { useState, useEffect } from 'react';
 import Logo from '@/components/ui/Logo';
@@ -143,4 +144,12 @@ const FormAdopt = () => {
   );
 };
 
-export default FormAdopt;
+const WrappedFormAdopt = () => {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <FormAdopt />
+    </Suspense>
+  );
+};
+
+export default WrappedFormAdopt;
