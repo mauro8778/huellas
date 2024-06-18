@@ -1,5 +1,5 @@
+
 import React, { useState, useRef, useEffect } from 'react';
-import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
 interface Shelter {
@@ -16,21 +16,7 @@ const ShelterGeolocation: React.FC<ShelterGeolocationProps> = ({ shelterId }) =>
   const [shelter, setShelter] = useState<Shelter | null>(null);
   const [error, setError] = useState<string | null>(null);
   const mapRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (shelter && mapRef.current) {
-      const map = L.map(mapRef.current).setView([shelter.lat, shelter.lon], 13);
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-      }).addTo(map);
-      L.marker([shelter.lat, shelter.lon]).addTo(map)
-        .bindPopup('Shelter Location').openPopup();
-      // Limpia el mapa cuando el componente se desmonta
-      return () => {
-        map.remove();
-      };
-    }
-  }, [shelter]);
+  const mapInstance = useRef<any>(null);
 
   useEffect(() => {
     const fetchShelter = async () => {
@@ -63,16 +49,38 @@ const ShelterGeolocation: React.FC<ShelterGeolocationProps> = ({ shelterId }) =>
     fetchShelter();
   }, [shelterId]);
 
+  useEffect(() => {
+    if (typeof window !== 'undefined' && shelter && mapRef.current) {
+      const L = require('leaflet');
+      if (!mapInstance.current) {
+        mapInstance.current = L.map(mapRef.current).setView([shelter.lat, shelter.lon], 13);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(mapInstance.current);
+        L.marker([shelter.lat, shelter.lon]).addTo(mapInstance.current)
+          .bindPopup('Shelter Location').openPopup();
+      } else {
+        mapInstance.current.setView([shelter.lat, shelter.lon], 13);
+      }
+    }
+
+    return () => {
+      if (mapInstance.current) {
+        mapInstance.current.remove();
+        mapInstance.current = null;
+      }
+    };
+  }, [shelter]);
+
   return (
     <div>
-      <div id="response">
+      <div id="response" className='mt-10'>
         {error && <p>Error: {error}</p>}
         {shelter && (
           <>
-            <h2>Shelter Location:</h2>
-            <p>Shelter Name: {shelter.display_name}</p>
-            <p>Latitude: {shelter.lat}</p>
-            <p>Longitude: {shelter.lon}</p>
+
+            {/* <p>{shelter.display_name}</p> */}
+
           </>
         )}
       </div>
@@ -82,3 +90,4 @@ const ShelterGeolocation: React.FC<ShelterGeolocationProps> = ({ shelterId }) =>
 };
 
 export default ShelterGeolocation;
+
