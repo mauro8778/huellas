@@ -1,33 +1,42 @@
-import { RefugioDetail } from "@/components/RefugioDetail/RefugioDetail";
-import { IRefugios } from "@/interface/IRefugios";
-import { getRefugioById } from "@/utils/refugios";
+'use client'
+import { useState, useEffect } from 'react';
+import { RefugioDetail } from '@/components/RefugioDetail/RefugioDetail';
+import { IRefugios } from '@/interface/IRefugios';
+import { getRefugioById } from '@/utils/refugios';
 
+const DetailRefugio = ({ params }: { params: { id: string } }) => {
+    const [refugio, setRefugio] = useState<IRefugios | null>(null);
+    const [error, setError] = useState<string | null>(null);
 
-const DetailRefugio = async ({ params }: { params: { id: string } }) => {
-    const refugio = await getRefugioById(params.id);
+    useEffect(() => {
+        const fetchRefugio = async () => {
+            try {
+                const data = await getRefugioById(params.id);
+                if (data) {
+                    setRefugio(data);
+                } else {
+                    setError('Refugio no encontrado');
+                }
+            } catch (error) {
+                setError('Error al obtener el refugio');
+                console.error('Error en fetchRefugio:', error);
+            }
+        };
 
-    if (!refugio) {
-        return <div>Refugio no encontrado</div>;
+        fetchRefugio();
+    }, [params.id]);
+
+    if (error) {
+        return <div>{error}</div>;
     }
 
-    const mascotaProps: IRefugios = {
-        id: refugio.id,
-        shelter_name: refugio.shelter_name,
-        name: refugio.name,
-        description: refugio.description,
-        imgUrl: refugio.imgUrl,
-        zona: refugio.zona,
-        location: refugio.location,
-        email: refugio.email,
-        phone: refugio.phone,
-        pets: refugio.pets,
+    if (!refugio) {
+        return <div>Cargando...</div>;
+    }
 
-        
-    };
-    
-
-    return <RefugioDetail {...mascotaProps} />;
-    
-}
+    return <RefugioDetail {...refugio} />;
+};
 
 export default DetailRefugio;
+
+   

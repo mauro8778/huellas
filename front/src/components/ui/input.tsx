@@ -10,6 +10,7 @@ interface InputProps {
   value?: string |  number ;
   isValid?: boolean | null;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  required?: boolean; 
 }
 
 const validateInput = (type: string, value: string): boolean => {

@@ -14,6 +14,7 @@ interface Shelter {
   location: string;
   image?: string;
   description: string;
+  isActive: boolean;
 }
 
 const SheltersAll: React.FC = () => {
@@ -23,7 +24,8 @@ const SheltersAll: React.FC = () => {
     const fetchShelters = async () => {
       try {
         const response = await axios.get<Shelter[]>('https://huellasdesperanza.onrender.com/shelters');
-        setShelters(response.data);
+        const activeShelters = response.data.filter(shelter => shelter.isActive);
+        setShelters(activeShelters);
       } catch (error) {
         console.error('Error fetching shelters:', error);
       }
