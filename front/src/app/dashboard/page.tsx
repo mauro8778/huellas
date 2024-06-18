@@ -34,7 +34,8 @@
 import { useEffect, useState } from 'react';
 import { checkUserRole } from '@/libs/auth';
 import DashboardMain from '@/components/Dashboard/DashboardMain';
-import withAuth from '@/HOC/WithAuth';
+import withAuth from '@/HOC/withAuth';
+
 
 const DashboardPage: React.FC = () => {
   const [role, setRole] = useState<'admin' | 'user' | 'shelter'>('user');
