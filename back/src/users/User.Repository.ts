@@ -101,8 +101,8 @@ export class UserRepository implements OnModuleInit {
     return this.usersRepository.save(activeUser);
   }
   async scheduleEmails() {
-    //cron.schedule('0 0 1 */3 *', async () => {
-      cron.schedule('*/1 * * * *', async () => {
+    cron.schedule('0 0 1 */3 *', async () => {
+      // cron.schedule('*/1 * * * *', async () => {
       const users = await this.usersRepository.find();
       const subject = '¡Castraciones gratuitas en Huellas de Esperanza!';
       const text = '¡Te traemos una promoción especial! Huellas de Esperanza ofrece castraciones gratuitas para tu mascota. La próxima jornada se realizará pronto en nuestro refugio. ¡Visita nuestra página para obtener más información!';

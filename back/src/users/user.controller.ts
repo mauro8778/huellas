@@ -27,6 +27,7 @@ export class UserController {
         return this.usersService.getLocation(userId)
     }
     
+    @ApiBearerAuth()
     @Get('favorite_users')
     @UseGuards(AuthGuard)
     async getUserProfile(@Req() request): Promise<any> {
