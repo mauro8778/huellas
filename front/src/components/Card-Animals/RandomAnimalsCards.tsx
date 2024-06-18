@@ -25,10 +25,19 @@ const RandomAnimalCards: React.FC = () => {
     console.log('Mascota actualizada:', mascota);
   };
 
+  const deleteMascota = (mascotaId: string) => {
+    console.log('Mascota eliminada con id:', mascotaId);
+  };
+
   return (
     <div className="grid grid-cols-1 gap-4 md:grid-cols-3 mt-5 mb-5">
       {randomMascotas.map((mascota, index) => (
-        <CardAnimals key={index} mascota={mascota} updateMascota={updateMascota} />
+        <CardAnimals 
+          key={index} 
+          mascota={mascota} 
+          updateMascota={updateMascota} 
+          deleteMascota={deleteMascota} 
+        />
       ))}
     </div>
   );
