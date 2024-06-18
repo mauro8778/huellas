@@ -1,6 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Message } from 'src/entidades/message.entity';
+import { ShelterEntity } from 'src/entidades/shelter.entity';
 import { UserEntity } from 'src/entidades/users.entity';
 import { Repository } from 'typeorm';
 
@@ -14,6 +15,7 @@ interface Client {
 export class ChatService {
     constructor(
         @InjectRepository(UserEntity) private readonly userRepository: Repository<UserEntity>,
+        @InjectRepository(UserEntity) private readonly shelterRepository: Repository<ShelterEntity>,
         @InjectRepository(Message) private readonly messageRepository: Repository<Message>,
       ) {}
     
@@ -34,20 +36,33 @@ export class ChatService {
 
     async sendMessage(senderId: string, receiverId: string, content: string): Promise<Message> {
         // Buscar el remitente por su ID
-        const sender = await this.userRepository.findOne({ where: { id: senderId } });
+        const userSender = await this.userRepository.findOne({ where: { id: senderId } })
+        const shelterSender = await this.shelterRepository.findOne({ where: { id: senderId } })
+
+        if (shelterSender && userSender) {
+          throw new NotFoundException('no se pudo encontrar el id del sender')
+        }
     
         // Buscar el receptor por su ID
-        const receiver = await this.userRepository.findOne({ where: { id: receiverId } });
+        const userReceiver = await this.userRepository.findOne({ where: { id: receiverId } });
+        const shelterReceiver = await this.shelterRepository.findOne({ where: { id: receiverId } });
+
     
         // Verificar si el remitente y el receptor existen
-        if (!sender || !receiver) {
-          throw new Error('Sender or receiver not found');
+        if (!shelterReceiver && !userReceiver ) {
+          throw new NotFoundException('Receiver not found');
+        }
+
+        if (!shelterSender && !userSender ) {
+          throw new NotFoundException('Sender not found');
         }
     
         // Crear un nuevo mensaje
         const message = new Message();
-        message.sender = sender;
-        message.receiver = receiver;
+        message.sender = userSender || null;
+        message.receiver = userReceiver|| null;
+        message.shelterSender = shelterSender|| null;
+        message.shelterReceiver = shelterReceiver|| null;
         message.content = content;
     
         // Guardar el mensaje en la base de datos
@@ -59,7 +74,9 @@ export class ChatService {
         return await this.messageRepository.find({
           where: [
             { sender: { id: userId } },
-            { receiver: { id: userId } }
+            { receiver: { id: userId }},
+            {shelterSender: {id: userId}},
+            {shelterReceiver: {id: userId}}
           ],
           order: { timestamp: 'ASC' },
         });
