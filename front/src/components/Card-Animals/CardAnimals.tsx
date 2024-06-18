@@ -10,7 +10,11 @@ const truncateDescription = (text: string, maxLength: number) => {
   return text.substr(0, maxLength) + '...';
 };
 
-const CardAnimals: React.FC<{ mascota: IMascotas, updateMascota: (mascota: IMascotas) => void }> = ({ mascota, updateMascota }) => {
+const CardAnimals: React.FC<{ 
+  mascota: IMascotas, 
+  updateMascota: (mascota: IMascotas) => void,
+  deleteMascota: (mascotaId: string) => void 
+}> = ({ mascota, updateMascota, deleteMascota }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedMascota, setEditedMascota] = useState<IMascotas>(mascota);
 
@@ -20,8 +24,8 @@ const CardAnimals: React.FC<{ mascota: IMascotas, updateMascota: (mascota: IMasc
     setEditedMascota(mascota);
   }, [mascota]);
 
-  const imgUrl = mascota.imgUrl!.startsWith('http://') || mascota.imgUrl!.startsWith('https://') 
-    ? mascota.imgUrl 
+  const imgUrl = mascota.imgUrl!.startsWith('http://') || mascota.imgUrl!.startsWith('https://')
+    ? mascota.imgUrl
     : `/${mascota.imgUrl}`;
 
   const handleEditClick = () => {
@@ -39,7 +43,6 @@ const CardAnimals: React.FC<{ mascota: IMascotas, updateMascota: (mascota: IMasc
       [name]: value
     }));
   };
-  
 
   const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -58,7 +61,7 @@ const CardAnimals: React.FC<{ mascota: IMascotas, updateMascota: (mascota: IMasc
         },
         body: JSON.stringify(editedMascota)
       });
-      
+
       if (response.ok) {
         console.log('Mascota actualizada exitosamente!');
         alert('Mascota actualizada exitosamente');
@@ -67,34 +70,31 @@ const CardAnimals: React.FC<{ mascota: IMascotas, updateMascota: (mascota: IMasc
       } else {
         console.error('Error al actualizar la mascota:', response.statusText);
       }
-      
     } catch (error) {
       console.error('Error al actualizar la mascota:', error);
     }
   };
 
-
   return (
-      <>
-        <div className="bg-transparent rounded-lg shadow-2xl p-4 m-2 md:m-4 max-w-xs mx-auto transform transition-transform duration-200 hover:scale-105 relative">
-          <div className="absolute  top-2 right-2 flex items-center ">
-            <button onClick={handleEditClick} className="group mr-2">
-                <svg 
-                    className=" h-6 w-6 text-gray-500 group-hover:bg-gray-400 rounded-full" 
-                    viewBox="0 0 24 24"  
-                    fill="none"  
-                    stroke="currentColor"  
-                    strokeWidth="2"  
-                    strokeLinecap="round"  
-                    strokeLinejoin="round">  
-                    <circle cx="12" cy="12" r="1" />  
-                    <circle cx="19" cy="12" r="1" />  
-                    <circle cx="5" cy="12" r="1" />
-                </svg>
-            </button>
-            <DeleteMascota mascotaId={mascota.id} onDelete={() => updateMascota(mascota)} />
+    <>
+      <div className="bg-transparent rounded-lg shadow-2xl p-4 m-2 md:m-4 max-w-xs mx-auto transform transition-transform duration-200 hover:scale-105 relative">
+        <div className="absolute  top-2 right-2 flex items-center ">
+          <button onClick={handleEditClick} className="group mr-2">
+            <svg 
+              className=" h-6 w-6 text-gray-500 group-hover:bg-gray-400 rounded-full" 
+              viewBox="0 0 24 24"  
+              fill="none"  
+              stroke="currentColor"  
+              strokeWidth="2"  
+              strokeLinecap="round"  
+              strokeLinejoin="round">
+              <circle cx="12" cy="12" r="1" />
+              <circle cx="19" cy="12" r="1" />
+              <circle cx="5" cy="12" r="1" />
+            </svg>
+          </button>
+          <DeleteMascota mascotaId={mascota.id} onDelete={deleteMascota} />
         </div>
-
 
         <Link href={`/adopta/${mascota.id}`}>
           <div className="flex justify-center mt-5">

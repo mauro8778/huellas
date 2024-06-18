@@ -35,10 +35,10 @@ const ModalFilterMascotas: React.FC<ModalProps> = ({ onClose, onFilter, isOpen, 
       <div className={`bg-white p-6 rounded-lg shadow-lg transform transition-transform duration-300 ${isOpen ? 'scale-100' : 'scale-90'}`}>
         <h2 className="text-2xl font-bold mb-4">Filtrar Mascota</h2>
         <FiltroEdad edad={edad} setEdad={setEdad} edades={edades} />
-        <FiltroRaza raza={raza} setRaza={setRaza} razas={razas} />
-        <FiltroTamaño tamaño={tamaño} setTamaño={setTamaño} tamaños={tamaños} />
-        <FiltroEspecie especie={especie} setEspecie={setEspecie} especies={especies} />
         <FiltroSexo sexo={sexo} setSexo={setSexo} sexos={sexos} />
+        <FiltroEspecie especie={especie} setEspecie={setEspecie} especies={especies} />
+        <FiltroTamaño tamaño={tamaño} setTamaño={setTamaño} tamaños={tamaños} />
+        <FiltroRaza raza={raza} setRaza={setRaza} razas={razas} />
         <div className="flex justify-end space-x-2">
           <button onClick={handleFilter} className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-600">Aplicar Filtro</button>
           <button onClick={onClose} className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">Cerrar</button>

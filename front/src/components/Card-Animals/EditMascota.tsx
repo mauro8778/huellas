@@ -53,9 +53,10 @@ const EditMascota: React.FC<Props> = ({
               onChange={handleSelectChange} 
               className="border border-gray-300 p-2 mb-2 rounded-lg w-full"
             >
-              <option value="small">Pequeño</option>
-              <option value="medium">Mediano</option>
-              <option value="large">Grande</option>
+              <option value="">Seleccione una opción</option>
+              <option value="Pequeño">Pequeño</option>
+              <option value="Mediano">Mediano</option>
+              <option value="Grande">Grande</option>
             </select>
           </div>
 
