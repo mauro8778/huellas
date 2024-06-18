@@ -51,7 +51,7 @@ export class UserRepository implements OnModuleInit {
   }
 
   async getUserById(id: string) {
-    const user = await this.usersRepository.find({ where: { id },
+    const user = await this.usersRepository.findOne({ where: { id },
       relations: ['favorite_pets', 'favorite_shelters', 'orders', 'pets'],})
     if (!user) {
       throw new NotFoundException('no se encontro el usuario')
