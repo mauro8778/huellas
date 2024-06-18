@@ -55,7 +55,7 @@ const FormularioMascota: React.FC<FormularioMascotaProps> = ({ onClose, onAddMas
           pet_size: tamaño,
           description: descripcion,
           imgUrl: imageUrl, 
-          specie: especie,
+          species: especie,
         };
 
         const mascotaResponse = await fetch('https://huellasdesperanza.onrender.com/pets', {
@@ -113,8 +113,8 @@ const FormularioMascota: React.FC<FormularioMascotaProps> = ({ onClose, onAddMas
           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         >
           <option value="">Seleccione una opción</option>
-          <option value="Macho">Perro</option>
-          <option value="Hembra">Gato</option>
+          <option value="Perro">Perro</option>
+          <option value="Gato">Gato</option>
         </select>
       </div>
 
