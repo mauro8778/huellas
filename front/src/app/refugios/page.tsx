@@ -6,7 +6,8 @@ import { IRefugios } from '@/interface/IRefugios';
 import ModalFilter from '@/components/Refugios/FiltroRefugio/ModalFilterRefugios';
 import { IMascotas } from '@/interface/IMascotas';
 import ModalFormularioMascota from '@/components/Refugios/AñadirMascota/ModalPostMascotas';
-import withAuth from '@/HOC/WithAuth';
+import withAuth from '@/HOC/withAuth';
+
 
 const Refugio = () => {
   const [refugios, setRefugios] = useState<IRefugios[]>([]);

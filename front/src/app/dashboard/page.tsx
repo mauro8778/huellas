@@ -4,10 +4,11 @@ import { useEffect, useState } from 'react';
 import { checkUserRole } from '@/libs/auth';
 // import SimulateLogin from '../SIMULATE_LOGIN/page';
 import DashboardMain from '@/components/Dashboard/DashboardMain';
-import withAuth from '@/HOC/WithAuth';
+import withAuth from '@/HOC/withAuth';
 
 
-export const DashboardPage: React.FC = () => {
+
+const DashboardPage: React.FC = () => {
   const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
