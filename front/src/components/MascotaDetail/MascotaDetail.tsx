@@ -98,7 +98,7 @@ export const MascotaDetail: React.FC<IMascotas & { petId: string }> = ({
       </div>
       <ModalMascotaDetail isOpen={isModalOpen} onClose={handleCloseModal}>
         <h2 className="text-xl mb-4 text-center">Editar fotos</h2>
-        <div className="flex flex-col items-start space-y-2 items-center">
+        <div className="flex flex-col  space-y-2 items-center">
           <label htmlFor="file-upload-modal" className="text-blue-500 hover:underline cursor-pointer">
             Subir foto
           </label>
