@@ -1,7 +1,7 @@
 export interface IMascotas  {
     id?: string;
     name?: string;
-    specie?:string
+    species?:string
     sexo?: string;
     description?: string;
     shelter?: string;
