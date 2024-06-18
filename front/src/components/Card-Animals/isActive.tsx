@@ -20,16 +20,26 @@ const AnimalList: React.FC = () => {
     );
   };
 
+  const deleteMascota = (mascotaId: string) => {
+    setMascotas(prevMascotas =>
+      prevMascotas.filter(mascota => mascota.id !== mascotaId)
+    );
+  };
+
   const activeMascotas = mascotas.filter(mascota => mascota.isActive);
 
   return (
     <div className="animal-list">
       {activeMascotas.map(mascota => (
-        <CardAnimals key={mascota.id} mascota={mascota} updateMascota={updateMascota} />
+        <CardAnimals 
+          key={mascota.id} 
+          mascota={mascota} 
+          updateMascota={updateMascota} 
+          deleteMascota={deleteMascota} 
+        />
       ))}
     </div>
   );
 };
 
 export default AnimalList;
-
