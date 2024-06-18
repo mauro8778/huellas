@@ -45,7 +45,7 @@ const DonationsUI: React.FC = () => {
       const { id } = response.data;
       return id;
     } catch (error: any) {
-      console.error('Error al crear preference de Mercado Pago', error.response ? error.response.data : error.message);
+      console.error('Error al crear preference de Mercado Pago!', error.response ? error.response.data : error.message);
     }
   };
 
