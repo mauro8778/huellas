@@ -316,7 +316,7 @@ export class AdoptionRepository {
 
   async AdoptionUser(userid: string) {
     const user: AdoptionEntity = await this.adoptionrepository.findOne({
-      where: { user: {id: userid}},
+      where: { user: {id: userid},},
       relations: {
         shelter: true,
         pet: true
@@ -328,12 +328,16 @@ export class AdoptionRepository {
 
   async AdoptionShelter(shelterid: string) {
     const shelter = await this.adoptionrepository.findOne({
-      where: { shelter:{id: shelterid} },
+      where: { shelter:{id: shelterid}, isActive: false},
       relations: {
         user: true,
         pet: true
       },
     });
+
+    if (!shelter) {
+      throw new NotFoundException('no hay adopciones pendientes')
+    }
 
     return shelter;
   }
