@@ -218,7 +218,7 @@ export class MailService {
     <p>Tu cuenta ha sido activada correctamente.</p>
     <p>Nos alegra darte la bienvenida a Huellas de Esperanza. Ahora puedes acceder a tu cuenta y disfrutar de nuestros servicios.</p>
     <p>Para iniciar sesión, haz clic en el siguiente enlace:</p>
-    <p><a href="http://example.com/login" style="display: inline-block; padding: 8px 15px; margin-top: 10px; color: white; background: linear-gradient(to bottom, #ff0066, #ffffff); text-decoration: none; border-radius: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); border: 1px solid #ff3366; border-bottom: 4px solid #ff3366;">Iniciar Sesión</a></p>
+    <p><a href="https://huellas-iota.vercel.app/AUTH/login" style="display: inline-block; padding: 8px 15px; margin-top: 10px; color: white; background: linear-gradient(to bottom, #ff0066, #ffffff); text-decoration: none; border-radius: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); border: 1px solid #ff3366; border-bottom: 4px solid #ff3366;">Iniciar Sesión</a></p>
   <p>¡Saludos!</p>
     <p>El equipo de Huellas de Esperanza</p>
 </div>

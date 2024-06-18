@@ -60,7 +60,7 @@ export class UserController {
     @ApiBearerAuth()
     @UseGuards(AuthGuard)
     @Post('shelter/favorite/:id')
-    addShelterFavorite(@Param('id', ParseUUIDPipe) shelterId: string,@Req() request){
+    addShelterFavorite(@Param('id', ParseUUIDPipe) shelterId: string, @Req() request){
 
         const userId = request.user['https://huellasdesperanza.com/userID'];
 
