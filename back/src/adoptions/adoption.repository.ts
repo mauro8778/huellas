@@ -14,6 +14,7 @@ import { PetsService } from 'src/pets/pets.service';
 import { Repository } from 'typeorm';
 import * as cron from 'node-cron';
 import { MailService } from 'src/mails/mail.service';
+import { ShelterRepository } from 'src/shelters/shelters.repository';
 @Injectable()
 export class AdoptionRepository {
   private readonly logger = new Logger(MailService.name);
@@ -315,9 +316,10 @@ export class AdoptionRepository {
 
   async AdoptionUser(userid: string) {
     const user: AdoptionEntity = await this.adoptionrepository.findOne({
-      where: { id: userid },
+      where: { user: {id: userid}},
       relations: {
-        user: true,
+        shelter: true,
+        pet: true
       },
     });
 
@@ -325,10 +327,11 @@ export class AdoptionRepository {
   }
 
   async AdoptionShelter(shelterid: string) {
-    const shelter: AdoptionEntity = await this.adoptionrepository.findOne({
-      where: { id: shelterid },
+    const shelter = await this.adoptionrepository.findOne({
+      where: { shelter:{id: shelterid} },
       relations: {
-        shelter: true,
+        user: true,
+        pet: true
       },
     });
 
