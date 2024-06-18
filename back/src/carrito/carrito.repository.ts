@@ -143,4 +143,16 @@ export class CarritoRepository {
 
         return user
     }
-} 
+
+    async getCarritoShelter(){
+        const order = await this.ordersRepository.find({
+            relations: {
+                orderdetails: {
+                    shelters: true
+                },
+            },
+        })
+        return order;
+    }
+
+}

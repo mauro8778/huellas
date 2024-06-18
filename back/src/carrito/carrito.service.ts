@@ -21,4 +21,8 @@ export class CarritoService {
     addOrderPendiente(order, userId: any) {
         return this.carritoRepository.addOrderPendiente(order,userId)
     }
+
+    getCarritoShelter(){
+        return this.carritoRepository.getCarritoShelter()
+    }
 }
