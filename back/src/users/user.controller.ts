@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, ParseUUIDPipe, Post, Put, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, NotFoundException, Param, ParseUUIDPipe, Post, Put, Req, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UpdateUserDto } from 'src/dto/updateUser.dto';
 import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
@@ -27,10 +27,22 @@ export class UserController {
         return this.usersService.getLocation(userId)
     }
     
-    @Get(':id')
-    getUserById(@Param('id', ParseUUIDPipe) id : string){
-        return this.usersService.getUserById(id)
-    }
+    @Get('favorite_users')
+    @UseGuards(AuthGuard)
+    async getUserProfile(@Req() request): Promise<any> {
+
+        const userId = request.user['https://huellasdesperanza.com/userID'];
+    
+        const user = await this.usersService.getUserById(userId);
+    
+        if (!user) {
+          throw new NotFoundException('No se encontró el usuario');
+        }
+        
+        return { user };
+      }
+    
+    
 
     // @ApiBearerAuth()
     // @UseGuards(AuthGuard)

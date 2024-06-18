@@ -52,16 +52,11 @@ export class UserRepository implements OnModuleInit {
 
   async getUserById(id: string) {
     const user = await this.usersRepository.find({ where: { id },
-    relations:{
-      favorite_pets: true,
-      favorite_shelters:true,
-      orders:true,
-      pets:true
-    }})
+      relations: ['favorite_pets', 'favorite_shelters', 'orders', 'pets'],})
     if (!user) {
       throw new NotFoundException('no se encontro el usuario')
     }
-    return { user };
+    return user 
   }
   async updatedProfile(id: string, user: Partial<UserEntity>) {
     const updateUser = await this.usersRepository.findOne({ where: { id } });
