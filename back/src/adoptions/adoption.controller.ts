@@ -31,6 +31,11 @@ export class AdoptionController {
     const userId = request.user['https://huellasdesperanza.com/userID'];
     return await this.adopcionservice.newAdoption(userId, petid);
 }
+    @Get('shelter/:id')
+    async shelterpost(@Param('id', ParseUUIDPipe) id: string){
+
+        return await this.adopcionservice.adoptionShelter(id)
+    }
 
     @Post('activate/:id')
     async activateAdoption(@Param('id',ParseUUIDPipe) adoptionId: string){
@@ -43,8 +48,16 @@ export class AdoptionController {
         return await this.adopcionservice.Delete(id)
     }
 
-    @Get('user/:id')
-    async adoptionUser(@Param('id',ParseUUIDPipe) userid : string){
-        return await this.adopcionservice.adoptionUser(userid)
+
+    @ApiBearerAuth()
+    @UseGuards(AuthGuard)
+    @Get('user')
+    async adoptionUser(@Req() request ){
+        const userId = request.user['https://huellasdesperanza.com/userID'];
+
+        return await this.adopcionservice.adoptionUser(userId)
     }
+
+
+    
 }
