@@ -2,7 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { IMascotas } from '@/interface/IMascotas';
 import CardAnimals from './CardAnimals';
 
-const ListaMascotas: React.FC = () => {
+interface ListaMascotasProps {
+  mascotas: IMascotas[];
+  updateMascota: (updatedMascota: IMascotas) => void;
+}
+
+const ListaMascotas: React.FC<ListaMascotasProps> = () => {
   const [mascotas, setMascotas] = useState<IMascotas[]>([]);
 
   useEffect(() => {
