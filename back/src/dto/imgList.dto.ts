@@ -6,8 +6,7 @@ export class ImgDto {
     @IsNotEmpty()
     @IsString()
     @ApiProperty({
-      description: "Se requiere que el price no esté vacío",
-      example: `{"imgUrl": "string"}`
+      example: "string"
     })
     imgUrl: string
     

@@ -115,9 +115,9 @@ export class PetsRepository {
 
 
     async addPetImg(id: string, imgUrl) {
-        const pet: PetsEntity = await this.petsRepository.findOne({where: {id}});
+        const pet: PetsEntity = await this.petsRepository.findOne({ where: { id } });
 
-        if(pet.listImg === null) {
+        if (pet.listImg === null) {
             pet.listImg = []
         }
 
@@ -125,7 +125,7 @@ export class PetsRepository {
             throw new BadRequestException("Mascota no encontrada")
         };
 
-        const arrayImg = await Promise.all( imgUrl.map((img) => {
+        const arrayImg = await Promise.all(imgUrl.map((img) => {
             return img
         }));
 
@@ -136,25 +136,20 @@ export class PetsRepository {
 
 
         return pet;
-}
-
-async deletePetImg(id: string, imgUrl: string): Promise<PetsEntity> {
-    const pet: PetsEntity = await this.petsRepository.findOne({ where: { id } });
-
-    if (!pet) {
-        throw new BadRequestException("Mascota no encontrada");
     }
 
-    const imgIndex = pet.listImg.findIndex(img => img === imgUrl);
-    
-    if (imgIndex === -1) {
-        throw new BadRequestException("Imagen no encontrada");
+    async deletePetImg(id: string, imgUrl: string) {
+        const pet: PetsEntity = await this.petsRepository.findOne({ where: { id } });
+
+        if (!pet) {
+            throw new BadRequestException("Mascota no encontrada");
+        }
+
+        pet.listImg = pet.listImg.filter((img) => { imgUrl != img  })
+
+        await this.petsRepository.save(pet)
+
+        return 'imagen eliminada correctamente'
+
     }
-
-    pet.listImg.splice(imgIndex, 1);
-
-    await this.petsRepository.save(pet);
-
-    return pet;
-}
 }

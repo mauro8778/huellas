@@ -17,9 +17,12 @@ export class CarritoController {
 
         const userId = request.user['https://huellasdesperanza.com/userID'];
 
-
-
         return this.carritoServices.getCarrito(userId)
+    }
+
+    @Get('orders')
+    getCarritoShelter(){
+        return this.carritoServices.getCarritoShelter()
     }
 
     

@@ -24,6 +24,7 @@ import { ChatModule } from './chat/chat.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { MapsModule } from './maps/maps.module';
+import { PromotionModule } from './promotion/promotion.module';
 
 @Module({
   imports: [
@@ -49,7 +50,8 @@ import { MapsModule } from './maps/maps.module';
       GoogleModule,
       MercadoPagoModule,
       CarritoModule,
-      MapsModule
+      MapsModule,
+      PromotionModule
       
     
   ],

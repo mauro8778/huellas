@@ -32,7 +32,7 @@ export class PetsService {
 
         return this.petsRepository.addPetImg(id, imgUrl);
     }
-     removePetImg(petId: string, imgId: string){
+     removePetImg(petId: string, imgId){
 
     return this.petsRepository.deletePetImg(petId,imgId)
      }

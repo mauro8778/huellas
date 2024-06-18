@@ -54,11 +54,11 @@ export class PetsController {
         return this.petsService.addPetImg(id, imgUrl);
     }
 
-    @Delete(':petId')
+    @Delete('deleteImg/:id')
     async removePetImg(
-        @Param('petId') petId: string, 
-        @Body('imgUrl') imgUrl: string
-    ): Promise<PetsEntity> {
+        @Param('id', ParseUUIDPipe) petId: string, 
+        @Body() imgUrl: ImgDto
+    ) {
         try {
             return await this.petsService.removePetImg(petId, imgUrl);
         } catch (error) {

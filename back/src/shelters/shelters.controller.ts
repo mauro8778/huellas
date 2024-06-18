@@ -28,7 +28,7 @@ export class SheltersController {
   getShelterById(@Param('id', ParseUUIDPipe) id: string) {
     return this.sheltersService.getShelterById(id);
   }
-  @Put('profile')
+  @Put('profile/:id')
   updatedProfile(
       @Param('id',ParseUUIDPipe) id:string,
       @Body() user : UpdateShelterDto){
@@ -36,7 +36,7 @@ export class SheltersController {
   }
 
   @UseGuards(Auth0Guard)
-  @Post('active/:id')
+  @Post('active/:id') 
  ActiveShelter(@Req() req, @Param('id', ParseUUIDPipe) id: string) {
     const accessToken = req.auth0Token;
     return this.sheltersService.ActiveShelter(id, accessToken);
