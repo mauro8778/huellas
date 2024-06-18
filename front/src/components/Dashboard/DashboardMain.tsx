@@ -113,6 +113,8 @@ const DashboardMain: React.FC<{ role: 'admin' | 'user' | 'shelter' }> = ({ role 
   const totalDonations = 1000; // Ejemplo de valor
 
   return (
+    //* ADMIN---------------------------------------------
+    
     <div className="flex-1 p-6 ">
       {role === 'admin' ? (
         <div>
@@ -136,13 +138,16 @@ const DashboardMain: React.FC<{ role: 'admin' | 'user' | 'shelter' }> = ({ role 
             </div>
           </div>
         </div>
+        //*SHELTER--------------------------------------------------------------
       ) : role === 'shelter' ? (
         <div>
           <h1 className="text-2xl font-bold mb-4">Hola, este es la vista del dashboard de refugios</h1>
-          {/* Contenido específico para refugios */}
+          {/* Contenido específico para refugios */} 
         </div>
       ) : (
+        //*USER-----------------------------------------------
         <div>
+          
           <p>Bienvenido, Usuario. Aquí puedes ver tus mascotas adoptadas y tus donaciones.</p>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6 text-gray-600">
             <Card title="Total Donaciones" icon={<FaDonate size={40} className="text-blue-500" />}>

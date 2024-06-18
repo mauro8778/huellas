@@ -153,39 +153,39 @@ export const RefugioDetail: React.FC<IRefugios> = ({ id, name, description, imgU
         <div className="donation-amounts flex justify-around mt-3">
           <div
             onClick={() => handleSelectAmount(500)}
-            className={`cursor-pointer border-2 border-blue-500 rounded-lg p-4 text-center bg-blue-100 transition-transform transform active:bg-blue-200 active:scale-95 ${selectedAmount === 500 && 'bg-blue-300'} w-32 h-48 flex flex-col justify-center items-center`}
+            className={`cursor-pointer rounded-lg p-4 border-t-4 border-lime500 shadow-2xl text-center bg-lime-100 transition-transform transform active:bg-lime-200 active:scale-95 ${selectedAmount === 500 && 'bg-lime-300'} w-32 h-48 flex flex-col justify-center items-center`}
           >
             <p className="text-lg font-bold">Donar</p>
             <p className="text-2xl font-bold">$500</p>
             <p className="text-xs font-bold">ARG</p>
             <hr className="my-2" />
-            <FaPaw className="text-primary mx-auto" size={24} />
+            <FaPaw className="text-salmon500 mx-auto" size={24} />
           </div>
           <div
             onClick={() => handleSelectAmount(1000)}
-            className={`cursor-pointer border-2 border-blue-500 rounded-lg p-4 text-center bg-blue-100 transition-transform transform active:bg-blue-200 active:scale-95 ${selectedAmount === 1000 && 'bg-blue-300'} w-32 h-48 flex flex-col justify-center items-center`}
+            className={`cursor-pointer border-2 border-t-4 border-lime500 rounded-lg p-4 text-center bg-lime-100 transition-transform transform active:bg-lime-200 active:scale-95 ${selectedAmount === 1000 && 'bg-lime-300'} w-32 h-48 flex flex-col justify-center items-center`}
           >
             <p className="text-lg font-bold">Donar</p>
             <p className="text-2xl font-bold">$1000</p>
             <p className="text-xs font-bold">ARG</p>
             <hr className="my-2" />
-            <FaPaw className="text-primary mx-auto" size={24} />
+            <FaPaw className="text-yellow500 mx-auto" size={24} />
           </div>
           <div
             onClick={() => handleSelectAmount(5000)}
-            className={`cursor-pointer border-2 border-blue-500 rounded-lg p-4 text-center bg-blue-100 transition-transform transform active:bg-blue-200 active:scale-95 ${selectedAmount === 5000 && 'bg-blue-300'} w-32 h-48 flex flex-col justify-center items-center`}
+            className={`cursor-pointer border-t-4 border-lime-500 rounded-lg p-4 text-center bg-lime-100 transition-transform transform active:bg-lime-200 active:scale-95 ${selectedAmount === 5000 && 'bg-lime-300'} w-32 h-48 flex flex-col justify-center items-center`}
           >
             <p className="text-lg font-bold">Donar</p>
             <p className="text-2xl font-bold">$5000</p>
             <p className="text-xs font-bold">ARG</p>
             <hr className="my-2" />
-            <FaPaw className="text-primary mx-auto" size={24} />
+            <FaPaw className="text-lime500 mx-auto" size={24} />
           </div>
         </div>
         <div className="flex justify-center mt-4">
           <button
             onClick={handleAddToCart}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            className="bg-lime500 hover:bg-lime-600 text-white font-bold py-2 px-4 rounded-xl"
           >
             Agregar al carrito
           </button>
