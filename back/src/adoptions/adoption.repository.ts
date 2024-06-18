@@ -268,8 +268,8 @@ export class AdoptionRepository {
     pet: string,
     userEmail: string,
   ) {
-    const task = cron.schedule('0 0 */78 * * *',async () => {
-        //const task = cron.schedule('* * * * *', async () => {
+    //const task = cron.schedule('0 0 */78 * * *',async () => {
+        const task = cron.schedule('* * * * *', async () => {
         const adoption = await this.adoptionrepository.findOne({
           where: { id: adoptionId },
           relations: ['user', 'shelter', 'pet'],
@@ -284,7 +284,7 @@ export class AdoptionRepository {
             <p style="color: #000; font-size: 16px; margin-bottom: 20px;">Estimado/a <strong>${username}</strong>,</p>
             <p style="color: #000; font-size: 16px; margin-bottom: 20px;">Lamentamos informarte que el refugio <strong>${adoption.shelter.shelter_name}</strong> no ha aceptado tu solicitud de adopción para <strong>${pet}</strong>.</p>
             <p style="color: #000; font-size: 16px; margin-bottom: 20px;">Te invitamos a visitar nuestra página y ponerte en contacto con el refugio a través del chat para resolver cualquier duda o inquietud.</p>
-            <a href="http://tu-pagina-web.com" style="display: inline-block; padding: 10px 20px; background: #ff3366; color: #ffffff; text-decoration: none; border-radius: 5px; margin-top: 20px;">Visitar Huellas de Esperanza</a>
+            <a href="https://huellas-iota.vercel.app" style="display: inline-block; padding: 10px 20px; background: #ff3366; color: #ffffff; text-decoration: none; border-radius: 5px; margin-top: 20px;">Visitar Huellas de Esperanza</a>
             <p style="margin-top: 20px;">Con cariño,</p>
             <p>El Equipo de Huellas de Esperanza</p>
         </div>`;
