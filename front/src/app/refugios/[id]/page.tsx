@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { RefugioDetail } from '@/components/RefugioDetail/RefugioDetail';
 import { IRefugios } from '@/interface/IRefugios';
 import { getRefugioById } from '@/utils/refugios';
+import ShelterGeolocation from '@/components/Maps/ShelterGeolocation';
 
 const DetailRefugio = ({ params }: { params: { id: string } }) => {
     const [refugio, setRefugio] = useState<IRefugios | null>(null);
@@ -34,9 +35,12 @@ const DetailRefugio = ({ params }: { params: { id: string } }) => {
         return <div>Cargando...</div>;
     }
 
-    return <RefugioDetail {...refugio} />;
+    return (
+        <div>
+            <RefugioDetail {...refugio} />
+            <ShelterGeolocation shelterId={params.id} />
+        </div>
+    );
 };
 
 export default DetailRefugio;
-
-   
