@@ -156,21 +156,14 @@ export class ShelterRepository {
     return ` el usuario con id ${id}  y nombre ${updateShelter.name} se ah actualizado con exito`;
   }
 
-  async filterShelters(
-    exotic_animals?: string,
-    location?: string,
-    zona?: string,
-  ) {
+  async filterShelters(exotic_animals?: string, address?: string) {
     const conditions: any = { isActive: true };
 
     if (exotic_animals) {
       conditions.exotic_animals = exotic_animals;
     }
-    if (location) {
-      conditions.location = location;
-    }
-    if (zona) {
-      conditions.zona = zona;
+    if (address) {
+      conditions.address = address;
     }
 
     return await this.sheltersRepository.find({ where: conditions });
