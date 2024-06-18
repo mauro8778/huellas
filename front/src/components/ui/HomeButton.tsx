@@ -2,7 +2,8 @@ import React from 'react';
 import { MdArrowBackIosNew } from 'react-icons/md';
 
 interface HomeButtonProps {
-  
+  children?: React.ReactNode;
+  className?: string;
 }
 
 const HomeButton: React.FC<HomeButtonProps> = () => {

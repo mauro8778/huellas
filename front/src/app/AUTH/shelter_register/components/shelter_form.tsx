@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 'use client';
 
-import ImageUpload from '@/components/ui/ImageUpload';
+// import ImageUpload from '@/components/ui/ImageUpload';
 import { useState, FormEvent, ChangeEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import Button from '@/components/ui/button';
@@ -135,37 +135,25 @@ const ShelterForm: React.FC = () => {
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setError(null);
-  
+
     const someInvalid = Object.values(validations).some(valid => valid === false);
-  
+
     if (!someInvalid) {
       try {
-        const formDataToSend = new FormData();
-        formDataToSend.append('name', formData.name);
-        formDataToSend.append('email', formData.email);
-        formDataToSend.append('password', formData.password);
-        formDataToSend.append('dni', formData.dni === '' ? '' : formData.dni.toString());
-        formDataToSend.append('phone', formData.phone === '' ? '' : formData.phone.toString());
-        formDataToSend.append('shelter_name', formData.shelter_name);
-        formDataToSend.append('address', formData.address);
-        formDataToSend.append('description', formData.description);
-        if (selectedFile) {
-          formDataToSend.append('image', selectedFile);
-        }
-  
-        // Imprimir todas las entradas del FormData para depuración
-        for (let [key, value] of formDataToSend.entries()) {
-          console.log(`${key}: ${value}`);
-        }
-  
+
+        console.log('Datos a enviar:', JSON.stringify(formData) );
+
         const response = await fetch('https://huellasdesperanza.onrender.com/auth/register/shelter', {
           method: 'POST',
-          body: formDataToSend,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData),
         });
-  
+
         // Imprimir la respuesta completa del servidor
         console.log('Respuesta del servidor:', response);
-  
+
         if (response.ok) {
           Swal.fire({
             title: "¡Registro exitoso!",
@@ -254,10 +242,10 @@ const ShelterForm: React.FC = () => {
           )}
         </div>
 
-        <ImageUpload onUpload={(file) => {
+        {/* <ImageUpload onUpload={(file) => {
           setSelectedFile(file);
           console.log('Imagen seleccionada:', file);  // <--- Añadir este console.log
-        }} />
+        }} /> */}
 
         <Button type="submit" label="Crear cuenta" className="w-full mt-4" />
         <div className="mt-5 mb-10 flex items-center justify-center gap-x-2">

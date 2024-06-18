@@ -14,7 +14,7 @@ interface Shelter {
   location: string;
   image?: string;
   description: string;
-  isActive: boolean; // Nueva propiedad para indicar si el refugio está activo o pendiente
+  isActive: boolean; 
 }
 
 const PendingShelters: React.FC = () => {
@@ -23,7 +23,7 @@ const PendingShelters: React.FC = () => {
   useEffect(() => {
     const fetchShelters = async () => {
       try {
-        const response = await axios.get<Shelter[]>('https://huellasdesperanza.onrender.com/shelters');
+        const response = await axios.get<Shelter[]>('https://huellasdesperanza.onrender.com/shelters/active/');
         const pendingShelters = response.data.filter(shelter => !shelter.isActive); // Filtrar refugios pendientes
         setShelters(pendingShelters);
       } catch (error) {

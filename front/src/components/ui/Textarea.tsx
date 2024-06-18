@@ -6,18 +6,28 @@ interface TextAreaProps {
   value: string;
   onChange: (e: ChangeEvent<HTMLTextAreaElement>) => void;
   className?: string;
-  rows?: number; // revisar esto.
+  rows?: number;
+  required?: boolean;
 }
 
-export const TextArea: React.FC<TextAreaProps> = ({ name, placeholder, value, onChange, className = '', rows = 4 }) => {
+const TextArea: React.FC<TextAreaProps> = ({ 
+  name, 
+  placeholder, 
+  value, 
+  onChange, 
+  className = '', 
+  rows = 4, 
+  required = false
+}) => {
   return (
     <textarea
       name={name}
       placeholder={placeholder}
       value={value}
       onChange={onChange}
-      className={` rounded-xl ${className} border-2 border-lime500 shadow-xl ` }
-      rows={rows} 
+      className={`rounded-xl ${className} border-2 border-lime-500 shadow-xl`}
+      rows={rows}
+      required={required}
     />
   );
 };

@@ -7,6 +7,7 @@ interface ButtonProps {
   onClick?: () => void;
   disabled?: boolean; 
   isValid?: boolean | null;
+  children?: React.ReactNode;
     
 }
 
