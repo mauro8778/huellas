@@ -25,9 +25,9 @@ const Form_forgot = () => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const response = await axios.post('CAMBIAR POR LA DEL DIPLOY', { email });
+      const response = await axios.post('https://huellasdesperanza.onrender.com/auth/email', { email });
 
-      console.log('Solicitud de restablecimiento de contraseña enviada:', response.data);
+      localStorage.setItem('userId', response.data);
 
       Swal.fire('¡Solicitud de cambio contraseña enviada!', 'Revisa tu correo electrónico para más instrucciones.', 'success');
     } catch (error) {
@@ -40,7 +40,7 @@ const Form_forgot = () => {
     <div className='w-full max-w-md'>
       <div className='mb-5'>
         <h2 className='text-2xl font-semibold'>¿Olvidaste tu contraseña?</h2>
-        <p className='text-yellow500 text-sm'>
+        <p className='text-yellow500 text-sm mt-2'>
           Por favor, ingresa tu correo electrónico para restablecer la contraseña.
         </p>
       </div>

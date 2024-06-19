@@ -49,13 +49,13 @@ const NewPassword: React.FC = () => {
     e.preventDefault();
     if (formValidations.newPasswordValid && formValidations.confirmPasswordValid) {
       try {
-        // creo q la peticion es put revisar
-        const response = await axios.post('PONER LA URL DEL DIPLOY', {
+        const userId = localStorage.getItem('userId');
+        const response = await axios.put('https://huellasdesperanza.onrender.com/auth/password', {  
+          userId: userId,
           newPassword: formData.newPassword,
-          confirmPassword: formData.confirmPassword,
         });
         Swal.fire({text:'¡Cambio de contraseña exitoso!', icon:'success' });
-        console.log('Contraseña cambiada correctamente:', response.data);
+        localStorage.removeItem('userId');
         router.push('/AUTH/login');
       } catch (error) {
         console.error('Error al cambiar la contraseña:', error);
