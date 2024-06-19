@@ -212,15 +212,18 @@ export class AuthService {
   }
 
   async foundEmail(email: string) {
-    const foundUser = this.userRepository.findOneBy({ email });
+    const foundUser = await this.userRepository.findOneBy({ email });
 
     if (foundUser) {
-      //Se envia el mail
-    }
+      const name= foundUser.name
+        
+      this.mailService.cambioPasswordMail(email,name)    }
+
+      return foundUser.id
   }
 
-  async changePassword(email: string, newPassword: any, tokenAcess) {
-    const foundUser = this.userRepository.findOneBy({ email });
+  async changePassword(newPassword: any, tokenAcess) {
+  
 
     const response = await axios.patch(
       `https://${process.env.AUTH0_DOMAIN}/api/v2/users/${id}`,

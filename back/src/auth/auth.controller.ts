@@ -46,7 +46,8 @@ export class AuthController {
 
   @UseGuards(Auth0Guard)
   @Put('/password/:id')
-  changePassword(@Body() body:any, @Req() req) {
+  changePassword(
+    @Body() body:any, @Req() req) {
     const { email, newPassword } = body
     const tokenAcess = req.auth0Token;
     return this.authService.changePassword( email, newPassword, tokenAcess );
