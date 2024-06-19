@@ -42,15 +42,29 @@ export class CarritoRepository {
     }
 
     async getCarrito(userId: string) {
-        const carrito = await this.carritoRepository.findOne({ where: { id:userId } });
-
-    if (!carrito) {
-      throw new NotFoundException('Carrito no encontrado');
-    }
-
-    return carrito;
-  }
-    
+        
+        const user = await this.usersRepository.findOne({
+          where: { id: userId },
+          relations: ['carrito'],
+        });
+      
+        
+        if (!user) {
+          throw new NotFoundException('Usuario no encontrado');
+        }
+      
+       
+        const carrito = user.carrito;
+      
+        
+        if (!carrito) {
+          throw new NotFoundException('Carrito no encontrado');
+        }
+      
+        
+        return carrito;
+      }
+      
 
     async addOrder(ordershelter, userId) {
         let total = 0;
