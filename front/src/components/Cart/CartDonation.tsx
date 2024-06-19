@@ -62,7 +62,7 @@ const DonationForm: React.FC = () => {
         }
 
         setShelters(data);
-        setTotal(total);
+        setTotal(Number(total));
       } catch (error) {
         console.error('Error al obtener los refugios:', error);
         setShelters([]); // En caso de error, asegurarse de que shelters sea un array vacío
@@ -73,10 +73,38 @@ const DonationForm: React.FC = () => {
   }, [token]);
 
   // Función para eliminar un refugio de la lista
-  const handleRemoveShelter = (id: number) => {
-    const updatedShelters = shelters.filter(shelter => shelter.id !== id);
-    setShelters(updatedShelters);
-    setTotal(updatedShelters.reduce((acc, shelter) => acc + shelter.price, 0));
+  const handleRemoveShelter = async (id: number) => {
+
+    try {
+      const response = await fetch(`https://huellasdesperanza.onrender.com/carrito/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      });
+  
+      if (!response.ok) {
+        throw new Error('Failed to delete item');
+      }
+ 
+      console.log(`Item with ID ${id} deleted successfully`);
+
+      const updatedShelters = shelters.filter(shelter => shelter.id !== id);
+      setShelters(updatedShelters);
+
+      let newTotal = 0;
+      updatedShelters.forEach(shelter => {
+        newTotal += Number(shelter.price);
+      });
+      setTotal(newTotal);
+
+      console.log(`Item with ID ${id} deleted successfully`);
+    } catch (error) {
+      console.error('Error deleting item:', error);
+      // Manejar el error de eliminación aquí
+    }
+
   };
 
   // Función para manejar el proceso de pago
@@ -84,7 +112,7 @@ const DonationForm: React.FC = () => {
     try {
       const response = await axios.post('https://huellasdesperanza.onrender.com/mercado-pago', {
         title: 'Monto total de la Donacion',
-        price: total,
+        price: Number(total),
       });
       const data = response.data;
 
@@ -155,7 +183,7 @@ const DonationForm: React.FC = () => {
         {shelters.length > 0 && (
           <>
             <h3 className="text-lg font-bold mb-4 border-b-2 text-gray-700">Resumen de Donaciones</h3>
-            <p className="text-lg mb-4">Total: ${total}</p>
+            <p className="text-lg mb-4">Total: ${Number(total)}</p>
             <button
               onClick={handleCheckout}
               className="w-full bg-lime500 hover:bg-lime-600 text-white font-bold py-2 px-4 rounded-xl"
