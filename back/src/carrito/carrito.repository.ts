@@ -185,4 +185,39 @@ export class CarritoRepository {
         return order;
     }
 
+
+
+    async deleteCarritoId(id: string, userId: any) {
+
+        const user = await this.usersRepository.findOne({
+            where: { id: userId },
+            relations: ['carrito'],
+          });
+        
+          
+          if (!user) {
+            throw new NotFoundException('Usuario no encontrado');
+          }
+        
+         
+          let carrito: CarritoPendienteEntity[] = user.carrito
+        
+          
+          if (!carrito) {
+            throw new NotFoundException('Carrito no encontrado');
+          }
+
+          const up = Promise.all(carrito.map(async (shelter) => {
+            if(shelter.id == id){
+                await this.carritoRepository.delete(shelter)
+            }
+          }))
+
+          await this.usersRepository.save(user)
+
+          return 'Eliminado correctamente'
+
+    }
+
+
 }

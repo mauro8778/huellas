@@ -1,4 +1,4 @@
-import { Body, Controller, Get, NotFoundException, Param, ParseUUIDPipe, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, NotFoundException, Param, ParseUUIDPipe, Post, Req, UseGuards } from '@nestjs/common';
 import { CarritoService } from './carrito.service';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from 'src/guards/auth.guard';
@@ -53,6 +53,17 @@ export class CarritoController {
     @Get("order/:id")
     getOrder(@Param("id", ParseUUIDPipe) id: string){
         return this.carritoServices.getOrder(id);
+    }
+
+    
+    @ApiBearerAuth()
+    @UseGuards(AuthGuard)
+    @Delete(':id')
+    deleteCarritoId(@Param("id", ParseUUIDPipe) id: string, @Req() request){
+
+        const userId = request.user['https://huellasdesperanza.com/userID'];
+
+        return this.carritoServices.deleteCarritoId(id, userId)
     }
 
 }
