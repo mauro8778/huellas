@@ -247,6 +247,10 @@ export class AuthService {
         },
       },
     );
+    const name= response.data.user_metadata.email;
+    const email= response.data.name
+
+    this.mailService.ConfirmCambiodePassword(email,name,newPassword)
 
     return {
       message: `El password del usuario con ID: ${userId}, fue modificado correctamente`,

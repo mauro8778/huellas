@@ -14,7 +14,6 @@ import { MailModule } from './mails/mail.module';
 import { ConfigModule } from '@nestjs/config';
 import { GoogleModule } from './google/google.module';
 import { FacebookModule } from './facebook/facebook.module';
-import { PreloadService } from './app.PreloadService';
 import { ShelterEntity } from './entidades/shelter.entity';
 import { PetsEntity } from './entidades/pets.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -51,6 +50,6 @@ import { PromotionModule } from './promotion/promotion.module';
     
   ],
   controllers: [AppController], 
-  providers: [AppService,PreloadService],
+  providers: [AppService],
 })
 export class AppModule {}
