@@ -55,6 +55,14 @@ const NavMenu: React.FC = () => {
             Refugios
           </Link>
         </li>
+        <li>
+          <Link className='hover:text-gray-600' href={{
+            pathname: "/comunidad",
+            query: {name: "test"},
+          }}>
+            Comunidad
+          </Link>
+        </li> 
       </ul>
     </nav>
   );
