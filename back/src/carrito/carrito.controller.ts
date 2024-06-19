@@ -56,7 +56,7 @@ export class CarritoController {
     }
 
     
-    @ApiBearerAuth()
+    @ApiBearerAuth() 
     @UseGuards(AuthGuard)
     @Delete(':id')
     deleteCarritoId(@Param("id", ParseUUIDPipe) id: string, @Req() request){
