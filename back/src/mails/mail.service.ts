@@ -147,6 +147,8 @@ export class MailService {
     await this.sendMail(userEmail, subject, text, html);
   }
   
+
+  
   async registershelterMail(userEmail: string, username: string, password: string) {
     const subject = 'Bienvenido a Huellas de Esperanza';
     const text = `Hola ${username},

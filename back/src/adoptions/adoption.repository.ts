@@ -268,8 +268,8 @@ export class AdoptionRepository {
     pet: string,
     userEmail: string,
   ) {
-    //const task = cron.schedule('0 0 */78 * * *',async () => {
-        const task = cron.schedule('* * * * *', async () => {
+    const task = cron.schedule('0 0 */78 * * *',async () => {
+        //const task = cron.schedule('* * * * *', async () => {
         const adoption = await this.adoptionrepository.findOne({
           where: { id: adoptionId },
           relations: ['user', 'shelter', 'pet'],
