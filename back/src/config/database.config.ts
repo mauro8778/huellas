@@ -13,7 +13,7 @@ const dbConfig: DataSourceOptions = {
   migrations: ['dist/migrations/*{.ts,.js}'],
   logging: false,
   synchronize: false,
-  dropSchema: false,
+  dropSchema: false, 
 };
 
 export const databaseConfig = TypeOrmModule.forRoot({
