@@ -21,17 +21,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { MercadoPagoModule } from './mercado-pago/mercado-pago.module';
 import { CarritoModule } from './carrito/carrito.module';
 import { ChatModule } from './chat/chat.module';
-import { ServeStaticModule } from '@nestjs/serve-static';
-import { join } from 'path';
 import { MapsModule } from './maps/maps.module';
 import { PromotionModule } from './promotion/promotion.module';
 
 @Module({
   imports: [
     ChatModule,
-    ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', 'public')
-    }),
     ConfigModule.forRoot({
       isGlobal: true,
       }),
