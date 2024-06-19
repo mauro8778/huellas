@@ -121,50 +121,123 @@ import axios from 'axios';
 import { MdDeleteSweep } from 'react-icons/md';
 import Image from 'next/image';
 
+import Swal from 'sweetalert2';
+
+
+
+
+
+
+
+
 interface IShelter {
   id: number;
   name: string;
   image: string;
-  amount: number;
+  price: number;
 }
 
 const DonationForm: React.FC = () => {
   const [shelters, setShelters] = useState<IShelter[]>([]);
   const [total, setTotal] = useState(0);
+  const [token, setToken] = useState<string | null>(null);
+
+  useEffect(() => {
+    // console.log('Componente montado, leyendo donaciones desde el almacenamiento local');
+    // const savedDonations = localStorage.getItem('donations');
+    // if (savedDonations) {
+    //   console.log('Donaciones guardadas encontradas:', savedDonations);
+    //   setDonations(JSON.parse(savedDonations)); // Establecer las donaciones desde el almacenamiento local
+    // }
+
+    const userSession = localStorage.getItem('userSession');
+    const accessToken = userSession ? JSON.parse(userSession).access_token : null;
+
+    if (!accessToken) {
+      Swal.fire('No estás autenticado. Por favor, inicia sesión para continuar.');
+      return;
+    }
+
+    setToken(accessToken);
+  }, []);
+
 
   // useEffect para cargar los refugios desde la API al montar el componente
   useEffect(() => {
     const fetchShelters = async () => {
       try {
-        const response = await axios.get('https://huellasdesperanza.onrender.com/carrito/orders'); // Asegúrate de reemplazar 'URL_DE_TU_API' con la URL correcta
-        const data: IShelter[] = response.data;
+        if (!token) {
+          console.error('Token no disponible');
+          return;
+        }
+  
+        const response = await fetch('https://huellasdesperanza.onrender.com/carrito' , {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+        });
+  
+        if (!response.ok) {
+          throw new Error('Error al obtener los refugios');
+        }
+        
+        const data = await response.json();
+        console.log(data);
+  
+        let total = 0;
+        for (let i = 0; i < data.length; i++) {
+          total += Number(data[i].price);
+        }
+  
         setShelters(data);
-        setTotal(data.reduce((acc, shelter) => acc + shelter.amount, 0));
+        setTotal(total);
       } catch (error) {
-        console.error('Error fetching shelters:', error);
+        console.error('Error al obtener los refugios:', error);
+        setShelters([]); // En caso de error, asegurarse de que shelters sea un array vacío
       }
     };
-
+  
     fetchShelters();
-  }, []);
+  }, [token]);
 
   // Función para eliminar un refugio de la lista
   const handleRemoveShelter = (id: number) => {
     const updatedShelters = shelters.filter(shelter => shelter.id !== id);
     setShelters(updatedShelters);
-    setTotal(updatedShelters.reduce((acc, shelter) => acc + shelter.amount, 0));
+    setTotal(updatedShelters.reduce((acc, shelter) => acc + shelter.price, 0));
   };
 
   // Función para manejar el proceso de pago
   const handleCheckout = async () => {
     try {
-      const response = await axios.post('/api/create_preference', { shelters });
+      const response = await axios.post('https://huellasdesperanza.onrender.com/mercado-pago', {
+        title: 'Monto total de la Donacion',
+        price: total,
+      });
       const data = response.data;
-      if (data.id) {
-        window.location.href = `https://www.mercadopago.com.ar/checkout/v1/redirect?pref_id=${data.id}`;
-      } else {
-        alert('Error al crear la preferencia de pago');
-      }
+
+        if (data) {
+          const script = document.createElement('script');
+          script.src = 'https://sdk.mercadopago.com/js/v2';
+          script.async = true;
+          script.onload = () => {
+            const mp = new window.MercadoPago('TEST-5423250e-6e54-4e3b-a21b-160a1653fc7a', {
+              locale: 'es-AR',
+            });
+            mp.checkout({
+              preference: {
+                id: data
+              },
+              autoOpen: true, // Habilita la apertura automática del Checkout Pro
+            });
+          };
+          document.body.appendChild(script);
+        } else {
+          alert('Error al crear la preferencia de pago');
+        }      
+      
     } catch (error) {
       console.error('Error creating payment preference:', error);
       alert('Error al crear la preferencia de pago');
@@ -185,7 +258,7 @@ const DonationForm: React.FC = () => {
                   <Image src={shelter.image} alt={shelter.name} width={64} height={64} className="w-16 h-16 mr-4 rounded-full" />
                   <div>
                     <h3 className="text-lg font-bold">{shelter.name}</h3>
-                    <p className="text-sm">${shelter.amount}</p>
+                    <p className="text-sm">${shelter.price}</p>
                   </div>
                 </div>
                 <button
