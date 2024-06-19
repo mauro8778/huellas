@@ -1,7 +1,7 @@
 import { Body, Controller, Get, NotFoundException, Param, ParseUUIDPipe, Post, Put, Req, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UpdateUserDto } from 'src/dto/updateUser.dto';
-import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from 'src/guards/auth.guard';
 import { Auth0Guard } from 'src/guards/auth0.guard';
 
@@ -21,11 +21,24 @@ export class UserController {
     getFavorites(){
         return this.usersService.getFavorites()
     }
-    @Get('location/:id')
-    getLocation(@Param('id',ParseUUIDPipe) userId: string){
-        
-        return this.usersService.getLocation(userId)
-    }
+
+
+    @ApiBearerAuth()
+    @Get('location')
+    @UseGuards(AuthGuard)
+    async getLocation(@Req() request): Promise<any> {
+        const userId = request.user['https://huellasdesperanza.com/userID'];
+        if (!userId) {
+          throw new NotFoundException('No se encontró el usuario');
+        }
+    
+        try {
+          const locationData = await this.usersService.getLocation(userId);
+          return locationData;
+        } catch (error) {
+          throw new NotFoundException(error.message);
+        }
+      }
     
     @ApiBearerAuth()
     @Get('favorite_users')
