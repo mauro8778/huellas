@@ -11,7 +11,7 @@ const ListaMascotas: React.FC<ListaMascotasProps> = () => {
   const [mascotas, setMascotas] = useState<IMascotas[]>([]);
 
   useEffect(() => {
-    // Aquí debes cargar la lista inicial de mascotas desde tu API
+
     fetch('https://huellasdesperanza.onrender.com/pets')
       .then(response => response.json())
       .then(data => setMascotas(data))
