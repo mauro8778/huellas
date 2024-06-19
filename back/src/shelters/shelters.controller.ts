@@ -13,6 +13,7 @@ import { SheltersService } from './shelters.service';
 import { ApiTags } from '@nestjs/swagger';
 import { Auth0Guard } from 'src/guards/auth0.guard';
 import { UpdateShelterDto } from 'src/dto/updateShelter.dto';
+import { AuthGuard } from 'src/guards/auth.guard';
 
 @ApiTags('Shelters')
 @Controller('shelters')
@@ -28,16 +29,17 @@ export class SheltersController {
   getShelterById(@Param('id', ParseUUIDPipe) id: string) {
     return this.sheltersService.getShelterById(id);
   }
-  @Put('profile/:id')
-  updatedProfile(
-      @Param('id',ParseUUIDPipe) id:string,
-      @Body() user : UpdateShelterDto){
-      return this.sheltersService.updatedProfile(id, user)
+
+  @UseGuards(AuthGuard)
+  @Put('profile')
+  updatedProfile(@Body() user: UpdateShelterDto, @Req() request) {
+    const id = request.user['https://huellasdesperanza.com/userID'];
+    return this.sheltersService.updatedProfile(id, user);
   }
 
   @UseGuards(Auth0Guard)
-  @Post('active/:id') 
- ActiveShelter(@Req() req, @Param('id', ParseUUIDPipe) id: string) {
+  @Post('active/:id')
+  ActiveShelter(@Req() req, @Param('id', ParseUUIDPipe) id: string) {
     const accessToken = req.auth0Token;
     return this.sheltersService.ActiveShelter(id, accessToken);
   }
@@ -48,11 +50,11 @@ export class SheltersController {
     const accessToken = req.auth0Token;
     return this.sheltersService.deleteShelter(id, accessToken);
   }
-  
+
   @UseGuards(Auth0Guard)
   @Put('admin/:id')
-  adminShelter(@Req() req, @Param('id',ParseUUIDPipe) id:string){
-      const accessToken = req.auth0Token;
-      return this.sheltersService.adminShelter(id,accessToken)
+  adminShelter(@Req() req, @Param('id', ParseUUIDPipe) id: string) {
+    const accessToken = req.auth0Token;
+    return this.sheltersService.adminShelter(id, accessToken);
   }
 }
