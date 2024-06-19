@@ -211,22 +211,33 @@ export class AuthService {
     }
   }
 
-  async foundEmail(email: string) {
-    const foundUser = await this.userRepository.findOneBy({ email });
+  async foundEmail(email: string, tokenAcess) {
+    const auth0Domain = process.env.AUTH0_DOMAIN;
 
-    if (foundUser) {
-      const name= foundUser.name
-        
-      this.mailService.cambioPasswordMail(email,name)    }
+    const userResponse = await axios.get(
+      `https://${auth0Domain}/api/v2/users-by-email`,
+      {
+        params: { email },
+        headers: { Authorization: `Bearer ${tokenAcess}` },
+      },
+    );
 
-      return foundUser.id
+    if (userResponse.data.length === 0) {
+      throw new Error('User not found');
+    }
+
+    const name = userResponse.data[0].user_metadata.name;
+
+    this.mailService.cambioPasswordMail(email, name);
+
+    const userId = userResponse.data[0].user_id;
+
+    return userId;
   }
 
-  async changePassword(newPassword: any, tokenAcess) {
-  
-
+  async changePassword(userId: any, newPassword: any, tokenAcess) {
     const response = await axios.patch(
-      `https://${process.env.AUTH0_DOMAIN}/api/v2/users/${id}`,
+      `https://${process.env.AUTH0_DOMAIN}/api/v2/users/${userId}`,
       {
         password: newPassword,
       },
@@ -238,7 +249,7 @@ export class AuthService {
     );
 
     return {
-      message: `El password del usuario con ID: ${id}, fue modificado correctamente, ${response.data}`,
+      message: `El password del usuario con ID: ${userId}, fue modificado correctamente`,
     };
   }
 }

@@ -1,4 +1,12 @@
-import { Body, Controller, Param, Post, Put, Req, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Param,
+  Post,
+  Put,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateUserDto } from 'src/dto/createUser.dto';
 import { LoginDto } from 'src/dto/login.dto';
@@ -45,17 +53,24 @@ export class AuthController {
   }
 
   @UseGuards(Auth0Guard)
-  @Put('/password/:id')
-  changePassword(
-    @Body() body:any, @Req() req) {
-    const { email, newPassword } = body
+  @Put('/password')
+  changePassword(@Body() body: any, @Req() req) {
+    const userId = req.session.userId;
+
+    const { newPassword } = body;
     const tokenAcess = req.auth0Token;
-    return this.authService.changePassword( email, newPassword, tokenAcess );
+    return this.authService.changePassword(userId, newPassword, tokenAcess);
   }
 
+  @UseGuards(Auth0Guard)
   @Post('/email')
-  foundEmail(@Body() body:any, @Req() req) {
-    const { email } = body
-    return this.authService.foundEmail(email);
+  async foundEmail(@Body() body: any, @Req() req) {
+    const { email } = body;
+    const tokenAcess = req.auth0Token;
+    const userId = await this.authService.foundEmail(email, tokenAcess);
+
+    req.session.userId = userId;
+
+    return { message: 'El email fue encontrado y existe el usuario' };
   }
 }
