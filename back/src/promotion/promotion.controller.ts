@@ -8,6 +8,11 @@ import { PomotionDto } from 'src/dto/create.promotion.dto';
 export class PromotionController {
     constructor(private promotionService: PromotionService){}
 
+    @Get()
+    getPromotion(){
+        return this.promotionService.getPromotion()
+    }
+    
     @Post()
     addPromotion(@Body() newPromotion: PomotionDto){
         return this.promotionService.addPromotion(newPromotion);
