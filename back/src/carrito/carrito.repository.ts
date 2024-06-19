@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from "@nestjs/common";
+import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { CarritoPendienteDto } from "src/dto/Carrito.dto";
 import { ShelterOrderDto } from "src/dto/shelterOrderDto";
@@ -42,13 +42,29 @@ export class CarritoRepository {
     }
 
     async getCarrito(userId: string) {
-        const user: UserEntity[] = await this.usersRepository.find({where:{id: userId}, relations:{
-            carrito: true
-        }});
-
         
-        return user;
-    }
+        const user = await this.usersRepository.findOne({
+          where: { id: userId },
+          relations: ['carrito'],
+        });
+      
+        
+        if (!user) {
+          throw new NotFoundException('Usuario no encontrado');
+        }
+      
+       
+        const carrito = user.carrito;
+      
+        
+        if (!carrito) {
+          throw new NotFoundException('Carrito no encontrado');
+        }
+      
+        
+        return carrito;
+      }
+      
 
     async addOrder(ordershelter, userId) {
         let total = 0;
