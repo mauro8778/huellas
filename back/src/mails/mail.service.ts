@@ -115,6 +115,38 @@ export class MailService {
     this.logger.log(`Enviando correo a ${userEmail} con asunto "${subject}" y texto "${text}"`);
     await this.sendMail(userEmail, subject, text, html);
   }
+  async ConfirmCambiodePassword(userEmail: string, username: string, newPassword: string) {
+    const subject = 'Confirmación de Cambio de Contraseña - Huellas de Esperanza';
+    const text = `Hola ${username},
+  
+  Hemos confirmado el cambio de la contraseña de tu cuenta en Huellas de Esperanza. Tu nueva contraseña es: ${newPassword}
+  
+  Para iniciar sesión con tu nueva contraseña, sigue el enlace a continuación:
+  
+  Si tienes alguna pregunta o necesitas ayuda, no dudes en contactarnos.
+  
+  Saludos cordiales,
+  El equipo de Huellas de Esperanza`;
+  
+    const html = `
+  <div style="border: 2px solid #ff3366; padding: 20px; background: white; border-radius: 15px; text-align: center; max-width: 600px; margin: 0 auto;">
+    <p>¡Hola, <strong>${username}</strong>!</p>
+    <p>Hemos confirmado el cambio de la contraseña de tu cuenta en Huellas de Esperanza. Tu nueva contraseña es: <strong>${newPassword}</strong></p>
+    <p>Para iniciar sesión con tu nueva contraseña, sigue el enlace a continuación:</p>
+    <p>
+      <a href="https://huellas-ruddy.vercel.app/AUTH/login" style="display: inline-block; padding: 10px 20px; background: linear-gradient(to bottom, #ff3366, #ff3366); color: white; text-decoration: none; border-radius: 5px; box-shadow: 0 5px 15px rgba(255, 0, 102, 0.3); transition: all 0.3s ease;">
+        Iniciar Sesión
+      </a>
+    </p>
+    <p>Si tienes alguna pregunta o necesitas ayuda, no dudes en contactarnos.</p>
+    <p>¡Saludos!</p>
+    <p>El Equipo de Huellas de Esperanza</p>
+  </div>`;
+  
+    this.logger.log(`Enviando correo a ${userEmail} con asunto "${subject}" y texto "${text}"`);
+    await this.sendMail(userEmail, subject, text, html);
+  }
+  
   async registershelterMail(userEmail: string, username: string, password: string) {
     const subject = 'Bienvenido a Huellas de Esperanza';
     const text = `Hola ${username},
