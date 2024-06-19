@@ -61,16 +61,22 @@ export class CarritoRepository {
           throw new NotFoundException('Carrito no encontrado');
         }
 
-        const arr = await Promise.all( carrito.map(async(shelter) => {
-            const nshelter : ShelterEntity = await this.shelterRepository.findOne({where: {id: shelter.shelter_id}})
-
-            const {id, imgUrl} = nshelter
-            
-            return {id, imgUrl}
-        }))
+        const arr = await Promise.all(
+            carrito.map(async (shelter) => {
+              const nshelter: ShelterEntity = await this.shelterRepository.findOne({
+                where: { id: shelter.shelter_id },
+              });
         
-        return {...carrito, arr};
-      }
+              const { id, name, imgUrl } = nshelter;
+
+              const shelter_id = id
+        
+              return {id: shelter.id, shelter_id, name, imgUrl, price: shelter.price };
+            })
+          );
+        
+          return arr;
+        }
       
 
     async addOrder(ordershelter, userId) {
