@@ -1,6 +1,8 @@
+
+
 import React from 'react'
 
-const MisMascotas = () => {
+const DashboardAdmin = () => {
   return (
     <div>
         
@@ -8,4 +10,4 @@ const MisMascotas = () => {
   )
 }
 
-export default MisMascotas
+export default DashboardAdmin
