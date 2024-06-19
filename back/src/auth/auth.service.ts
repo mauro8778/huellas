@@ -23,8 +23,8 @@ export class AuthService {
     @InjectRepository(ShelterEntity)
     private shelterRepository: Repository<ShelterEntity>,
     private readonly mailService: MailService,
-    private readonly mapsservice: MapsService
-  ) { }
+    private readonly mapsservice: MapsService,
+  ) {}
 
   async RegisterUser(
     email: string,
@@ -40,20 +40,19 @@ export class AuthService {
       );
     }
 
-
-
-    const register = this.Register(email, password, metadata, accessToken, 'user');
+    const register = this.Register(
+      email,
+      password,
+      metadata,
+      accessToken,
+      'user',
+    );
 
     if (register) {
-
       await this.mailService.registerUserMail(email, metadata.name, password);
-
     }
 
-
-    return register
-
-
+    return register;
   }
 
   async RegisterShelter(
@@ -84,7 +83,6 @@ export class AuthService {
     const existingShelter = await this.shelterRepository.findOne({
       where: {
         shelter_name: metadata.shelter_name,
-
       },
     });
 
@@ -99,9 +97,16 @@ export class AuthService {
       password,
     );
     try {
-      const geocodeData = await this.mapsservice.geocodeShelterAddress(metadata.address);
+      const geocodeData = await this.mapsservice.geocodeShelterAddress(
+        metadata.address,
+      );
 
-      if (!geocodeData || !geocodeData.lat || !geocodeData.lon || !geocodeData.display_name) {
+      if (
+        !geocodeData ||
+        !geocodeData.lat ||
+        !geocodeData.lon ||
+        !geocodeData.display_name
+      ) {
         throw new Error('Invalid geocoding data');
       }
 
@@ -109,16 +114,14 @@ export class AuthService {
       metadata.lon = parseFloat(geocodeData.lon);
       metadata.display_name = geocodeData.display_name;
 
-      
-    return this.Register(email, password, metadata, accessToken, 'shelter');
-    
+      return this.Register(email, password, metadata, accessToken, 'shelter');
     } catch (error) {
       console.error('Error geocoding address:', error);
-      throw new NotFoundException('Invalid address: Address could not be geocoded');
+      throw new NotFoundException(
+        'Invalid address: Address could not be geocoded',
+      );
     }
-
   }
-
 
   async Register(
     email: string,
@@ -198,9 +201,41 @@ export class AuthService {
 
       const { access_token, id_token } = response.data;
 
-      return { succes: 'Usuario logueado correctamente', access_token, id_token };
+      return {
+        succes: 'Usuario logueado correctamente',
+        access_token,
+        id_token,
+      };
     } catch (error) {
       throw new UnauthorizedException('Invalid credentials');
     }
+  }
+
+  async foundEmail(email: string) {
+    const foundUser = this.userRepository.findOneBy({ email });
+
+    if (foundUser) {
+      //Se envia el mail
+    }
+  }
+
+  async changePassword(email: string, newPassword: any, tokenAcess) {
+    const foundUser = this.userRepository.findOneBy({ email });
+
+    const response = await axios.patch(
+      `https://${process.env.AUTH0_DOMAIN}/api/v2/users/${id}`,
+      {
+        password: newPassword,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${tokenAcess}`,
+        },
+      },
+    );
+
+    return {
+      message: `El password del usuario con ID: ${id}, fue modificado correctamente, ${response.data}`,
+    };
   }
 }
