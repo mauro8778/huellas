@@ -2,19 +2,9 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import * as session from 'express-session';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-
-  app.use(
-    session({
-      secret: 'huellasdesperanza',
-      resave: false,
-      saveUninitialized: false,
-      cookie: { secure: false }, // Cambia esto a true en producción y usa HTTPS
-    }),
-  );
 
   app.enableCors();
   app.useGlobalPipes(
