@@ -1,4 +1,12 @@
-import { Body, Controller, Post, Req, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Param,
+  Post,
+  Put,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateUserDto } from 'src/dto/createUser.dto';
 import { LoginDto } from 'src/dto/login.dto';
@@ -11,7 +19,6 @@ import { CreateShelterDto } from 'src/dto/createShelter.dto';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  
   @UseGuards(Auth0Guard)
   @Post('/register/user')
   Register(@Body() register: CreateUserDto, @Req() req) {
@@ -30,7 +37,7 @@ export class AuthController {
   registerShelter(@Body() register: CreateShelterDto, @Req() req) {
     const accessToken = req.auth0Token;
     const { email, password, ...metadata } = register;
-    
+
     return this.authService.RegisterShelter(
       email,
       password,
@@ -43,5 +50,27 @@ export class AuthController {
   Login(@Body() credential: LoginDto) {
     const { email, password } = credential;
     return this.authService.Login(email, password);
+  }
+
+  @UseGuards(Auth0Guard)
+  @Put('/password')
+  changePassword(@Body() body: any, @Req() req) {
+    const userId = req.session.userId;
+
+    const { newPassword } = body;
+    const tokenAcess = req.auth0Token;
+    return this.authService.changePassword(userId, newPassword, tokenAcess);
+  }
+
+  @UseGuards(Auth0Guard)
+  @Post('/email')
+  async foundEmail(@Body() body: any, @Req() req) {
+    const { email } = body;
+    const tokenAcess = req.auth0Token;
+    const userId = await this.authService.foundEmail(email, tokenAcess);
+
+    req.session.userId = userId;
+
+    return { message: 'El email fue encontrado y existe el usuario' };
   }
 }
