@@ -1,12 +1,18 @@
 'use client'
 import React, { useEffect, useState } from 'react';
 import { IMascotas } from '@/interface/IMascotas';
+import { IRefugios } from '@/interface/IRefugios';
+import CardAnimals from '@/components/Card-Animals/CardAnimals';
+import CardRefuge from '@/components/Refugios/CardRefuge';
+
 
 const Favorite = () => {
   const [favoritePets, setFavoritePets] = useState<IMascotas[]>([]);
+  const [favoriteShelters, setFavoriteShelters] = useState<IRefugios[]>([]);
+  const [loading, setLoading] = useState(true); 
 
   useEffect(() => {
-    const fetchUsers = async () => {
+    const fetchFavorites = async () => {
       try {
         const userSessionString = localStorage.getItem('userSession');
         if (!userSessionString) {
@@ -30,35 +36,58 @@ const Favorite = () => {
         }
 
         const data = await response.json();
-        console.log('info de la api:', data); 
+        console.log('Data from API:', data);
 
-        setFavoritePets(data.user.favorite_pets);
+
+        if (data.user.favorite_pets) {
+          setFavoritePets(data.user.favorite_pets);
+        }
+        if (data.user.favorite_shelters) {
+          setFavoriteShelters(data.user.favorite_shelters);
+        }
+
+        setLoading(false);
       } catch (error) {
         console.error(error);
+        setLoading(false); 
       }
     };
 
-    fetchUsers();
+    fetchFavorites();
   }, []);
+
+  if (loading) {
+    return <p>Cargando favoritos...</p>;
+  }
+
+  if (favoritePets.length === 0 && favoriteShelters.length === 0) {
+    return <p>No tenes favoritos.</p>;
+  }
 
   return (
     <div>
-      <h2>Mascotas Favoritas</h2>
-      <ul className='mt-5'>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 justify-center">
         {favoritePets.map((pet) => (
-          <li key={pet.id} className='mt-5'>
-            <div>
-              {pet.name}
-            </div>
-            <div>
-              {pet.species}
-            </div>
-            <div>
-              {pet.breed}
-            </div>
-          </li>
+          <div key={pet.id} className="transform scale-75">
+            <CardAnimals
+              mascota={pet}
+              updateMascota={() => {}} 
+              deleteMascota={() => {}} 
+            />
+          </div>
         ))}
-      </ul>
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 justify-center">
+        {favoriteShelters.map((shelter) => (
+          <div key={shelter.id} className="transform scale-75">
+            <CardRefuge
+              refugio={shelter}
+            />
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
