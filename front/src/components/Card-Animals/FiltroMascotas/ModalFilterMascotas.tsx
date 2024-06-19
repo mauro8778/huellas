@@ -5,8 +5,6 @@ import FiltroTamaño from './FiltroTamaño';
 import FiltroEspecie from './FiltroEspecie';
 import FiltroSexo from './FiltroSexo';
 
-
-
 interface ModalProps {
   onClose: () => void;
   onFilter: (edad: string, tamaño: string, raza: string, sexo: string, especie: string) => void;
@@ -26,6 +24,7 @@ const ModalFilterMascotas: React.FC<ModalProps> = ({ onClose, onFilter, isOpen, 
   const [especie, setEspecie] = useState('');
 
   const handleFilter = () => {
+    console.log('Filtros aplicados:', { edad, tamaño, raza, sexo, especie });
     onFilter(edad, tamaño, raza, sexo, especie);
     onClose();
   };
