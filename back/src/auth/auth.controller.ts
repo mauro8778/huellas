@@ -55,9 +55,8 @@ export class AuthController {
   @UseGuards(Auth0Guard)
   @Put('/password')
   changePassword(@Body() body: any, @Req() req) {
-    const userId = req.session.userId;
+    const { userId, newPassword } = body;
 
-    const { newPassword } = body;
     const tokenAcess = req.auth0Token;
     return this.authService.changePassword(userId, newPassword, tokenAcess);
   }
@@ -69,8 +68,6 @@ export class AuthController {
     const tokenAcess = req.auth0Token;
     const userId = await this.authService.foundEmail(email, tokenAcess);
 
-    req.session.userId = userId;
-
-    return { message: 'El email fue encontrado y existe el usuario' };
+    return userId
   }
 }
