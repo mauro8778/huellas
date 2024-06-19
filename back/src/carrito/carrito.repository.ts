@@ -54,16 +54,30 @@ export class CarritoRepository {
         }
       
        
-        const carrito = user.carrito;
+        const carrito = user.carrito
       
         
         if (!carrito) {
           throw new NotFoundException('Carrito no encontrado');
         }
-      
+
+        const arr = await Promise.all(
+            carrito.map(async (shelter) => {
+              const nshelter: ShelterEntity = await this.shelterRepository.findOne({
+                where: { id: shelter.shelter_id },
+              });
         
-        return carrito;
-      }
+              const { id, shelter_name, imgUrl } = nshelter;
+
+              const shelter_id = id
+        
+              return {id: shelter.id, shelter_id, shelter_name, imgUrl, price: shelter.price }; 
+
+            })
+          );
+        
+          return arr;
+        }
       
 
     async addOrder(ordershelter, userId) {
@@ -143,8 +157,8 @@ export class CarritoRepository {
     let carrito = await this.carritoRepository.findOne({ where: { shelter_id: order.shelter_id } });
 
     if (carrito) {
-        carrito.price += price;
-        await this.carritoRepository.update(carrito.id, { price: carrito.price });
+        carrito.price = Number(carrito.price) + price;
+        await this.carritoRepository.save(carrito)
     }else{
         const newCarrito = new CarritoPendienteEntity()
         newCarrito.price = price;
@@ -170,5 +184,40 @@ export class CarritoRepository {
         })
         return order;
     }
+
+
+
+    async deleteCarritoId(id: string, userId: any) {
+
+        const user = await this.usersRepository.findOne({
+            where: { id: userId },
+            relations: ['carrito'],
+          });
+        
+          
+          if (!user) {
+            throw new NotFoundException('Usuario no encontrado');
+          }
+        
+         
+          let carrito: CarritoPendienteEntity[] = user.carrito
+        
+          
+          if (!carrito) {
+            throw new NotFoundException('Carrito no encontrado');
+          }
+
+          const up = Promise.all(carrito.map(async (shelter) => {
+            if(shelter.id == id){
+                await this.carritoRepository.delete(shelter)
+            }
+          }))
+
+          await this.usersRepository.save(user)
+
+          return 'Eliminado correctamente'
+
+    }
+
 
 }
