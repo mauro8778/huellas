@@ -19,6 +19,11 @@ export class PetsController {
         return this.petsService.getPets();
     }
 
+    @Get('condition')
+    getPetsIsCondition(){
+        return this.petsService.getPetsIsCondition();
+    }
+
     @Get(':id')
     getPetById(@Param('id', ParseUUIDPipe) id: string){
         return this.petsService.getPetById(id);
