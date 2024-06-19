@@ -1,4 +1,6 @@
 'use client';
+
+
 import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { IMascotas } from '@/interface/IMascotas';
 import ModalFilterMascotas from '@/components/Card-Animals/FiltroMascotas/ModalFilterMascotas';
@@ -15,8 +17,7 @@ const Adopta = () => {
   useEffect(() => {
     const fetchMascotas = async () => {
       try {
-        const queryParams = new URLSearchParams();
-        const response = await fetch(`https://huellasdesperanza.onrender.com/search/pets?${queryParams.toString()}`);
+        const response = await fetch('https://huellasdesperanza.onrender.com/search/pets');
         if (!response.ok) {
           throw new Error('Error al obtener los datos de las mascotas!');
         }
@@ -36,6 +37,7 @@ const Adopta = () => {
   }, []);
 
   const handleFilter = (edad: string, tamaño: string, raza: string, sexo: string, especie: string) => {
+    console.log('Aplicando filtros:', { edad, tamaño, raza, sexo, especie });
     setFilters({ edad, tamaño, raza, sexo, especie });
     setFilterModalVisible(false);
   };
@@ -63,6 +65,10 @@ const Adopta = () => {
     );
   };
 
+  const deleteMascotaFromList = (mascotaId: string) => {
+    setMascotasState(prevState => prevState.filter(m => m.id !== mascotaId));
+  };
+
   const filteredMascotas = filtrarMascotas();
 
   return (
@@ -74,7 +80,11 @@ const Adopta = () => {
       </div>
       <Suspense fallback={<div>Cargando mascotas...</div>}>
         {filteredMascotas.length > 0 ? (
-          <ListaMascotas mascotas={filteredMascotas} updateMascota={updateMascota} />
+          <ListaMascotas 
+            mascotas={filteredMascotas} 
+            updateMascota={updateMascota}
+            deleteMascota={deleteMascotaFromList}
+          />
         ) : (
           <div>No se encontraron mascotas con los filtros seleccionados!</div>
         )}
