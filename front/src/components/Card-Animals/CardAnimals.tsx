@@ -111,7 +111,7 @@ const CardAnimals: React.FC<{
           </div>
           <div className="p-4">
             <h1 className="text-lg font-semibold mb-2 text-black">{mascota.name}</h1>
-            <p className="text-gray-600 mb-2">{mascota.age} Años - {mascota.sexo}</p>
+            <p className="text-gray-600 mb-2">{mascota.age} {mascota.month}  - {mascota.sexo}</p>
             <p className="mb-3 font-normal text-gray-700 dark:text-gray-400 min-h-10">{truncatedDescription}</p>
           </div>
         </Link>

@@ -19,7 +19,9 @@ export const MascotaDetail: React.FC<IMascotas & { petId: string }> = ({
   breed,
   sexo,
   pet_size,
-  petId
+  petId,
+  month,
+  
 }) => {
   const [isFavorite, setIsFavorite] = useState(false);
   const [listImg, setListImg] = useState(initialListImg || []);
@@ -81,7 +83,7 @@ export const MascotaDetail: React.FC<IMascotas & { petId: string }> = ({
         </div>
         <div className="col-span-1 px-5 shadow-xl m-5">
           <h1 className="antialiased font-bold text-xl">Te presentamos a {name}</h1>
-          <h3>Su edad es de {age} años</h3>
+          <h3>Su edad es de {age}  {month} </h3>
           <h3>Raza {breed}</h3>
           <h3>{sexo}</h3>
           <h3>{pet_size}</h3>

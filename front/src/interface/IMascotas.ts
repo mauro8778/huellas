@@ -12,5 +12,6 @@ export interface IMascotas  {
     imgUrl?: string
     listImg?: string[];
     isActive?: boolean
+    shelter_name?: string
   }
 
