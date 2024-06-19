@@ -152,4 +152,11 @@ export class PetsRepository {
         return 'imagen eliminada correctamente'
 
     }
+
+    async getPetsIsCondition() {
+        const petIscondition = await this.petsRepository.find({where: {isCondition : true}})
+
+        return petIscondition
+    }
+
 }

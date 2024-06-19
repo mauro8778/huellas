@@ -10,6 +10,10 @@ export class PetsService {
         return this.petsRepository.getPets();
     }
 
+    getPetsIsCondition() {
+        return this.petsRepository.getPetsIsCondition();
+    }
+
     getPetById(id: string) {
         return this.petsRepository.getPetById(id);
     }
