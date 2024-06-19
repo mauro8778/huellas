@@ -241,12 +241,23 @@ export class UserRepository implements OnModuleInit {
       throw new Error('User not found');
     }
     const userId = userResponse.data[0].user_id;
+    const current=userResponse.data[0].user_metadata || {}
+    const role=current.roles || {}
 
+    let newRoles;
+    
+    if (role.includes('Admin')) {
+    
+      newRoles = ['User'];
+    } else {
+     
+      newRoles = ['Admin'];
+    }
     try {
       await axios.patch(
         `https://${auth0Domain}/api/v2/users/${userId}`,
         {
-          user_metadata: { roles: ['Admin'] },
+          user_metadata: { roles: newRoles },
         },
         {
           headers: { Authorization: `Bearer ${accessToken}` },
