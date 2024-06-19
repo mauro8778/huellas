@@ -6,59 +6,18 @@
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 </head>
 <body>
-  <div>
-    <input type="text" id="userId" placeholder="Ingrese el ID del usuario" />
-    <button onclick="loadLocation()">Cargar Ubicación</button>
+  <div style="border: 2px solid #ff3366; padding: 20px; background: white; border-radius: 15px; text-align: center; max-width: 600px; margin: 0 auto;">
+    <p>¡Hola, <strong>${username}</strong>!</p>
+    <p>Hemos confirmado el cambio de la contraseña de tu cuenta en Huellas de Esperanza. Tu nueva contraseña es: <strong>${newPassword}</strong></p>
+    <p>Para iniciar sesión con tu nueva contraseña, sigue el enlace a continuación:</p>
+    <p>
+      <a href="https://huellas-eight.vercel.app/login" style="display: inline-block; padding: 10px 20px; background: linear-gradient(to bottom, #ff3366, #ff3366); color: white; text-decoration: none; border-radius: 5px; box-shadow: 0 5px 15px rgba(255, 0, 102, 0.3); transition: all 0.3s ease;">
+        Iniciar Sesión
+      </a>
+    </p>
+    <p>Si tienes alguna pregunta o necesitas ayuda, no dudes en contactarnos.</p>
+    <p>¡Saludos!</p>
+    <p>El Equipo de Huellas de Esperanza</p>
   </div>
-  <div id="map" style="height: 600px; width: 100%; margin-top: 20px;"></div>
-
-  <script>
-    async function fetchLocation(userId) {
-      try {
-        const response = await fetch(`http://localhost:3000/users/location/${userId}`);
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        const data = await response.json();
-        return data;
-      } catch (error) {
-        console.error('Fetch error:', error);
-      }
-    }
-
-    function renderMap(userLocation, shelterLocation) {
-      const map = L.map('map').setView([userLocation.lat, userLocation.lon], 13);
-      console.log('location', shelterLocation);
-
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-      }).addTo(map);
-
-      L.marker([userLocation.lat, userLocation.lon])
-        .addTo(map)
-        .bindPopup('<span style="color: red; font-weight: bold;">¡Estás aquí!</span>')
-        .openPopup();
-
-      shelterLocation.forEach(shelter => {
-        L.marker([shelter.lat, shelter.lon])
-          .addTo(map)
-          .bindPopup(shelter.name);
-      });
-    }
-
-    function loadLocation() {
-      const userId = document.getElementById('userId').value;
-      if (userId) {
-        fetchLocation(userId).then(data => {
-          if (data) {
-            const { userLocation, shelterLocation } = data;
-            renderMap(userLocation, shelterLocation);
-          }
-        });
-      } else {
-        alert('Por favor, ingrese un ID de usuario.');
-      }
-    }
-  </script>
 </body>
 </html>
