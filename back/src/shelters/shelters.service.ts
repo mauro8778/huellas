@@ -13,7 +13,8 @@ export class SheltersService {
   getShelterById(id: string) {
     return this.sheltersRepository.getShelterById(id);
   }
-  updatedProfile(id : string, shelter : Partial<ShelterEntity>){
+
+  updatedProfile(id: string, shelter: Partial<ShelterEntity>) {
     return this.sheltersRepository.updatedProfile(id, shelter);
   }
 
@@ -25,7 +26,7 @@ export class SheltersService {
     return this.sheltersRepository.ActiveShelter(id, accessToken);
   }
 
-  adminShelter(id:string,accessToken){
-    return this.sheltersRepository.adminShelter(id,accessToken)
+  adminShelter(id: string, accessToken) {
+    return this.sheltersRepository.adminShelter(id, accessToken);
   }
 }
