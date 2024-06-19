@@ -104,7 +104,7 @@ export class MailService {
         <p>Hemos recibido una solicitud para cambiar la contraseña de tu cuenta en Huellas de Esperanza. Si no solicitaste este cambio, por favor ignora este correo.</p>
         <p>Para cambiar tu contraseña, sigue el enlace a continuación:</p>
         <p>
-          <a href="https://huellas-ruddy.vercel.app/AUTH/new_password" style="display: inline-block; padding: 10px 20px; background: linear-gradient(to bottom, #ff3366, #ffffff); color: white; text-decoration: none; border-radius: 5px; box-shadow: 0 5px 15px rgba(255, 0, 102, 0.3); transition: all 0.3s ease;">
+          <a href="https://huellas-eight.vercel.app/AUTH/new_password" style="display: inline-block; padding: 10px 20px; background: linear-gradient(to bottom, #ff3366, #ffffff); color: white; text-decoration: none; border-radius: 5px; box-shadow: 0 5px 15px rgba(255, 0, 102, 0.3); transition: all 0.3s ease;">
             Cambiar Contraseña
           </a>
         </p>
