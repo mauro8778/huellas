@@ -136,9 +136,10 @@ const DonationForm: React.FC = () => {
   useEffect(() => {
     const fetchShelters = async () => {
       try {
-        const response = await axios.get('');
-        setShelters(response.data);
-        setTotal(response.data.reduce((acc: number, shelter: IShelter) => acc + shelter.amount, 0));
+        const response = await axios.get('https://huellasdesperanza.onrender.com/carrito/orders'); // Asegúrate de reemplazar 'URL_DE_TU_API' con la URL correcta
+        const data: IShelter[] = response.data;
+        setShelters(data);
+        setTotal(data.reduce((acc, shelter) => acc + shelter.amount, 0));
       } catch (error) {
         console.error('Error fetching shelters:', error);
       }
@@ -217,4 +218,3 @@ const DonationForm: React.FC = () => {
 }
 
 export default DonationForm;
-
