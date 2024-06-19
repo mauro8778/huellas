@@ -9,6 +9,16 @@ export class PromotionRepository {
     constructor(@InjectRepository(PromotionsEntity)
     private promotionRepository: Repository<PromotionsEntity>,){}
 
+    async getPromotion() {
+        const promotion: PromotionsEntity[] = await this.promotionRepository.find();
+
+        if (promotion.length == 0) {
+            throw new NotFoundException('No hay promociones actuales')
+        }
+
+        return promotion;
+    }
+
     async addPromotion(newPromo: PomotionDto){
         const promotion: PromotionsEntity[] = await this.promotionRepository.find();
         const {title, description} = newPromo        
