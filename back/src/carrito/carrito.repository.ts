@@ -67,11 +67,11 @@ export class CarritoRepository {
                 where: { id: shelter.shelter_id },
               });
         
-              const { id, name, imgUrl } = nshelter;
+              const { id, shelter_name, imgUrl } = nshelter;
 
               const shelter_id = id
         
-              return {id: shelter.id, shelter_id, name, imgUrl, price: shelter.price };
+              return {id: shelter.id, shelter_id, shelter_name, imgUrl, price: shelter.price };
             })
           );
         
