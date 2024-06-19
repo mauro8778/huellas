@@ -6,6 +6,9 @@ import { ApiTags } from '@nestjs/swagger';
 @ApiTags('google')
 @Controller()
 export class GoogleController {
+
+  private readonly FRONT_URL = process.env.FRONT_URL
+  
   constructor(private readonly googleService: GoogleService) {}
 
   @Get('google')
@@ -18,9 +21,9 @@ export class GoogleController {
   async googleAuthCallback(@Query('code') code: string, @Res() res: Response): Promise<void> {
     try {
       const tokens = await this.googleService.handleGoogleCallback(code);
-      // Maneja la autenticación del usuario en tu aplicación aquí
-      // Podrías crear una sesión, enviar un JWT, etc.
-      res.json(tokens);
+      /* const redirectUrl = `${this.FRONT_URL}?tokens=${encodeURIComponent(JSON.stringify(tokens))}`; */
+      const redirectUrl = `${this.FRONT_URL}`;
+      res.redirect(redirectUrl);
     } catch (error) {
       res.status(500).send(error.message);
     }
