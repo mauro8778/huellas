@@ -72,13 +72,18 @@ export const RefugioDetail: React.FC<IRefugios> = ({ id, name, description, imgU
 
     try {
       console.log('Enviando solicitud POST al servidor...');
-      const response = await fetch("https://huellasdesperanza.onrender.com/carrito", {
+      const response = await fetch("https://huellasdesperanza.onrender.com/carrito/add", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           "Authorization": `Bearer ${token}`
         },
-        body: JSON.stringify([newDonation])
+        body: JSON.stringify(
+          {
+            shelter_id: newDonation.shelter.id,
+            price: newDonation.amount
+          }
+        )
       });
       console.log('Respuesta del servidor:', response);
 
