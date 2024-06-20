@@ -26,7 +26,7 @@ export class MapsService {
         },
         headers: {
 
-          'User-Agent': 'HuellasApp/3.0(conhkhtacto@huellasapp.com)', 
+          'User-Agent': 'HuellasApp/5.0(conhkhtasadaacto@huellasapp.com)', 
 
         },
       });
