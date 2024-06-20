@@ -17,7 +17,7 @@ const Donations = () => {
 
                 const { access_token } = JSON.parse(userSession); 
 
-                const response = await fetch('https://huellasdesperanza.onrender.com/adoption/user', {
+                const response = await fetch('https://huellasdesperanza.onrender.com/orders/all', {
                     method: 'GET',
                     headers: {
                         'Authorization': `Bearer ${access_token}`,

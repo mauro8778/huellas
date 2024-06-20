@@ -251,7 +251,7 @@ const CardAnimals: React.FC<{
             </svg>
           </button>
               )}
-          {userRole !== 'User' && (
+          {userRole === 'User' && (
 
           <DeleteMascota mascotaId={mascota.id} onDelete={deleteMascota} />
 )}
