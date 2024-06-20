@@ -24,7 +24,7 @@ export class UserController {
 
 
     @ApiBearerAuth()
-    @Get('pet/:id')
+    @Get('pet')
     @UseGuards(AuthGuard)
     async getUserPetId(@Req() request){
 
