@@ -1,8 +1,8 @@
+
 'use client'
 import React, { useEffect, useState } from 'react';
+import Swal from 'sweetalert2';
 import { IMascotas } from '@/interface/IMascotas';
-
-
 
 const FormularioMascota = () => {
   const [nombre, setNombre] = useState('');
@@ -27,12 +27,10 @@ const FormularioMascota = () => {
     const userSession = JSON.parse(userSessionString);
     const token = userSession.access_token;
 
-
     if (nombre && sexo && raza && edad !== null && mes !== null && tamaño && selectedFile && especie) {
       try {
         const formData = new FormData();
         formData.append('file', selectedFile);
-        console.log('FormData:', formData);
 
         const response = await fetch('https://huellasdesperanza.onrender.com/files/uploadFile', {
           method: 'POST',
@@ -44,7 +42,6 @@ const FormularioMascota = () => {
         }
 
         const imageUrl = await response.text();
-        console.log('Image URL:', imageUrl); 
 
         const nuevaMascota: IMascotas = {
           name: nombre,
@@ -57,8 +54,6 @@ const FormularioMascota = () => {
           imgUrl: imageUrl,
           species: especie,
         };
-
-        console.log('Nueva Mascota:', nuevaMascota); 
 
         const mascotaResponse = await fetch('https://huellasdesperanza.onrender.com/pets', {
           method: 'POST',
@@ -73,7 +68,21 @@ const FormularioMascota = () => {
           throw new Error('Failed to add pet.');
         }
 
-        alert('Mascota agregada correctamente');
+        Swal.fire({
+          title: 'Mascota agregada correctamente',
+          icon: 'success',
+          confirmButtonText: 'Aceptar'
+        });
+
+        setNombre('');
+        setEspecie('');
+        setSexo('');
+        setRaza('');
+        setEdad(null);
+        setMes('');
+        setTamaño('');
+        setDescripcion('');
+        setSelectedFile(null);
       } catch (error) {
         console.error('Error:', error); 
         alert('Ocurrió un error al agregar la mascota. Por favor, intente nuevamente.');
@@ -100,7 +109,7 @@ const FormularioMascota = () => {
   }, [especie]);
 
   return (
-    <form onSubmit={handleSubmit} className="mt-4" encType="multipart/form-data">
+    <form onSubmit={handleSubmit} className="mt-4 max-w-md mx-auto" encType="multipart/form-data">
       <div className="mb-4">
         <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="nombre">
           Nombre de la Mascota
@@ -110,7 +119,8 @@ const FormularioMascota = () => {
           type="text"
           value={nombre}
           onChange={(e) => setNombre(e.target.value)}
-          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"/>
+          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        />
       </div>
 
       <div className="mb-4">
@@ -121,7 +131,8 @@ const FormularioMascota = () => {
           id="especie"
           value={especie}
           onChange={(e) => setEspecie(e.target.value)}
-          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        >
           <option value="">Seleccione una opción</option>
           <option value="Perro">Perro</option>
           <option value="Gato">Gato</option>
@@ -129,38 +140,34 @@ const FormularioMascota = () => {
       </div>
 
       <div className="flex mb-4">
-        <div className="">
+        <div className="w-1/2">
           <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="edad">
             Edad de la Mascota 
           </label>
           <input
-            id="edadAños"
+            id="edad"
             type="number"
             value={edad !== null ? edad : ''}
             onChange={(e) => setEdad(e.target.value ? parseInt(e.target.value) : null)}
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            placeholder="Edad"/>
+            placeholder="Edad"
+          />
         </div>
-        <div className="ml-2 mt-6">
-          <label className="block text-gray-700 text-sm font-bold"></label>
-          <div>
-            <label className="block">
-              <input
-                type="radio"
-                className="form-radio h-3 w-3 text-indigo-600"
-                checked={mes === 'meses'}
-                onChange={() => setMes('meses')}/>
-              <span className="ml-2 text-xs">Meses</span>
-            </label>
-            <label className="block">
-              <input
-                type="radio"
-                className="form-radio h-3 w-3 text-indigo-600"
-                checked={mes === 'años'}
-                onChange={() => setMes('años')}/>
-              <span className="ml-2 text-xs">Años</span>
-            </label>
-          </div>
+        <div className="ml-4 flex items-center">
+          <label className="block text-gray-700 text-sm font-bold mr-2">Meses</label>
+          <input
+            type="radio"
+            className="form-radio h-5 w-5 text-indigo-600"
+            checked={mes === 'meses'}
+            onChange={() => setMes('meses')}
+          />
+          <label className="block text-gray-700 text-sm font-bold ml-4 mr-2">Años</label>
+          <input
+            type="radio"
+            className="form-radio h-5 w-5 text-indigo-600"
+            checked={mes === 'años'}
+            onChange={() => setMes('años')}
+          />
         </div>
       </div>
 
@@ -172,7 +179,8 @@ const FormularioMascota = () => {
           id="sexo"
           value={sexo}
           onChange={(e) => setSexo(e.target.value)}
-          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        >
           <option value="">Seleccione una opción</option>
           <option value="Macho">Macho</option>
           <option value="Hembra">Hembra</option>
@@ -187,7 +195,8 @@ const FormularioMascota = () => {
           id="tamaño"
           value={tamaño}
           onChange={(e) => setTamaño(e.target.value)}
-          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        >
           <option value="">Seleccione una opción</option>
           <option value="Pequeño">Pequeño</option>
           <option value="Mediano">Mediano</option>
@@ -203,7 +212,8 @@ const FormularioMascota = () => {
           id="descripcion"
           value={descripcion}
           onChange={(e) => setDescripcion(e.target.value)}
-          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"/>
+          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        />
       </div>
 
       <div className="mb-4">
@@ -214,7 +224,8 @@ const FormularioMascota = () => {
           id="raza"
           value={raza}
           onChange={(e) => setRaza(e.target.value)}
-          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        >
           <option value="">Seleccione una opción</option>
           {razaOptions.map((razaOption, index) => (
             <option key={index} value={razaOption}>{razaOption}</option>
@@ -231,9 +242,11 @@ const FormularioMascota = () => {
           type="file"
           accept="image/*"
           onChange={handleFileChange}
-          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"/>
+          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        />
       </div>
-      <button type="submit" className="text-white bg-green-700 from-green-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+
+      <button type="submit" className="text-white bg-green-700 hover:bg-green-500 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5">
         Enviar
       </button>
     </form>
