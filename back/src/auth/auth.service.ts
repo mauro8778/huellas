@@ -212,6 +212,13 @@ export class AuthService {
   }
 
   async foundEmail(email: string, tokenAcess) {
+    const existingUser = await this.userRepository.findOneBy({email});
+    const existingShelter = await this.shelterRepository.findOneBy({email});
+
+    if(!existingShelter && !existingUser) {
+      throw new NotFoundException("Este email no se encuentra registrado")
+    }
+
     const auth0Domain = process.env.AUTH0_DOMAIN;
 
     const userResponse = await axios.get(
