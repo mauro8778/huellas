@@ -33,8 +33,6 @@ export class SheltersController {
     return this.sheltersService.getShelterById(id);
   }
 
-  @ApiBearerAuth()
-  @UseGuards(AuthGuard)
   @Get(':id')
   getShelterByIdnew(@Param('id', ParseUUIDPipe) id: string) {
     
