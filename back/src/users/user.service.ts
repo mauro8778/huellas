@@ -21,6 +21,10 @@ export class UserService {
         return this.usersRepository.getUserById(id)
     }
 
+    getUserPetById(id: string) {
+        return this.usersRepository.getUserPetById(id)
+    }
+
     updatedProfile(id: string, user: any) {
         return this.usersRepository.updatedProfile(id, user)
     }

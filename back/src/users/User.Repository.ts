@@ -50,6 +50,20 @@ export class UserRepository implements OnModuleInit {
     return User
   }
 
+  async getUserPetById(id: string) {
+    const user = await this.usersRepository.findOne({ where: { id },
+      relations: {
+        pets: true
+      },})
+    if (!user) {
+      throw new NotFoundException('no se encontro el usuario')
+    }
+
+    const pets = user.pets
+
+    return pets 
+  }
+
   async getUserById(id: string) {
     const user = await this.usersRepository.findOne({ where: { id },
       relations: ['favorite_pets', 'favorite_shelters', 'orders', 'pets'],})
