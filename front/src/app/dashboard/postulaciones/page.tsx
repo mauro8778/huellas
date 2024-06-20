@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import ToggleActiveShelter from '../../../components/admin/ToggleActiveShelter';
 import Swal from 'sweetalert2';
-import decodeJwt from '@/utils/decodeJwt';
+import { decodeJwt } from '@/utils/decodeJwt';
 
 const defaultAvatarUrl = '/shelter.webp';
 
