@@ -33,7 +33,7 @@ export class SheltersController {
     return this.sheltersService.getShelterById(id);
   }
 
-  
+  @UseGuards(AuthGuard)
   @Put('profile')
   updatedProfile(@Body() user: UpdateShelterDto, @Req() request) {
     const id = request.user['https://huellasdesperanza.com/userID'];
