@@ -315,7 +315,7 @@ export class AdoptionRepository {
   }
 
   async AdoptionUser(userid: string) {
-    const user: AdoptionEntity = await this.adoptionrepository.findOne({
+    const user: AdoptionEntity[] = await this.adoptionrepository.find({
       where: { user: {id: userid},},
       relations: {
         shelter: true,
