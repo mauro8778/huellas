@@ -10,6 +10,7 @@ import { JwtPayload } from "@/types";
 import { RiLoginCircleLine } from "react-icons/ri";
 import { BiSolidDonateHeart } from "react-icons/bi";
 import DesplegableUser from "./desplegable";
+import useUserRole from "@/utils/userSession";
 
 
 const Navbar: React.FC = () => {
@@ -17,6 +18,8 @@ const Navbar: React.FC = () => {
   const [isGoogleAuthenticated, setIsGoogleAuthenticated] = useState(false);
   const [userData, setUserData] = useState<Partial<JwtPayload> | null>(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const userRole = useUserRole(); 
+
 
   useEffect(() => {
     const session = localStorage.getItem("userSession");
@@ -73,11 +76,14 @@ const Navbar: React.FC = () => {
                 )}
               </div>
             </div>
+            {userRole !== 'Shelter' && (
+
             <Link href={"/donations"}>
              <button className="m-4 text-4xl text-white mr-6 mb-12 hover:animate-bounce">
               <BiSolidDonateHeart />
             </button>
             </Link>
+            )}
            
           </div>
         ) : (
