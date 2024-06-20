@@ -196,24 +196,15 @@ const FormularioMascota = () => {
       </div>
 
       <div className="mb-4">
-        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="raza">
+        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="nombre">
           Raza
         </label>
-        <select
-          id="raza"
+        <input
+          id="nombre"
+          type="text"
           value={raza}
-          onChange={(e) => setRaza(e.target.value)}
-          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-          <option value="">Seleccione una opción</option>
-          <option value="Boxer">Boxer</option>
-          <option value="Caniche">Caniche</option>
-          <option value="Galgo">Galgo</option>
-          <option value="Golden">Golden Retriever</option>
-          <option value="Labrador">Labrador Retriever</option>
-          <option value="Mestizo">Mestizo</option>
-          <option value="Pitbull">Pitbull</option>
-          <option value="Otros">Otros</option>
-        </select>
+          onChange={(e) => setNombre(e.target.value)}
+          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"/>
       </div>
 
       <div className="mb-4">
