@@ -71,11 +71,6 @@ export class ShelterRepository {
       console.error('Error updating user role:', error);
     }
 
-    await this.mailService.sendShelterActivationMail(
-      shelter.email,
-      shelter.shelter_name,
-    );
-
     const UpdateShelter = this.sheltersRepository.save(shelter);
 
     return UpdateShelter;
@@ -93,7 +88,6 @@ export class ShelterRepository {
     }
     return { shelter };
   }
-
 
   async getShelterByIdnew(id: string) {
     const shelter = await this.sheltersRepository.findOne({
@@ -148,11 +142,6 @@ export class ShelterRepository {
         {
           headers: { Authorization: `Bearer ${accessToken}` },
         },
-      );
-
-      await this.mailService.deleteshelterMail(
-        deleteShelter.email,
-        deleteShelter.shelter_name,
       );
 
       return this.sheltersRepository.save(deleteShelter);

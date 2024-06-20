@@ -226,8 +226,6 @@ export class AuthService {
 
     const name = userResponse.data[0].user_metadata.name;
 
-    this.mailService.cambioPasswordMail(email, name);
-
     const userId = userResponse.data[0].user_id;
 
     return userId;
@@ -247,8 +245,6 @@ export class AuthService {
     );
     const name = response.data.user_metadata.name;
     const email = response.data.name
-
-    this.mailService.ConfirmCambiodePassword(email,name,newPassword)
      
     return {
       message: `El password del usuario con ID: ${userId}, fue modificado correctamente`,

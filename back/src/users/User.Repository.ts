@@ -11,7 +11,7 @@ import { MapsService } from "src/maps/maps.service";
 
 
 @Injectable()
-export class UserRepository implements OnModuleInit {
+export class UserRepository {
   private readonly logger = new Logger(MailService.name);
   constructor(@InjectRepository(UserEntity)
   private readonly usersRepository: Repository<UserEntity>,
@@ -21,9 +21,7 @@ export class UserRepository implements OnModuleInit {
     private readonly petsRepository: Repository<PetsEntity>,
     private readonly mailService: MailService,
     private readonly mapsservice: MapsService) { }
-  async onModuleInit() {
-    this.scheduleEmails();
-  }
+
   async getUsers() {
     const users = await this.usersRepository.find({
       relations: ['pets', 'favorite_shelters', 'favorite_pets', 'orders']
@@ -96,7 +94,6 @@ export class UserRepository implements OnModuleInit {
     }
     deleteUser.isActive = false;
 
-    await this.mailService.deleteUserMail(deleteUser.email, deleteUser.name)
     return this.usersRepository.save(deleteUser);
   }
   async activeUsers(id: string) {
@@ -111,31 +108,8 @@ export class UserRepository implements OnModuleInit {
     }
     activeUser.isActive = true;
 
-    await this.mailService.deleteUserMail(activeUser.email, activeUser.name)
     return this.usersRepository.save(activeUser);
   }
-  async scheduleEmails() {
-    //cron.schedule('0 0 1 */3 *', async () => {
-       cron.schedule('*/1 * * * *', async () => {
-      const users = await this.usersRepository.find();
-      const subject = '¡Castraciones gratuitas en Huellas de Esperanza!';
-      const text = '¡Te traemos una promoción especial! Huellas de Esperanza ofrece castraciones gratuitas para tu mascota. La próxima jornada se realizará pronto en nuestro refugio. ¡Visita nuestra página para obtener más información!';
-      const html = `<div style="border: 2px solid #ff3366; padding: 20px; background: #ffffff; border-radius: 15px; text-align: center;">
-            <p style="color: #ff3366; font-size: 24px; font-weight: bold; margin-bottom: 10px;">¡Castraciones gratuitas en Huellas de Esperanza!</p>
-            <p style="color: #000; font-size: 16px;">¡Te traemos una promoción especial! Huellas de Esperanza ofrece <span style="font-weight: bold;">castraciones gratuitas</span> para tu mascota. La próxima jornada se realizará pronto en nuestro refugio. ¡Visita nuestra página para obtener más información!</p>
-            <p style="color: #000; font-size: 16px;">¡No pierdas esta oportunidad y visita nuestra página para informarte sobre cómo participar!</p>
-            <a href="https://deploy-proyecto-final.vercel.app/" style="display: inline-block; padding: 10px 20px; background: #ff3366; color: #ffffff; text-decoration: none; border-radius: 5px; margin-top: 20px;">Visitar Huellas de Esperanza</a>
-        </div>`;
-
-      for (const user of users) {
-        await this.mailService.sendMail(user.email, subject, text, html);
-      }
-
-      this.logger.log('Scheduled emails sent');
-    });
-  }
-
-
 
   async addShelterFavorite(id: string, userId: string) {
     const user: UserEntity = await this.usersRepository.findOne({
@@ -161,7 +135,6 @@ export class UserRepository implements OnModuleInit {
     return "Añadido a Favoritos";
   }
 
-
   async addPetFavorite(petId: string, userId: string) {
     const user: UserEntity = await this.usersRepository.findOne({
       where: { id: userId },
@@ -181,7 +154,6 @@ export class UserRepository implements OnModuleInit {
     user.favorite_pets.push(pet);
 
     await this.usersRepository.save(user);
-
 
     return "Añadido a Favoritos";
   }

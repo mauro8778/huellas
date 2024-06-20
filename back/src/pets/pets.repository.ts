@@ -36,7 +36,6 @@ export class PetsRepository {
     async addPet(pet: Partial<PetsEntity>, shelterId: string) {
         const shelter = await this.shelterrepository.findOne({ where: { id: shelterId } });
 
-        console.log(shelter)
         if (!shelter) {
             throw new Error('Shelter not found');
         }
