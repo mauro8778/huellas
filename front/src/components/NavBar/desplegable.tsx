@@ -1,30 +1,41 @@
-
-
 interface DesplegableUserProps {
-
   isOpen: boolean;
   toggleMenu: () => void;
 }
 
 export const DesplegableUser: React.FC<DesplegableUserProps> = ({ isOpen, toggleMenu }) => {
-  
 
- 
+  const handleLogout = () => {
+    
+    localStorage.removeItem('userSession');
+
+    
+    window.location.href = '/AUTH/login'; 
+  };
+
   return (
     <div className="relative">
-      
       <div
         id="dropdownDelay"
-        className={`absolute right-0 z-10 mt-10 w-44 bg-rose-50 divide-y  divide-gray-100 rounded-lg ${isOpen ? 'block' : 'hidden'}`}
+        className={`absolute right-0 z-10 mt-2 w-48 bg- rounded-lg shadow-xl border-t-4 border-lime500 bg-white ${isOpen ? 'block' : 'hidden'}`}
       >
-        <ul className="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDelayButton">
+        <ul className="py-2">
           <li>
-            <a href="/dashboard" className="flex h-[48px] w-full mt-2 items-center justify-center gap-2 rounded-md bg-gray-200 p-3 text-sm font-medium hover:bg-pink-200 hover:text-pink-600 md:flex-none md:justify-start md:p-2 md:px-3">Dashboard</a>
+            <a
+              href="/dashboard"
+              className="flex h-12 w-full font-semibold  items-center px-4 py-2 text-sm text-gray-700 hover:bg-indigo-100 hover:text-indigo-600 rounded-t-lg"
+            >
+              Dashboard
+            </a>
           </li>
           <li>
-            <a href="/setting" className="flex h-[48px] w-full mt-2 items-center justify-center gap-2 rounded-md bg-gray-200 p-3 text-sm font-medium hover:bg-pink-200 hover:text-pink-600 md:flex-none md:justify-start md:p-2 md:px-3">Setting</a>
+            <p
+              onClick={handleLogout}
+              className="flex h-12 w-full items-center   font-semibold px-4 py-2 text-sm text-gray-700 cursor-pointer hover:bg-indigo-100 hover:text-indigo-600 rounded-b-lg"
+            >
+              Logout
+            </p>
           </li>
-          
         </ul>
       </div>
     </div>

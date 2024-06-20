@@ -165,7 +165,7 @@ const SideNav: React.FC<{ role: 'admin' | 'user' | 'shelter' }> = ({ role }) => 
               {userData && (
                 <>
                   {userData.nickname && <p className="text-gray-800 text-xl">{userData.nickname}</p>}
-                  {userData.name && <p className="text-gray-800 text-base">{userData.name}</p>}
+                  {userData.email && <p className="text-gray-800 text-base">{userData.email}</p>}
                   {userData.role && <p className="text-gray-800 text-base">{userData.role}</p>}
                 </>
               )}
@@ -185,7 +185,7 @@ const SideNav: React.FC<{ role: 'admin' | 'user' | 'shelter' }> = ({ role }) => 
           <button
             type="button"
             onClick={handleSignOut}
-            className="flex h-[48px] w-full mb-8 items-center justify-center gap-2 rounded-md bg-gray-200 p-3 text-sm font-medium hover:bg-pink-200 hover:text-pink-600 md:flex-none md:justify-start md:p-2 md:px-3"
+            className="flex h-[48px] w-full mb-8 items-center justify-center gap-2 rounded-md bg-gray-200 p-3 text-sm font-medium hover:bg-indigo-200 hover:text-indigo-600 md:flex-none md:justify-start md:p-2 md:px-3"
           >
             <FaPowerOff className="w-6" />
             <div className="hidden md:block">Sign Out</div>

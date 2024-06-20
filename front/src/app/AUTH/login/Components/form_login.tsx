@@ -111,17 +111,15 @@ const Form_Login: React.FC = () => {
     }
   };
 
-  const handleGoogleLogin = () => {
-    console.log("Redirigiendo a Google");
-    alert("Redirigiendo a Google");
-    window.location.href = 'https://huellasdesperanza.onrender.com/google/redirect';
+  const handleGoogleLogin = async () => {
+    window.location.href = 'https://huellasdesperanza.onrender.com/google';
   };
 
-  const handleFacebookLogin = () => {
+/*   const handleFacebookLogin = () => {
     console.log("Redirigiendo a Facebook");
     alert("Redirigiendo a Facebook");
-    window.location.href = 'https://huellasdesperanza.onrender.com/facebook/redirect';
-  };
+    window.location.href = 'https://huellasdesperanza.onrender.com/facebook';
+  }; */
 
   return (
     <div className='w-full max-w-md'>
@@ -173,7 +171,7 @@ const Form_Login: React.FC = () => {
         <Button type='submit' label='Ingresar' />
         <div className='mt-5 mb-10 flex flex-col items-center justify-center gap-y-2'>
           <ButtonGoogle type='button' label='Ingresar con Google' onClick={handleGoogleLogin} className={''} />
-          <ButtonFacebook type='button' label='Ingresar con Facebook' onClick={handleFacebookLogin} className={''} />
+{/*           <ButtonFacebook type='button' label='Ingresar con Facebook' onClick={handleFacebookLogin} className={''} /> */}
         </div>
         <div className='mt-5 mb-10 flex items-center justify-center gap-x-2'>
           <p className='text-yellow500'>¿No tienes una cuenta?</p>

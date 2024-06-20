@@ -18,7 +18,7 @@ const ToggleDesactiveShelter: React.FC<ToggleDesactiveShelterProps> = ({ shelter
     setIsChecked(!isChecked);
 
     try {
-      await axios.post(`https://FALTA RUTA/${shelterId}`, {
+      await axios.post(`https://huellasdesperanza.onrender.com/shelters/${shelterId}`, {
         isActive: !isChecked,
       });
 

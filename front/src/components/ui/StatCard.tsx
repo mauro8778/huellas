@@ -1,17 +1,24 @@
-import { Card, Metric, Text } from '@tremor/react';
+// components/ui/StatCard.tsx
+import React from 'react';
 
-
-export function StatCard() {
-  return (
-    <Card
-      className="mx-auto max-w-xs border-t-blue-500"
-      decoration="top"
-    //   decorationColor="blue"
-    >
-      <p className="text-tremor-default text-tremor-content dark:text-dark-tremor-content">Donaciones</p>
-      <p className="text-3xl text-tremor-content-strong dark:text-dark-tremor-content-strong font-semibold">$</p>
-      {/* <Donut /> */}
-    </Card>
-  );
+interface StatCardProps {
+  title: string;
+  icon: React.ReactElement;
+  children: React.ReactNode;
 }
-export default StatCard
+
+const StatCard: React.FC<StatCardProps> = ({ title, icon, children }) => {
+  return (
+    <div className="bg-white shadow-lg rounded-lg p-6">
+      <div className="flex items-center">
+        <div className="mr-4">{icon}</div>
+        <div>
+          <h3 className="text-xl font-bold">{title}</h3>
+          <div>{children}</div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default StatCard;

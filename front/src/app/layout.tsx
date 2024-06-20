@@ -8,7 +8,10 @@ import Footer from "@/components/Footer/Footer";
 
 
 
+
 const inter = Inter({ subsets: ["latin"] });
+
+
 
 
 export default function RootLayout({
@@ -23,14 +26,14 @@ export default function RootLayout({
         <meta name="description" content={String(metadata.description) || "Descripción por defecto"} />
       </head>
       <body className={inter.className}>
-        
-      
+       
+       
         <HiddenNavBar> 
           <Navbar/>
         </HiddenNavBar>
-        
         {children}
         <Footer/>
+       
         
       </body>
     </html>

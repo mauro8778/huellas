@@ -14,10 +14,14 @@ const ToggleUser: React.FC<ToggleUserProps> = ({ userId }) => {
     const fetchInitialState = async () => {
       try {
         const url = `https://huellasdesperanza.onrender.com/users/admin/${userId}`;
+        
         console.log('URL de petición GET (para obtener estado):', url);
+
         const response = await axios.get(url); // Cambiado a GET para obtener el estado inicial
+
         console.log('Estado inicial obtenido:', response.data);
-        setIsChecked(response.data.isChecked);
+        
+        setIsChecked(response.data.isAdmin); // Usamos isAdmin para determinar si el usuario es administrador
       } catch (error) {
         console.error('Error al obtener el estado inicial:', error);
       }
@@ -34,7 +38,7 @@ const ToggleUser: React.FC<ToggleUserProps> = ({ userId }) => {
       const url = `https://huellasdesperanza.onrender.com/users/admin/${userId}`;
       console.log('URL de petición PUT (para actualizar estado):', url);
       const response = await axios.put(url, { // Usamos PUT para actualizar el estado
-        isChecked: newCheckedState,
+        isAdmin: newCheckedState, // Actualizamos el estado de isAdmin
       });
       console.log('Estado del toggle actualizado:', response.data);
     } catch (error) {

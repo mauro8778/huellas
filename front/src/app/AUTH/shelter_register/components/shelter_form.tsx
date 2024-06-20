@@ -10,6 +10,7 @@ import TextArea from '@/components/ui/Textarea';
 import Swal from 'sweetalert2';
 import HomeButton from '@/components/ui/HomeButton';
 import Link from 'next/link';
+import ImageUpload from '@/components/ui/ImageUpload';
 
 interface FormData {
   name: string;
@@ -60,7 +61,7 @@ const ShelterForm: React.FC = () => {
   });
 
   const [error, setError] = useState<string | null>(null);
-  const [selectedFile, setSelectedFile] = useState<File | null>(null); // Estado para la imagen seleccionada
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
   const validateEmail = (email: string) => {
     const re = /\S+@\S+\.\S+/;
@@ -132,6 +133,14 @@ const ShelterForm: React.FC = () => {
     }
   };
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setSelectedFile(e.target.files[0]);
+    } else {
+      setSelectedFile(null);
+    }
+  };
+
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setError(null);
@@ -141,14 +150,33 @@ const ShelterForm: React.FC = () => {
     if (!someInvalid) {
       try {
 
-        console.log('Datos a enviar:', JSON.stringify(formData) );
+        if (!selectedFile) {
+          console.error('No file selected');
+          return;
+        }
+
+        const formsData = new FormData();
+        formsData.append('file', selectedFile);
+
+        const responses = await fetch('https://huellasdesperanza.onrender.com/files/uploadFile', {
+          method: 'POST',
+          body: formsData,
+        });
+
+        if (!responses.ok) {
+          throw new Error('Failed to upload file.');
+        }
+
+        const imageUrl = await responses.text();
+
+        const newFormData = {...formData, imgUrl:imageUrl}
 
         const response = await fetch('https://huellasdesperanza.onrender.com/auth/register/shelter', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify(formData),
+          body: JSON.stringify(newFormData),
         });
 
         // Imprimir la respuesta completa del servidor
@@ -242,10 +270,17 @@ const ShelterForm: React.FC = () => {
           )}
         </div>
 
-        {/* <ImageUpload onUpload={(file) => {
-          setSelectedFile(file);
-          console.log('Imagen seleccionada:', file);  // <--- Añadir este console.log
-        }} /> */}
+        <div className="mb-4">
+        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="imagen">
+          Imagen de la Mascota
+        </label>
+        <input
+          id="imagen"
+          type="file"
+          accept="image/*"
+          onChange={handleFileChange}
+          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"/>
+      </div>
 
         <Button type="submit" label="Crear cuenta" className="w-full mt-4" />
         <div className="mt-5 mb-10 flex items-center justify-center gap-x-2">
