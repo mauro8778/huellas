@@ -28,6 +28,7 @@ const shelterLinks = [
   { name: 'Mis Mascotas', href: '/dashboard/pets', icon: FaHome },
   { name: 'Editar perfil', href: '/dashboard/config-profile', icon: MdOutlinePets },
   { name: 'Agregar tu Mascota', href: '/dashboard/add-pet', icon: MdOutlinePets },
+  { name: 'Postulaciones', href: '/dashboard/postulaciones', icon: MdOutlinePets },
 
 ];
 
