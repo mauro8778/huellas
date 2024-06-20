@@ -80,9 +80,11 @@ const adminLinks = [
 ];
 
 const shelterLinks = [
-  { name: 'Home', href: '/Home', icon: FaHome },
   { name: 'Dashboard', href: '/dashboard', icon: MdDashboardCustomize },
-  { name: 'Subir foto', href: '/dashboard/upload', icon: MdOutlinePets },
+  { name: 'Mis Mascotas', href: '/dashboard/pets', icon: FaHome },
+  { name: 'Editar perfil', href: '/dashboard/config-profile', icon: MdOutlinePets },
+  { name: 'Agregar tu Mascota', href: '/dashboard/add-pet', icon: MdOutlinePets },
+
 ];
 
 const NavLinks: React.FC<{ role: 'admin' | 'user' | 'shelter' }> = ({ role }) => {
