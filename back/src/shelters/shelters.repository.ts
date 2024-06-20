@@ -94,6 +94,21 @@ export class ShelterRepository {
     return { shelter };
   }
 
+
+  async getShelterByIdnew(id: string) {
+    const shelter = await this.sheltersRepository.findOne({
+      where: { id },
+      relations: {
+        pets: true,
+      }
+    });
+    if (!shelter) {
+      throw new NotFoundException('no se encontro el refugio');
+    }
+    return { shelter };
+  }
+
+
   async deleteShelter(id: string, accessToken) {
     const deleteShelter = await this.sheltersRepository.findOne({
       where: { id },

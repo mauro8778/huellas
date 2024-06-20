@@ -35,6 +35,14 @@ export class SheltersController {
 
   @ApiBearerAuth()
   @UseGuards(AuthGuard)
+  @Get(':id')
+  getShelterByIdnew(@Param('id', ParseUUIDPipe) id: string) {
+    
+    return this.sheltersService.getShelterByIdnew(id);
+  }
+
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard)
   @Put('profile')
   updatedProfile(@Body() user: UpdateShelterDto, @Req() request) {
     const id = request.user['https://huellasdesperanza.com/userID'];
