@@ -40,9 +40,9 @@ const PendingShelters: React.FC = () => {
 
   return (
     <div className="max-w-2xl mx-auto">
-      <div className="p-4 max-w-xl bg-white rounded-xl border shadow-xl h-[390px] overflow-y-auto custom-scrollbar sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+      <div className="p-4 max-w-xl bg-white rounded-xl border-t-4 border-lime500 shadow-xl h-[390px] overflow-y-auto custom-scrollbar sm:p-8 dark:bg-gray-800 dark:border-gray-700">
         <div className="flex justify-between items-center mb-4">
-          <h3 className="text-xl font-bold leading-none text-gray-600 dark:text-white">Refugios Postulados</h3>
+          <h3 className="text-xl font-bold leading-none text-gray-500 dark:text-white">Refugios Postulados</h3>
           {/* <Link href="#" className="text-sm font-medium text-blue-600 hover:underline dark:text-blue-500">
             View all
           </Link> */}

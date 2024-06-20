@@ -51,8 +51,8 @@ export function BarChartShelter() {
   }, []);
 
   return (
-    <div className='bg-white shadow-2xl rounded-s-xl rounded-e-xl p-6'>
-      <h3 className="text-lg font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong">
+    <div className='bg-white shadow-2xl rounded-xl border-t-4 border-lime500 p-6 max-w-xl'>
+      <h3 className="text-xl font-semibold text-gray-500  dark:text-dark-tremor-content-strong">
         Donaciones a Refugios
       </h3>
       <BarChart

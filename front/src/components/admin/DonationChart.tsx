@@ -44,7 +44,7 @@ const DonationChart: React.FC = () => {
   }, []);
 
   return (
-    <div className="bg-white shadow-lg rounded-lg p-6 mb-6">
+    <div className="bg-white shadow-xl rounded-xl border-t-4 border-lima500 p-6 mb-6">
       <h2 className="text-2xl font-bold mb-4">Gráfico de Donaciones</h2>
       <Bar data={chartData} />
     </div>
@@ -52,37 +52,4 @@ const DonationChart: React.FC = () => {
 };
 
 export default DonationChart;
-
-//* Grafica de donaciones hardcoded, la de arriba es la original con la peticion */
-
-// DonationChart.tsx
-// import React, { useState } from 'react';
-// import { Bar } from 'react-chartjs-2';
-// import { Chart, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
-
-// Chart.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
-
-// const DonationChart: React.FC = () => {
-//   const [chartData] = useState({
-//     labels: ['Refugio A', 'Refugio B', 'Refugio C', 'Refugio D', 'Refugio E', 'Refugio F', 'Refugio G'],
-//     datasets: [
-//       {
-//         label: 'Donaciones',
-//         data: [5000, 300, 400, 200, 200, 500, 1000],
-//         backgroundColor: 'rgb(65, 20, 226)',
-//         borderColor: '#5214e2',
-//         borderWidth: 1,
-//       },
-//     ],
-//   });
-
-//   return (
-//     <div className="bg-white shadow-lg rounded-lg p-6 mb-6">
-//       <h2 className="text-2xl font-bold text-gray-700 mb-4">Gráfico de Donaciones</h2>
-//       <Bar data={chartData} />
-//     </div>
-//   );
-// };
-
-// export default DonationChart;
 
