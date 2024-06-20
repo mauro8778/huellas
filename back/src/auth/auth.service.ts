@@ -48,10 +48,6 @@ export class AuthService {
       'user',
     );
 
-    if (register) {
-      await this.mailService.registerUserMail(email, metadata.name, password);
-    }
-
     return register;
   }
 
@@ -91,11 +87,6 @@ export class AuthService {
         'A shelter with the same name already exists in this zone.',
       );
     }
-    await this.mailService.registershelterMail(
-      email,
-      metadata.shelter_name,
-      password,
-    );
     try {
       const geocodeData = await this.mapsservice.geocodeShelterAddress(
         metadata.address,
