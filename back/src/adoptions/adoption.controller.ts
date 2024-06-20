@@ -52,7 +52,7 @@ export class AdoptionController {
     @ApiBearerAuth()
     @UseGuards(AuthGuard)
     @Get('user')
-    async adoptionUser(@Req() request ){
+    async adoptionUser(@Req() request){
         const userId = request.user['https://huellasdesperanza.com/userID'];
 
         return await this.adopcionservice.adoptionUser(userId)
