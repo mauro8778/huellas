@@ -6,7 +6,7 @@ import { IRefugios } from '@/interface/IRefugios';
 import ModalFilter from '@/components/Refugios/FiltroRefugio/ModalFilterRefugios';
 import { IMascotas } from '@/interface/IMascotas';
 import ModalFormularioMascota from '@/components/Refugios/AñadirMascota/ModalPostMascotas';
-import withAuth from '@/HOC/withAuth';
+import withAuth from '@/HOC/WithAuth';
 
 
 const Refugio = () => {
@@ -68,9 +68,9 @@ const Refugio = () => {
 
 
   return (
-    <main className='bg-gray-300 flex flex-col items-center'>
-      <div className="flex justify-center space-x-2">
-        <button onClick={handleOpenFilterModal} className="mt-3 text-white bg-green-700 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+    <main className='bg-gray-50 flex flex-col items-center  '>
+      <div className="flex justify-center space-x-2  ">
+        <button onClick={handleOpenFilterModal} className="mt-3 text-white bg-lime500 hover:bg-lime-600 focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-800 font-medium rounded-xl text-sm px-5 py-2.5 text-center me-2 mb-2">
           Filtrar Refugios
         </button>
         {/* <button onClick={handleOpenAddMascotaModal} className="mt-3 text-white bg-green-700 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">

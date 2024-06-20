@@ -233,12 +233,12 @@ const CardAnimals: React.FC<{
 
   return (
     <>
-      <div className="bg-transparent rounded-lg shadow-2xl p-4 m-2 md:m-4 max-w-xs mx-auto transform transition-transform duration-200 hover:scale-105 relative">
+      <div className="bg-gray-50 rounded-xl border-t-4 border-lime500 shadow-xl p-4 m-2 md:m-4 max-w-xs mx-auto transform transition-transform duration-200 hover:scale-105 relative">
         <div className="absolute  top-2 right-2 flex items-center ">
-        {userRole === 'User' && (
-          <button onClick={handleEditClick} className="group mr-2">
+        {userRole !== 'User' && (
+          <button onClick={handleEditClick} className="group mr-2  ">
             <svg 
-              className=" h-6 w-6 text-gray-500 group-hover:bg-gray-400 rounded-full" 
+              className=" h-6 w-6 text-lime500 group-hover:text-lime-400 rounded-full" 
             viewBox="0 0 24 24"  
           fill="none"  
         stroke="currentColor"  
@@ -272,7 +272,7 @@ const CardAnimals: React.FC<{
             )}
           </div>
           <div className="p-4">
-            <h1 className="text-lg font-semibold mb-2 text-black">{mascota.name}</h1>
+            <h1 className="text-lg font-semibold mb-2 text-gray-800">{mascota.name}</h1>
             <p className="text-gray-600 mb-2">{mascota.age} {mascota.month}  - {mascota.sexo}</p>
             <p className="mb-3 font-normal text-gray-700 dark:text-gray-400 min-h-10">{truncatedDescription}</p>
           </div>
