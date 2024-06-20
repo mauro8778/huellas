@@ -31,7 +31,9 @@ export class UserEntity {
   })
   email: string;
 
-  @Column()
+  @Column({
+    nullable: true,
+  })
   birthdate: Date;
 
   @Column({
