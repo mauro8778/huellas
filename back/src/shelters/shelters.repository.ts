@@ -16,7 +16,7 @@ export class ShelterRepository {
 
   async getShelters() {
     const shelters = await this.sheltersRepository.find({
-      relations: ['pets'],
+      relations: ['pets','adoptions'],
     });
 
     if (shelters.length === 0) {
