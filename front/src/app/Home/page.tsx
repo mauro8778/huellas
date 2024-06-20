@@ -9,15 +9,16 @@ const Home: React.FC = () => {
   return (
     <div className="relative w-full min-h-screen overflow-hidden">
       {/* Banner Estático */}
-      <div className="relative w-full h-[600px]">
-        <Image
-          src="/bannerNav.png"
-          alt="Wave Background"
-          layout="fill"
-          objectFit="cover"
-          objectPosition="center"
-          className="rounded-xl border-4"
-        />
+      <div className="relative w-full h-[600px] z-[1] mt-0">
+      <Image
+        src="/bannerNav.webp"
+        alt="Wave Background"
+        layout="fill"
+        objectFit="cover"
+        objectPosition="center"
+        className="rounded-xl"
+      />
+      <div className="absolute bottom-0 left-0 w-full h-1/3 bg-gradient-to-t from-gray-50 to-transparent rounded-b-xl"></div>
       </div>
 
       {/* Banner Dinámico */}

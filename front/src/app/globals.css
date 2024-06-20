@@ -34,8 +34,21 @@
   }
 }
 
-body {
+
+html, body {
   background-color: #F3F4F6;
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  background-color: #f3f4f6;
+}
+
+main {
+  flex: 1;
 }
 
 /* animation skeleton */

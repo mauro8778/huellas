@@ -58,48 +58,7 @@ const DashboardMain: React.FC<DashboardMainProps> = ({ role }) => {
         
       ) : (
         <div>
-          <p>Bienvenido, Usuario. Aquí puedes ver tus mascotas adoptadas y tus donaciones.</p>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6 text-gray-600">
-            <StatCard title="Total Donaciones" icon={<FaDonate size={40} className="text-blue-500" />}>
-              <p className="text-xl">${totalDonations}</p>
-            </StatCard>
-            <StatCard title="Refugios Favoritos" icon={<FaPaw size={40} className="text-green-500" />}>
-              <p className="text-xl">45</p>
-            </StatCard>
-            <StatCard title="Notificaciones" icon={<FaBell size={40} className="text-yellow-500" />}>
-              <p className="text-xl">3</p>
-            </StatCard>
-          </div>
-          <DonationChart />
-          <div className="bg-white shadow-lg rounded-lg p-6 mb-6">
-            <h2 className="text-2xl font-bold mb-4">Accesos Rápidos</h2>
-            <div className="flex space-x-4">
-              <Link href="/dashboard/donations">
-                <p className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600">Donaciones</p>
-              </Link>
-              <Link href="/dashboard/shelter">
-                <p className="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600">Refugios</p>
-              </Link>
-            </div>
-          </div>
-          <div className="bg-white shadow-lg rounded-lg p-6 mb-6">
-            <h2 className="text-2xl font-bold mb-4">Gráficos e Informes</h2>
-            <p>Gráficos de donaciones, actividades recientes, etc.</p>
-          </div>
-          <div className="bg-white shadow-lg rounded-lg p-6 mb-6">
-            <h2 className="text-2xl font-bold mb-4">Notificaciones y Alertas</h2>
-            <ul>
-              <li className="mb-2">Notificación 1: Donación reciente</li>
-              <li className="mb-2">Notificación 2: Nuevo refugio añadido</li>
-            </ul>
-          </div>
-          <div className="bg-white shadow-lg rounded-lg p-6">
-            <h2 className="text-2xl font-bold mb-4">Actividades Recientes</h2>
-            <ul>
-              <li className="mb-2">Donación de $100 realizada a Refugio X</li>
-              <li className="mb-2">Refugio Y añadido a favoritos</li>
-            </ul>
-          </div>
+         
         </div>
       )}
     </div>
