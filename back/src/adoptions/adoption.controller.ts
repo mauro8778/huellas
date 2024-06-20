@@ -19,7 +19,7 @@ export class AdoptionController {
         return await this.adopcionservice.AllAdoptions()
     }
 
-    @Get(':id')
+    @Get('id')
     async adoptionsById(@Req() request){
         const userId = request.user['https://huellasdesperanza.com/userID'];
         return await this.adopcionservice.adoptionsById(userId)
