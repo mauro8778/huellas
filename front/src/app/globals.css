@@ -41,15 +41,6 @@ html, body {
   margin: 0;
 }
 
-body {
-  display: flex;
-  flex-direction: column;
-  background-color: #f3f4f6;
-}
-
-main {
-  flex: 1;
-}
 
 /* animation skeleton */
 @keyframes pulse {

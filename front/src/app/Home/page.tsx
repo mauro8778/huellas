@@ -11,7 +11,7 @@ const Home: React.FC = () => {
       {/* Banner Estático */}
       <div className="relative w-full h-[600px] z-[1] mt-0">
       <Image
-        src="/bannerNav.webp"
+        src="/bannerNavar.webp"
         alt="Wave Background"
         layout="fill"
         objectFit="cover"
