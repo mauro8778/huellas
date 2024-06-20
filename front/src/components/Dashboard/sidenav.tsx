@@ -107,10 +107,13 @@ import ImageLogo from '@/components/ui/imageLogo';
 import Image from 'next/image';
 import { decodeJwt } from '@/utils/decodeJwt';
 import { JwtPayload } from '@/types/index';
+import useUserRole from '@/utils/userSession';
 
 const SideNav: React.FC<{ role: 'admin' | 'user' | 'shelter' }> = ({ role }) => {
   const [userData, setUserData] = useState<Partial<JwtPayload> | null>(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const userRole = useUserRole(); 
+
 
   useEffect(() => {
     const session = localStorage.getItem('userSession');
@@ -144,11 +147,19 @@ const SideNav: React.FC<{ role: 'admin' | 'user' | 'shelter' }> = ({ role }) => 
 
   return (
     <div className="flex h-full flex-col px-3 w-64 py-4 md:px-2 m-0 p-0">
+      {userRole !== 'Shelter' && (
       <Link className="mb-2 flex h-20 items-end justify-start rounded-md bg-indigo-500 p-4 md:h-40" href="/Home">
+        
         <div className="w-32 text-white md:w-40">
           <ImageLogo />
         </div>
+
+
+        
+        
+        
       </Link>
+)}
       <div className="text-center mb-4">
         {isLoggedIn ? (
           <>
