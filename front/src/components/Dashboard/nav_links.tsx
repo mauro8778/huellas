@@ -18,7 +18,7 @@ const adminLinks = [
   { name: 'Home', href: '/Home', icon: FaHome },
   { name: 'Dashboard', href: '/dashboard', icon: MdDashboardCustomize },
   { name: 'Usuarios', href: '/dashboard/all_users', icon: FaUsers },
-  { name: 'Refugios', href: '/dashboard/shelters', icon: MdOutlinePets },
+  { name: 'Refugios', href: '/refugios', icon: MdOutlinePets },
   // { name: 'Reportes', href: '/dashboard/reports', icon: FaChartBar },
   // { name: 'Configuración', href: '/dashboard/settings', icon: MdSettings },
 ];
