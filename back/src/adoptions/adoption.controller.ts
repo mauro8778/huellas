@@ -19,14 +19,9 @@ export class AdoptionController {
         return await this.adopcionservice.AllAdoptions()
     }
 
-    @ApiBearerAuth()
-    @UseGuards(AuthGuard)
-    @Get('id')
-    async adoptionsById(@Req() request){
-
-        const userId = request.user['https://huellasdesperanza.com/userID'];
-
-        return await this.adopcionservice.adoptionsById(userId)
+    @Get(':id')
+    async adoptionsById(@Param('id', ParseUUIDPipe )id : string){
+        return await this.adopcionservice.adoptionsById(id)
     }
 
     @ApiBearerAuth()
