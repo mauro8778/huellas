@@ -1,7 +1,5 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 'use client';
 
-// import ImageUpload from '@/components/ui/ImageUpload';
 import { useState, FormEvent, ChangeEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import Button from '@/components/ui/button';
@@ -10,7 +8,6 @@ import TextArea from '@/components/ui/Textarea';
 import Swal from 'sweetalert2';
 import HomeButton from '@/components/ui/HomeButton';
 import Link from 'next/link';
-import ImageUpload from '@/components/ui/ImageUpload';
 
 interface FormData {
   name: string;
@@ -70,21 +67,24 @@ const ShelterForm: React.FC = () => {
 
   const validatePassword = (password: string) => {
     const hasMinLength = password.length >= 8;
-    const hasAlphabeticChar = /[a-zA-Z]/.test(password);
+    const hasUppercase = /[A-Z]/.test(password);
+    const hasLowercase = /[a-z]/.test(password);
+    const hasNumber = /[0-9]/.test(password);
     const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
-
+  
     let strength = 'Débil';
-    if (hasMinLength && hasAlphabeticChar && hasSpecialChar) {
+    if (hasMinLength && hasUppercase && hasLowercase && hasNumber && hasSpecialChar) {
       strength = 'Fuerte';
-    } else if (hasMinLength && hasAlphabeticChar) {
+    } else if (hasMinLength && (hasUppercase || hasLowercase) && hasNumber && hasSpecialChar) {
       strength = 'Medio';
     }
-
+  
     return {
-      valid: hasMinLength && hasAlphabeticChar && hasSpecialChar,
+      valid: hasMinLength && hasUppercase && hasLowercase && hasNumber && hasSpecialChar,
       strength,
     };
   };
+  
 
   const validatePhone = (phone: string) => {
     const re = /^\d{10}$/;
@@ -95,8 +95,6 @@ const ShelterForm: React.FC = () => {
     const { name, value } = e.target;
 
     setFormData({ ...formData, [name]: name === 'dni' || name === 'phone' ? Number(value) : value });
-
-    console.log('Cambio en el formulario:', { name, value });  // <--- Añadir este console.log
 
     switch (name) {
       case 'email':
@@ -179,9 +177,6 @@ const ShelterForm: React.FC = () => {
           body: JSON.stringify(newFormData),
         });
 
-        // Imprimir la respuesta completa del servidor
-        console.log('Respuesta del servidor:', response);
-
         if (response.ok) {
           Swal.fire({
             title: "¡Registro exitoso!",
@@ -228,9 +223,9 @@ const ShelterForm: React.FC = () => {
           {[
             { name: 'name', placeholder: 'Nombre', validation: validations.nameValid, errorMessage: 'El nombre debe tener al menos 2 caracteres.' },
             { name: 'email', placeholder: 'Email', validation: validations.emailValid, errorMessage: 'Ingrese un correo electrónico válido.' },
-            { name: 'password', placeholder: 'Contraseña', validation: validations.passwordValid, errorMessage: 'La contraseña debe tener al menos 8 caracteres.', isPassword: true },
+            { name: 'password', placeholder: 'Contraseña', validation: validations.passwordValid, errorMessage: 'La contraseña debe contener una mayucula, una minuscula, un numero y un caracter especial.', isPassword: true },
             { name: 'dni', placeholder: 'DNI', validation: validations.dniValid, errorMessage: 'El DNI no puede estar vacío.' },
-            { name: 'phone', placeholder: 'Teléfono', validation: validations.phoneValid, errorMessage: 'El teléfono debe tener 10 dígitos.' },
+            { name: 'phone', placeholder: 'Teléfono', validation: validations.phoneValid, errorMessage: 'El teléfono debe tener 10 dígitos y el prefijo debe ser 11 .' },
             { name: 'shelter_name', placeholder: 'Nombre del Refugio', validation: validations.shelterNameValid, errorMessage: 'El nombre del refugio debe tener al menos 2 caracteres.' },
             { name: 'address', placeholder: 'Dirección: nombre de la calle y número, localidad', validation: validations.addressValid, errorMessage: 'La dirección no puede estar vacía.', fullWidth: true }
           ].map(({ name, placeholder, validation, errorMessage, isPassword = false, fullWidth = false }) => (
@@ -272,7 +267,7 @@ const ShelterForm: React.FC = () => {
 
         <div className="mb-4">
         <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="imagen">
-          Imagen de la Mascota
+          Imagen del Refugio
         </label>
         <input
           id="imagen"

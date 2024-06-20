@@ -38,10 +38,10 @@ const Form_Register: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
 
   const validateFields = {
-    name: (value: string) => value.trim().length >= 3,
-    last_name: (value: string) => value.trim().length >= 3,
+    name: (value: string) => /^[a-zA-Z]{1,20}$/.test(value),
+    last_name: (value: string) => /^[a-zA-Z]{1,20}$/.test(value),
     email: (value: string) => /\S+@\S+\.\S+/.test(value),
-    password: (value: string) => value.length >= 6,
+    password: (value: string) => /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{6,}$/.test(value),
     confirm_password: (value: string) => value === formData.password,
     birthdate: (value: string) => {
       const today = new Date();
@@ -188,14 +188,14 @@ const Form_Register: React.FC = () => {
               />
               {formValidations[`${field}Valid` as keyof typeof formValidations] === false && (
                 <p className="text-red-500 text-xs">
-                  {field === 'name' ? 'El nombre no puede estar vacío.' : ''}
-                  {field === 'last_name' ? 'El apellido no puede estar vacío.' : ''}
+                  {field === 'name' ? 'El nombre no puede estar vacío, maximo 20 caractere. Solo letras mayusculas y minusculas.' : ''}
+                  {field === 'last_name' ? 'El apellido no puede estar vacío, maximo 20 caracteres. Solo letras mayusculas y minusculas' : ''}
                   {field === 'email' ? 'Ingrese un correo electrónico válido.' : ''}
-                  {field === 'password' ? 'La contraseña debe tener al menos 6 caracteres.' : ''}
+                  {field === 'password' ? 'La contraseña debe tener al menos 6 caracteres entre ellos, al menos una: mayuscula, minuscula, numero, caracter especial.' : ''}
                   {field === 'confirm_password' ? 'La contraseña no coincide.' : ''}
                   {field === 'birthdate' ? 'Ingrese una fecha de nacimiento.' : ''}
-                  {field === 'phone' ? 'Ingrese un número de teléfono válido (10 dígitos).' : ''}
-                  {field === 'location' ? 'Ingrese una ubicación.' : ''}
+                  {field === 'phone' ? 'Ingrese un número de teléfono válido (10 dígitos). Prefijo 11 (OBLIGATORIO)' : ''}
+                  {field === 'location' ? 'Ingrese una ubicación en este formato: Calle N° , Localidad.' : ''}
                 </p>
               )}
             </div>
