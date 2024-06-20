@@ -20,8 +20,9 @@ export class AdoptionController {
     }
 
     @Get(':id')
-    async adoptionsById(@Param('id', ParseUUIDPipe )id : string){
-        return await this.adopcionservice.adoptionsById(id)
+    async adoptionsById(@Req() request){
+        const userId = request.user['https://huellasdesperanza.com/userID'];
+        return await this.adopcionservice.adoptionsById(userId)
     }
 
     @ApiBearerAuth()
