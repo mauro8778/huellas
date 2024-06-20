@@ -25,6 +25,16 @@ export class CarritoController {
         return this.carritoServices.getCarritoShelter()
     }
 
+
+    @ApiBearerAuth()
+    @UseGuards(AuthGuard)
+    @Get('orders/all')
+    getOrdersId(@Req() request){
+        const userId = request.user['https://huellasdesperanza.com/userID'];
+        
+        return this.carritoServices.getOrdersId(userId)
+    }
+
     
     @ApiBearerAuth()
     @UseGuards(AuthGuard)
