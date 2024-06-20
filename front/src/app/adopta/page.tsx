@@ -3,8 +3,8 @@
 import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { IMascotas } from '@/interface/IMascotas';
 import ModalFilterMascotas from '@/components/Card-Animals/FiltroMascotas/ModalFilterMascotas';
-import withAuth from '@/HOC/WithAuth';
 import useUserRole from '@/utils/userSession';
+import withAuth from '@/HOC/withAuth';
 
 const ListaMascotas = lazy(() => import('@/components/Card-Animals/ListaMascotas'));
 
