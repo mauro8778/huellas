@@ -8,9 +8,9 @@ interface AuthLayoutProps {
 const AuthLayout: FC<AuthLayoutProps> = ({ children }) => {
   return (
     <main className='min-h-screen grid grid-cols-1 lg:grid-cols-2 p-5'>
-      <section className='hidden h-full lg:flex flex-col items-center justify-center gap-y-5 bg-pink-600 rounded-2xl'>
+      <section className='hidden h-full lg:flex flex-col items-center justify-center gap-y-5 bg-gradient-to-bl from-purple-600 via-indigo-600 to-indigo-500 rounded-2xl'>
         <div className='relative w-96 h-96'>
-        <Image src='/doglogin.png' alt='Mi Logo' width={200} height={100} />
+        <Image src='/perritos.webp' alt='Mi Logo' width={200} height={100} />
         </div>
         <div>
           <h3 className='text-white text-4xl font-semibold text-center mb-5'>
