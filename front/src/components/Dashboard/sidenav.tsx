@@ -165,7 +165,7 @@ const SideNav: React.FC<{ role: 'admin' | 'user' | 'shelter' }> = ({ role }) => 
               {userData && (
                 <>
                   {userData.nickname && <p className="text-gray-800 text-xl">{userData.nickname}</p>}
-                  {userData.name && <p className="text-gray-800 text-base">{userData.name}</p>}
+                  {userData.email && <p className="text-gray-800 text-base">{userData.email}</p>}
                   {userData.role && <p className="text-gray-800 text-base">{userData.role}</p>}
                 </>
               )}
