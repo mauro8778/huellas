@@ -24,6 +24,17 @@ export class UserController {
 
 
     @ApiBearerAuth()
+    @Get('pet/:id')
+    @UseGuards(AuthGuard)
+    async getUserPetId(@Req() request){
+
+        const userId = request.user['https://huellasdesperanza.com/userID'];
+    
+        return await this.usersService.getUserPetById(userId);
+      }
+
+
+    @ApiBearerAuth()
     @Get('location')
     @UseGuards(AuthGuard)
     async getLocation(@Req() request): Promise<any> {
