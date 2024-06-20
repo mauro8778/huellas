@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import decodeJwt from './decodeJwt';
+import { decodeJwt } from './decodeJwt';
 
 interface DecodedToken {
   [key: string]: any;

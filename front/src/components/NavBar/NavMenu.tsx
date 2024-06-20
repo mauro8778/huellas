@@ -177,10 +177,10 @@
 // export default NavMenu;
 
 
+import { decodeJwt } from '@/utils/decodeJwt';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { MdMenu, MdClose } from 'react-icons/md';
-import decodeJwt from '@/utils/decodeJwt';
 
 const NavMenu: React.FC = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -229,7 +229,7 @@ const NavMenu: React.FC = () => {
       <ul className={`flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-10 text-gray-100 text-xl p-4 md:p-0 ${menuOpen ? 'block' : 'hidden md:flex'}`}>
         <li>
 
-        {userRole !== 'Shelter' && (
+        {userRole === 'Shelter' && (
 
           <Link
             className="hover:text-pink-300"
@@ -242,7 +242,7 @@ const NavMenu: React.FC = () => {
           </Link>
 )}
         </li>
-        {userRole !== 'Shelter' && (
+        {userRole === 'Shelter' && (
           <li>
             <Link
               className="hover:text-pink-300"
@@ -257,7 +257,7 @@ const NavMenu: React.FC = () => {
         )}
         <li>
 
-        {userRole !== 'Shelter' && (
+        {userRole === 'Shelter' && (
 
           <Link
             className="hover:text-pink-300 hover:transform hover:scale-105 transition-transform duration-200"
