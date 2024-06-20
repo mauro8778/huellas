@@ -10,7 +10,7 @@ import {
   Put,
 } from '@nestjs/common';
 import { SheltersService } from './shelters.service';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { Auth0Guard } from 'src/guards/auth0.guard';
 import { UpdateShelterDto } from 'src/dto/updateShelter.dto';
 import { AuthGuard } from 'src/guards/auth.guard';
@@ -25,7 +25,7 @@ export class SheltersController {
     return this.sheltersService.getShelters();
   }
 
-  
+  @ApiBearerAuth()
   @UseGuards(AuthGuard)
   @Get('id')
   getShelterById( @Req() request) {
@@ -33,6 +33,7 @@ export class SheltersController {
     return this.sheltersService.getShelterById(id);
   }
 
+  @ApiBearerAuth()
   @UseGuards(AuthGuard)
   @Put('profile')
   updatedProfile(@Body() user: UpdateShelterDto, @Req() request) {
@@ -40,6 +41,7 @@ export class SheltersController {
     return this.sheltersService.updatedProfile(id, user);
   }
 
+  
   @UseGuards(Auth0Guard)
   @Post('active/:id')
   ActiveShelter(@Req() req, @Param('id', ParseUUIDPipe) id: string) {
