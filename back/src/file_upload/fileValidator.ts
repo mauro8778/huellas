@@ -16,10 +16,10 @@ import {
         throw new BadRequestException('Tipo de archivo no válido');
       }
   
-      const maxSize = 200000;
+      const maxSize = 1073741824; 
       if (file.size > maxSize) {
         throw new BadRequestException(
-          'Tamaño de archivo excede el límite permitido de 200kb',
+          'Tamaño de archivo excede el límite permitido de 1GB',
         );
       }
   

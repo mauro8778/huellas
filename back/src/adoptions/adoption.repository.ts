@@ -318,7 +318,6 @@ export class AdoptionRepository {
     const user: AdoptionEntity[] = await this.adoptionrepository.find({
       where: { user: {id: userid},},
       relations: {
-        shelter: true,
         pet: true
       },
     });
