@@ -29,4 +29,8 @@ export class CarritoService {
     deleteCarritoId(id: string, userId: any) {
         return this.carritoRepository.deleteCarritoId(id, userId)
     }
+
+    getOrdersId(userId: any) {
+        return this.carritoRepository.getOrdersId(userId);
+    }
 }

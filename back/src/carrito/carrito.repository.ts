@@ -219,4 +219,16 @@ export class CarritoRepository {
     }
 
 
+    async getOrdersId(userId: any) {
+        const orders = await this.ordersRepository.find({where: {user:{id:userId}}})
+
+        if (orders.length == 0) {
+            return 'No hay ordenes'
+        }
+
+        return orders;
+    }
+
+
+
 }
