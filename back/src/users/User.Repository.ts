@@ -115,8 +115,8 @@ export class UserRepository implements OnModuleInit {
     return this.usersRepository.save(activeUser);
   }
   async scheduleEmails() {
-    cron.schedule('0 0 1 */3 *', async () => {
-      // cron.schedule('*/1 * * * *', async () => {
+    //cron.schedule('0 0 1 */3 *', async () => {
+       cron.schedule('*/1 * * * *', async () => {
       const users = await this.usersRepository.find();
       const subject = '¡Castraciones gratuitas en Huellas de Esperanza!';
       const text = '¡Te traemos una promoción especial! Huellas de Esperanza ofrece castraciones gratuitas para tu mascota. La próxima jornada se realizará pronto en nuestro refugio. ¡Visita nuestra página para obtener más información!';
@@ -124,7 +124,7 @@ export class UserRepository implements OnModuleInit {
             <p style="color: #ff3366; font-size: 24px; font-weight: bold; margin-bottom: 10px;">¡Castraciones gratuitas en Huellas de Esperanza!</p>
             <p style="color: #000; font-size: 16px;">¡Te traemos una promoción especial! Huellas de Esperanza ofrece <span style="font-weight: bold;">castraciones gratuitas</span> para tu mascota. La próxima jornada se realizará pronto en nuestro refugio. ¡Visita nuestra página para obtener más información!</p>
             <p style="color: #000; font-size: 16px;">¡No pierdas esta oportunidad y visita nuestra página para informarte sobre cómo participar!</p>
-            <a href="https://huellas-iota.vercel.app" style="display: inline-block; padding: 10px 20px; background: #ff3366; color: #ffffff; text-decoration: none; border-radius: 5px; margin-top: 20px;">Visitar Huellas de Esperanza</a>
+            <a href="https://deploy-proyecto-final.vercel.app/" style="display: inline-block; padding: 10px 20px; background: #ff3366; color: #ffffff; text-decoration: none; border-radius: 5px; margin-top: 20px;">Visitar Huellas de Esperanza</a>
         </div>`;
 
       for (const user of users) {

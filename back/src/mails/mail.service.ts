@@ -104,7 +104,7 @@ export class MailService {
         <p>Hemos recibido una solicitud para cambiar la contraseña de tu cuenta en Huellas de Esperanza. Si no solicitaste este cambio, por favor ignora este correo.</p>
         <p>Para cambiar tu contraseña, sigue el enlace a continuación:</p>
         <p>
-          <a href="https://huellas-ruddy.vercel.app/AUTH/new_password" style="display: inline-block; padding: 10px 20px; background: linear-gradient(to bottom, #ff3366, #ffffff); color: white; text-decoration: none; border-radius: 5px; box-shadow: 0 5px 15px rgba(255, 0, 102, 0.3); transition: all 0.3s ease;">
+          <a href="https://deploy-proyecto-final.vercel.app/AUTH/new_password" style="display: inline-block; padding: 10px 20px; background: linear-gradient(to bottom, #ff3366, #ffffff); color: white; text-decoration: none; border-radius: 5px; box-shadow: 0 5px 15px rgba(255, 0, 102, 0.3); transition: all 0.3s ease;">
             Cambiar Contraseña
           </a>
         </p>
@@ -134,7 +134,7 @@ export class MailService {
     <p>Hemos confirmado el cambio de la contraseña de tu cuenta en Huellas de Esperanza. Tu nueva contraseña es: <strong>${newPassword}</strong></p>
     <p>Para iniciar sesión con tu nueva contraseña, sigue el enlace a continuación:</p>
     <p>
-      <a href="https://huellas-ruddy.vercel.app/AUTH/login" style="display: inline-block; padding: 10px 20px; background: linear-gradient(to bottom, #ff3366, #ff3366); color: white; text-decoration: none; border-radius: 5px; box-shadow: 0 5px 15px rgba(255, 0, 102, 0.3); transition: all 0.3s ease;">
+      <a href="https://deploy-proyecto-final.vercel.app/AUTH/login" style="display: inline-block; padding: 10px 20px; background: linear-gradient(to bottom, #ff3366, #ff3366); color: white; text-decoration: none; border-radius: 5px; box-shadow: 0 5px 15px rgba(255, 0, 102, 0.3); transition: all 0.3s ease;">
         Iniciar Sesión
       </a>
     </p>
@@ -240,7 +240,7 @@ export class MailService {
     
     Nos alegra darte la bienvenida a Huellas de Esperanza. Ahora puedes acceder a tu cuenta y disfrutar de nuestros servicios.
     
-    Para iniciar sesión, haz clic en el siguiente enlace: <span id="enlace">http://example.com/login</span>
+    Para iniciar sesión, haz clic en el siguiente enlace: <span id="enlace">https://deploy-proyecto-final.vercel.app/login</span>
     
    
     
@@ -252,7 +252,7 @@ export class MailService {
     <p>Tu cuenta ha sido activada correctamente.</p>
     <p>Nos alegra darte la bienvenida a Huellas de Esperanza. Ahora puedes acceder a tu cuenta y disfrutar de nuestros servicios.</p>
     <p>Para iniciar sesión, haz clic en el siguiente enlace:</p>
-    <p><a href="https://huellas-iota.vercel.app/AUTH/login" style="display: inline-block; padding: 8px 15px; margin-top: 10px; color: white; background: linear-gradient(to bottom, #ff0066, #ffffff); text-decoration: none; border-radius: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); border: 1px solid #ff3366; border-bottom: 4px solid #ff3366;">Iniciar Sesión</a></p>
+    <p><a href="https://deploy-proyecto-final.vercel.app/AUTH/login" style="display: inline-block; padding: 8px 15px; margin-top: 10px; color: white; background: linear-gradient(to bottom, #ff0066, #ffffff); text-decoration: none; border-radius: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); border: 1px solid #ff3366; border-bottom: 4px solid #ff3366;">Iniciar Sesión</a></p>
   <p>¡Saludos!</p>
     <p>El equipo de Huellas de Esperanza</p>
 </div>
