@@ -1,24 +1,8 @@
-// import React from 'react'
-
-// const Adopted = () => {
-//   return (
-    // <div className='  flex flex-col items-center justify-center bg-yellow-300 rounded-md md:h-[200px]  ' >
-    //     <div className='text-3xl font-mono font-bold ' >
-    //         Tus adopciones
-    //     </div>
-    // </div>
-   
-//   )
-// }
-
-// export default Adopted
-
-
 'use client'
 
 import React, { useEffect, useState } from 'react';
 
-const Adopted = () => {
+const Donations = () => {
     const [donations, setDonations] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<Error | null>(null);
@@ -33,7 +17,7 @@ const Adopted = () => {
 
                 const { access_token } = JSON.parse(userSession); 
 
-                const response = await fetch('https://huellasdesperanza.onrender.com/adoption/user', {
+                const response = await fetch('https://huellasdesperanza.onrender.com/orders/all', {
                     method: 'GET',
                     headers: {
                         'Authorization': `Bearer ${access_token}`,
@@ -64,15 +48,12 @@ const Adopted = () => {
 
 
     if (donations.length === 0) {
-        return <div>No tiene adopciones aún.</div>;
+        return <div>No tiene donaciones aún.</div>;
     }
 
     return (
-
-      <div className='  flex flex-col items-center justify-center bg-yellow-300 rounded-md md:h-[200px]  ' >
-        <div className='text-3xl font-mono font-bold ' >
-            Tus adopciones
-        </div>
+        <div>
+            <h1>Donaciones</h1>
             <ul>
                 {donations.map((donation, index) => (
                     <li key={index}>{donation}</li>
@@ -82,4 +63,4 @@ const Adopted = () => {
     );
 }
 
-export default Adopted;
+export default Donations;

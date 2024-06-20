@@ -3,7 +3,8 @@
 import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { IMascotas } from '@/interface/IMascotas';
 import ModalFilterMascotas from '@/components/Card-Animals/FiltroMascotas/ModalFilterMascotas';
-import withAuth from '@/HOC/withAuth';
+import withAuth from '@/HOC/WithAuth';
+import useUserRole from '@/utils/userSession';
 
 const ListaMascotas = lazy(() => import('@/components/Card-Animals/ListaMascotas'));
 
@@ -12,6 +13,7 @@ const Adopta = () => {
   const [filterModalVisible, setFilterModalVisible] = useState<boolean>(false);
   const [filters, setFilters] = useState<{ edad: string; tamaño: string; sexo: string; especie: string }>({ edad: '', tamaño: '', sexo: '', especie: ''});
   const [filterOptions, setFilterOptions] = useState<{ edades: number[]; tamaños: string[]; sexos: string[], especies: string[] }>({ edades: [], tamaños: [], sexos:[], especies:[] });
+  const userRole = useUserRole(); 
 
   useEffect(() => {
     const savedFilters = localStorage.getItem('mascotasFilters');
@@ -76,9 +78,9 @@ const Adopta = () => {
   const filteredMascotas = filtrarMascotas();
 
   return (
-    <main className="flex flex-col items-center bg-gray-300">
+    <main className="flex flex-col items-center bg-gray-50">
       <div className="flex justify-center space-x-2">
-        <button onClick={() => setFilterModalVisible(true)} className="mt-3 text-white bg-green-700 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+        <button onClick={() => setFilterModalVisible(true)} className="mt-3 text-white bg-lime500 hover:bg-lime-600 focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-800 font-medium rounded-xl text-sm px-5 py-2.5 text-center me-2 mb-2">
           Filtrar Mascotas
         </button>
       </div>

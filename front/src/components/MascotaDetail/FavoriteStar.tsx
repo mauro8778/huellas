@@ -127,7 +127,7 @@ const FavoriteStar: React.FC<FavoriteStarProps> = ({ isFavorite, onToggleFavorit
 
     console.log('ID de mascota:', petId);
 
-    const method = isFavorite ? 'DELETE' : 'POST'; 
+    const method = isFavorite ? 'PUT' : 'POST'; 
     fetch(`https://huellasdesperanza.onrender.com/users/pet/favorite/${petId}`, {
       method: method,
       headers: {

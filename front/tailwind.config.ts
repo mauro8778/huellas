@@ -12,6 +12,17 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      screens: {
+        'xs': '475px', // Ejemplo de punto de ruptura personalizado
+      },
+      maxWidth: {
+        'xs': '20rem',  // 320px
+        'sm': '24rem',  // 384px
+        'md': '28rem',  // 448px
+        'lg': '32rem',  // 512px
+        'xl': '48rem',  // 768px
+        '4xl': '64rem', // 1024px
+      },
       colors: {
         // para el degrade:  bg-gradient-to-bl from-purple-600 via-indigo-600 to-indigo-500 
         indigo500: "#6366f1",
