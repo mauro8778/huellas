@@ -25,6 +25,7 @@ export class MapsService {
         },
       });
 
+      // Logging para depuración
       console.log('Request URL:', response.config.url);
       console.log('Request Params:', response.config.params);
       console.log('Response Status:', response.status);
