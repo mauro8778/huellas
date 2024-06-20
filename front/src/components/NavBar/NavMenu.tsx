@@ -1,10 +1,10 @@
 
 
 
+import { decodeJwt } from '@/utils/decodeJwt';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { MdMenu, MdClose } from 'react-icons/md';
-import decodeJwt from '@/utils/decodeJwt';
 
 const NavMenu: React.FC = () => {
   const [menuOpen, setMenuOpen] = useState(false);
