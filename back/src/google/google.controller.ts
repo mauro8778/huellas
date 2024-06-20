@@ -92,7 +92,7 @@ export class GoogleController {
 
         const { access_token, id_token } = response.data;
 
-        const redirectUrl = `http://localhost:3001/AUTH/callback?access_token=${access_token}&id_token=${id_token}`;
+        const redirectUrl = `https://huellas-beta.vercel.app/AUTH/callback?access_token=${access_token}&id_token=${id_token}`;
         return res.redirect(redirectUrl);
       } catch (error) {
         throw new UnauthorizedException('Invalid credentials');
@@ -114,7 +114,7 @@ export class GoogleController {
 
         const { access_token, id_token } = response.data;
 
-        const redirectUrl = `http://localhost:3001/AUTH/callback?access_token=${access_token}&id_token=${id_token}`;
+        const redirectUrl = `https://huellas-beta.vercel.app/AUTH/callback?access_token=${access_token}&id_token=${id_token}`;
         return res.redirect(redirectUrl);
       } catch (error) {
         throw new UnauthorizedException('Invalid credentials');
