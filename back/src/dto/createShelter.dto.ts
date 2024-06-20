@@ -28,7 +28,7 @@ export class CreateShelterDto {
 
     @IsNotEmpty()
     @IsString()
-    @Length(8)
+    @Length(5, 20)
     @ApiProperty({
         example: "********"
     })

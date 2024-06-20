@@ -49,7 +49,7 @@ export class CreateUserDto {
 
   @IsNotEmpty()
   @IsString()
-  @Length(8)
+  @Length(5, 20)
   @ApiProperty({
     example: '********',
   })
