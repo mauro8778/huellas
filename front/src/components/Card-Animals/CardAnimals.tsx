@@ -235,7 +235,7 @@ const CardAnimals: React.FC<{
     <>
       <div className="bg-transparent rounded-lg shadow-2xl p-4 m-2 md:m-4 max-w-xs mx-auto transform transition-transform duration-200 hover:scale-105 relative">
         <div className="absolute  top-2 right-2 flex items-center ">
-        {userRole !== 'User' && (
+        {userRole === 'User' && (
           <button onClick={handleEditClick} className="group mr-2">
             <svg 
               className=" h-6 w-6 text-gray-500 group-hover:bg-gray-400 rounded-full" 
@@ -251,7 +251,7 @@ const CardAnimals: React.FC<{
             </svg>
           </button>
               )}
-          {userRole !== 'User' && (
+          {userRole === 'User' && (
 
           <DeleteMascota mascotaId={mascota.id} onDelete={deleteMascota} />
 )}
