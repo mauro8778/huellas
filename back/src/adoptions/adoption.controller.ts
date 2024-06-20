@@ -18,7 +18,8 @@ export class AdoptionController {
     async AllAdoptions(){
         return await this.adopcionservice.AllAdoptions()
     }
-
+    
+    @ApiBearerAuth()
     @Get('id')
     async adoptionsById(@Req() request){
         const userId = request.user['https://huellasdesperanza.com/userID'];
