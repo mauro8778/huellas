@@ -1,9 +1,9 @@
 // pages/index.tsx
 import React from "react";
 import Image from "next/image";
-import RandomRefugiosCards from "@/components/Refugios/RandomRefugiosCards";
-import RandomAnimalCards from "@/components/Card-Animals/RandomAnimalsCards";
 import BannerPromocional from "@/components/admin/PromotionBaner";
+import RandomAnimalsCards from "@/components/Card-Animals/RandomAnimalsCards";
+
 
 const Home: React.FC = () => {
   return (
@@ -21,11 +21,12 @@ const Home: React.FC = () => {
       </div>
 
       {/* Banner Dinámico */}
-      <BannerPromocional />
+     
+      <RandomAnimalsCards  />
 
       <div className="relative z-0 mt-10 ml-10">
-        <RandomAnimalCards />
-        <RandomRefugiosCards />
+        {/* <RandomMedicalCards /> */}
+        <BannerPromocional />
       </div>
     </div>
   );
