@@ -149,34 +149,34 @@ export class CarritoRepository {
 
     async addOrderPendiente(order: CarritoPendienteDto, userId: any) {
         const price = Number(order.price);
-
-        const user = await this.usersRepository.findOne({where: {id: userId},
-        relations:{carrito: true}
-    });
-
-    const carrito = await this.carritoRepository.findOne({ where: { shelter_id: order.shelter_id } });
-
-    if (carrito) {
-
-        const currentPrice = Number(carrito.price);
-        carrito.price = currentPrice + price;
+    
+        const user = await this.usersRepository.findOne({ 
+            where: { id: userId },
+            relations: { carrito: true }
+        });
+    
+        if (!user) {
+            throw new Error('User not found');
+        }
+    
+        let carrito = user.carrito.find(c => c.shelter_id === order.shelter_id);
+    
+        if (carrito) {
+            const currentPrice = Number(carrito.price);
+            carrito.price = currentPrice + price;
+        } else {
+            carrito = new CarritoPendienteEntity();
+            carrito.price = price;
+            carrito.shelter_id = order.shelter_id;
+            user.carrito.push(carrito);
+        }
+    
         await this.carritoRepository.save(carrito);
-        
-    }else{
-        const newCarrito = new CarritoPendienteEntity()
-        newCarrito.price = price;
-        newCarrito.shelter_id = order.shelter_id;
-        await this.carritoRepository.save(newCarrito)
-
-        user.carrito.push(newCarrito)
+        await this.usersRepository.save(user);
+    
+        return user;
     }
-
-        await this.usersRepository.save(user)
-
-
-        return user
-    }
-
+    
     async getCarritoShelter(){
         const order = await this.ordersRepository.find({
             relations: {
