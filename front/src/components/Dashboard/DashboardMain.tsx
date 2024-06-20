@@ -127,7 +127,7 @@ const DashboardMain: React.FC<DashboardMainProps> = ({ role }) => {
         <div>
           <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
             <StatCard title="Total Donaciones" icon={<FaDonate size={40} className="text-blue-500" />}>
-              <p className="text-xl">${total}</p>
+              <p className="text-xl">${totalDonations}</p>
             </StatCard>
             <StatCard title="Refugios Favoritos" icon={<FaPaw size={40} className="text-green-500" />}>
               <p className="text-xl">45</p>
@@ -176,7 +176,7 @@ const DashboardMain: React.FC<DashboardMainProps> = ({ role }) => {
           <p>Bienvenido, Usuario. Aquí puedes ver tus mascotas adoptadas y tus donaciones.</p>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6 text-gray-600">
             <StatCard title="Total Donaciones" icon={<FaDonate size={40} className="text-blue-500" />}>
-              <p className="text-xl">${total}</p>
+              <p className="text-xl">${totalDonations}</p>
             </StatCard>
             <StatCard title="Refugios Favoritos" icon={<FaPaw size={40} className="text-green-500" />}>
               <p className="text-xl">45</p>
