@@ -15,7 +15,7 @@ interface DashboardMainProps {
 }
 
 const DashboardMain: React.FC<DashboardMainProps> = ({ role }) => {
-  const totalDonations = 1000; // Ejemplo de valor
+  const totalDonations = 1000; 
 
   return (
     <div className="flex-1 p-6">
