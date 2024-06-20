@@ -93,7 +93,6 @@ const Footer: React.FC<FooterProps> = ({ username }) => {
       <Box
         marginLeft={44}
         p={2}
-        width={"77%"}
         sx={{
           backgroundColor: theme.palette.mode === "light" ? "#F8FAFF" : theme.palette.background.default,
           boxShadow: "0px 0px 2px rgba(0, 0, 0, 0.25)",
