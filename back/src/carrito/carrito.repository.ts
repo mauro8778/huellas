@@ -157,8 +157,7 @@ export class CarritoRepository {
     let carrito = await this.carritoRepository.findOne({ where: { shelter_id: order.shelter_id } });
 
     if (carrito) {
-        carrito.price = Number(carrito.price) + price;
-        await this.carritoRepository.save(carrito)
+        return user
     }else{
         const newCarrito = new CarritoPendienteEntity()
         newCarrito.price = price;
