@@ -4,6 +4,7 @@ import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { IMascotas } from '@/interface/IMascotas';
 import ModalFilterMascotas from '@/components/Card-Animals/FiltroMascotas/ModalFilterMascotas';
 import withAuth from '@/HOC/withAuth';
+import useUserRole from '@/utils/userSession';
 
 const ListaMascotas = lazy(() => import('@/components/Card-Animals/ListaMascotas'));
 
@@ -12,6 +13,7 @@ const Adopta = () => {
   const [filterModalVisible, setFilterModalVisible] = useState<boolean>(false);
   const [filters, setFilters] = useState<{ edad: string; tamaño: string; sexo: string; especie: string }>({ edad: '', tamaño: '', sexo: '', especie: ''});
   const [filterOptions, setFilterOptions] = useState<{ edades: number[]; tamaños: string[]; sexos: string[], especies: string[] }>({ edades: [], tamaños: [], sexos:[], especies:[] });
+  const userRole = useUserRole(); 
 
   useEffect(() => {
     const savedFilters = localStorage.getItem('mascotasFilters');

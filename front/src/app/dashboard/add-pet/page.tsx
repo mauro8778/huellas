@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { IMascotas } from '@/interface/IMascotas';
 
 
@@ -14,6 +14,7 @@ const FormularioMascota = () => {
   const [tamaño, setTamaño] = useState('');
   const [descripcion, setDescripcion] = useState('');
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [razaOptions, setRazaOptions] = useState<string[]>([]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -87,6 +88,16 @@ const FormularioMascota = () => {
       setSelectedFile(event.target.files[0]);
     }
   };
+
+  useEffect(() => {
+    if (especie === 'Perro') {
+      setRazaOptions(['Boxer', 'Labrador', 'Mestizo', 'Caniche']);
+    } else if (especie === 'Gato') {
+      setRazaOptions(['Siames', 'Maine Coon', 'Persa', 'Mestizo']);
+    } else {
+      setRazaOptions([]);
+    }
+  }, [especie]);
 
   return (
     <form onSubmit={handleSubmit} className="mt-4" encType="multipart/form-data">
@@ -196,15 +207,19 @@ const FormularioMascota = () => {
       </div>
 
       <div className="mb-4">
-        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="nombre">
+        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="raza">
           Raza
         </label>
-        <input
-          id="nombre"
-          type="text"
+        <select
+          id="raza"
           value={raza}
-          onChange={(e) => setNombre(e.target.value)}
-          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"/>
+          onChange={(e) => setRaza(e.target.value)}
+          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+          <option value="">Seleccione una opción</option>
+          {razaOptions.map((razaOption, index) => (
+            <option key={index} value={razaOption}>{razaOption}</option>
+          ))}
+        </select>
       </div>
 
       <div className="mb-4">

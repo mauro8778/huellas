@@ -134,6 +134,7 @@ import Image from "next/image";
 import Link from 'next/link';
 import LoadingSpinner from "@/components/LoadingSniper/LoadingSniper";
 import { MdOutlinePets } from "react-icons/md";
+import useUserRole from "@/utils/userSession";
 
 interface SearchResult {
   id: string;
@@ -158,6 +159,7 @@ const Search: React.FC = () => {
   const [error, setError] = useState("");
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const userRole = useUserRole(); 
 
   const handleSearch = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -188,8 +190,12 @@ const Search: React.FC = () => {
   };
 
   return (
+
+    
     <div className="hidden lg:flex flex-col items-center">
       <form onSubmit={handleSearch} className="flex w-full mb-4">
+
+      {userRole !== 'Shelter' && (
         <input
           type="text"
           value={searchTerm}
@@ -197,12 +203,19 @@ const Search: React.FC = () => {
           placeholder="Encuentra tu mascota..."
           className="flex-grow px-2 text-gray-700 focus:outline-none rounded-l-2xl"
         />
+        )}
+
+
+{userRole !== 'Shelter' && (
         <button
-          type="submit"
-          className="flex items-center justify-center px-4 text-white bg-gray-700 rounded-r-2xl focus:outline-none"
-        >
+      type="submit"
+    className="flex items-center justify-center px-4 text-white bg-gray-700 rounded-r-2xl focus:outline-none"
+  >
           <RiSearchLine className="w-5 h-5" />
         </button>
+
+)}
+
       </form>
       <div className="w-full">
         {error && <p className="text-red-500">{error}</p>}
@@ -219,11 +232,11 @@ const Search: React.FC = () => {
                 <div className="flex flex-col backdrop-filter backdrop-blur bg-opacity-20 bg-gray-100 p-4 rounded-lg shadow-lg flex-shrink-0 w-64 cursor-pointer">
                   <Image
                     src={result.imgUrl}
-                    alt={result.name}
-                    className="w-full h-40 object-cover rounded-t-lg mb-2"
-                    width={500}
-                    height={500}
-                  />
+                  alt={result.name}
+                className="w-full h-40 object-cover rounded-t-lg mb-2"
+              width={500}
+            height={500}
+          />
                   <h3 className="text-lg font-semibold mb-2">{result.name}</h3>
                   <p className="text-gray-700">{result.description}</p>
                 </div>

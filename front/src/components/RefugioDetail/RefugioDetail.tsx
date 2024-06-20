@@ -16,11 +16,9 @@ export const RefugioDetail: React.FC<IRefugios> = ({ id, name, description, imgU
   const [token, setToken] = useState<string | null>(null);
 
   useEffect(() => {
-    console.log('Componente montado, leyendo donaciones desde el almacenamiento local');
     const savedDonations = localStorage.getItem('donations');
     if (savedDonations) {
-      console.log('Donaciones guardadas encontradas:', savedDonations);
-      setDonations(JSON.parse(savedDonations)); // Establecer las donaciones desde el almacenamiento local
+      setDonations(JSON.parse(savedDonations));
     }
 
     const userSession = localStorage.getItem('userSession');
@@ -35,17 +33,14 @@ export const RefugioDetail: React.FC<IRefugios> = ({ id, name, description, imgU
   }, []);
 
   useEffect(() => {
-    console.log('Donations updated, saving to localStorage:', donations);
     localStorage.setItem('donations', JSON.stringify(donations));
   }, [donations]);
 
   const handleToggleFavorite = () => {
-    console.log('Favorito cambiado:', !isFavorite);
     setIsFavorite(!isFavorite);
   };
 
   const handleSelectAmount = (amount: number) => {
-    console.log('Monto seleccionado:', amount);
     setSelectedAmount(selectedAmount === amount ? null : amount);
   };
 
@@ -54,8 +49,6 @@ export const RefugioDetail: React.FC<IRefugios> = ({ id, name, description, imgU
       Swal.fire('Por favor, selecciona un monto para donar');
       return;
     }
-
-    console.log('Monto para donar:', selectedAmount);
 
     const newDonation: IDonation = {
       shelter: {
@@ -71,37 +64,28 @@ export const RefugioDetail: React.FC<IRefugios> = ({ id, name, description, imgU
     }
 
     try {
-      console.log('Enviando solicitud POST al servidor...');
       const response = await fetch("https://huellasdesperanza.onrender.com/carrito/add", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           "Authorization": `Bearer ${token}`
         },
-        body: JSON.stringify(
-          {
-            shelter_id: newDonation.shelter.id,
-            price: newDonation.amount
-          }
-        )
+        body: JSON.stringify({
+          shelter_id: newDonation.shelter.id,
+          price: newDonation.amount
+        })
       });
-      console.log('Respuesta del servidor:', response);
 
       if (!response.ok) {
         const errorText = await response.text();
         throw new Error(`Error al agregar donación al carrito: ${errorText}`);
       }
 
-      setDonations(prevDonations => {
-        const updatedDonations = [...prevDonations, newDonation];
-        console.log('Updating localStorage with new donations:', updatedDonations);
-        localStorage.setItem('donations', JSON.stringify(updatedDonations));
-        return updatedDonations;
-      });
+      setDonations(prevDonations => [...prevDonations, newDonation]);
 
       Swal.fire(`Tu donación de $${selectedAmount} fue agregada con éxito`);
 
-      router.push('/refugios'); // Comentado para evitar la redirección por el momento
+      // router.push('/refugios'); // Descomentado si necesitas redirigir
     } catch (error) {
       console.error('Error al agregar donación al carrito:', error);
       let errorMessage = 'Hubo un error al agregar la donación al carrito. Por favor, inténtalo nuevamente.';

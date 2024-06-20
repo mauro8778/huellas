@@ -3,10 +3,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { MdDeleteSweep } from 'react-icons/md';
 import Image from 'next/image';
-
 import Swal from 'sweetalert2';
-
-
 
 interface IShelter {
   id: number;
@@ -32,7 +29,6 @@ const DonationForm: React.FC = () => {
     setToken(accessToken);
   }, []);
 
-
   useEffect(() => {
     const fetchShelters = async () => {
       try {
@@ -54,8 +50,6 @@ const DonationForm: React.FC = () => {
         }
 
         const data = await response.json();
-        console.log(data);
-
         let total = 0;
         for (let i = 0; i < data.length; i++) {
           total += Number(data[i].price);
@@ -69,12 +63,12 @@ const DonationForm: React.FC = () => {
       }
     };
 
-    fetchShelters();
+    if (token) {
+      fetchShelters();
+    }
   }, [token]);
 
-  // Función para eliminar un refugio de la lista
   const handleRemoveShelter = async (id: number) => {
-
     try {
       const response = await fetch(`https://huellasdesperanza.onrender.com/carrito/${id}`, {
         method: 'DELETE',
@@ -83,12 +77,10 @@ const DonationForm: React.FC = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-  
+
       if (!response.ok) {
-        throw new Error('Failed to delete item');
+        throw new Error('Error al eliminar el refugio');
       }
- 
-      console.log(`Item with ID ${id} deleted successfully`);
 
       const updatedShelters = shelters.filter(shelter => shelter.id !== id);
       setShelters(updatedShelters);
@@ -98,16 +90,11 @@ const DonationForm: React.FC = () => {
         newTotal += Number(shelter.price);
       });
       setTotal(newTotal);
-
-      console.log(`Item with ID ${id} deleted successfully`);
     } catch (error) {
-      console.error('Error deleting item:', error);
-      // Manejar el error de eliminación aquí
+      console.error('Error al eliminar el refugio:', error);
     }
-
   };
 
-  // Función para manejar el proceso de pago
   const handleCheckout = async () => {
     try {
       const response = await axios.post('https://huellasdesperanza.onrender.com/mercado-pago', {
@@ -128,7 +115,7 @@ const DonationForm: React.FC = () => {
             preference: {
               id: data
             },
-            autoOpen: true, // Habilita la apertura automática del Checkout Pro
+            autoOpen: true,
           });
         };
         document.body.appendChild(script);
@@ -137,7 +124,7 @@ const DonationForm: React.FC = () => {
       }
 
     } catch (error) {
-      console.error('Error creating payment preference:', error);
+      console.error('Error al crear la preferencia de pago:', error);
       alert('Error al crear la preferencia de pago');
     }
   };

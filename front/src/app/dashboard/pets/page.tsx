@@ -37,7 +37,6 @@ const Adopta = () => {
           },
         });
         
-
         if (!response.ok) {
           throw new Error('No se pudieron obtener las mascotas.');
         }
