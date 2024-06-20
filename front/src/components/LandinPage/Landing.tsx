@@ -32,7 +32,7 @@ const LandingPage: React.FC = () => {
         </div>
         <div className="flex justify-center mt-8 items-end mb-3">
           <Link href="/Home">
-            <button className="px-4 py-2 text-xs md:text-sm lg:text-base text-white font-extrabold bg-pink-600 rounded-3xl hover:bg-pink-400">
+            <button className="px-4 py-2 text-xs md:text-sm lg:text-base text-white font-extrabold bg-lime500 rounded-3xl hover:bg-lime-300">
               Deja tu huella
             </button>
           </Link>
