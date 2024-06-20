@@ -155,18 +155,6 @@ const Form_Register: React.FC = () => {
     }
   };
 
-  const handleGoogleLogin = () => {
-    console.log("Redirigiendo a Google");
-    alert("Redirigiendo a Google");
-    window.location.href = 'https://huellasdesperanza.onrender.com/google/redirect';//REVISAR  RUTA y pasar la logica al boton
-  };
-
-  const handleFacebookLogin = () => {
-    console.log("Redirigiendo a Facebook");
-    alert("Redirigiendo a Facebook");
-    window.location.href = 'https://huellasdesperanza.onrender.com/facebook/redirect'; //REVISAR RUTA
-  };
-
   return (
     <div className='w-full max-w-md'>
       <div className='mb-5'>
@@ -183,7 +171,7 @@ const Form_Register: React.FC = () => {
         )}
         <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
           {['name', 'last_name', 'email', 'password', 'confirm_password', 'birthdate', 'phone', 'location' ].map((field) => (
-            <div key={field} className="relative mt-4">
+            <div key={field} className="relative">
               <Input
                 type={field === 'password' || field === 'confirm_password' ? 'password' : field === 'birthdate' ? 'date' : field === 'phone' ? 'number' : 'text'}
                 name={field}
@@ -214,10 +202,6 @@ const Form_Register: React.FC = () => {
           ))}
         </div>
         <Button type='submit' label='Crear cuenta' className='w-full mt-4' />
-        <div className='mt-5 mb-10 flex flex-col items-center justify-center gap-y-2'>
-          <ButtonGoogle type='button' label='Registrarse con Google' onClick={handleGoogleLogin} className='w-full' />
-          <ButtonFacebook type='button' label='Registrarse con Facebook' onClick={handleFacebookLogin} className='w-full' />
-        </div>
         <div className='mt-5 mb-10 flex items-center justify-center gap-x-2'>
           <p className='text-yellow500'>¿Tienes una cuenta?</p>
           <button

@@ -45,6 +45,7 @@
     "react-leaflet": "^4.2.1",
     "react-loading-skeleton": "^3.4.0",
     "react-responsive-carousel": "^3.2.23",
+    "react-router-dom": "^6.23.1",
     "react-slick": "^0.30.2",
     "simplebar-react": "^3.2.6",
     "slick-carousel": "^1.8.1",
