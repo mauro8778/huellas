@@ -27,7 +27,7 @@ export class SheltersController {
 
   
   @UseGuards(AuthGuard)
-  @Get(':id')
+  @Get('id')
   getShelterById( @Req() request) {
     const id = request.user['https://huellasdesperanza.com/userID'];
     return this.sheltersService.getShelterById(id);
