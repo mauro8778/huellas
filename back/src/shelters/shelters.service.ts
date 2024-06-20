@@ -14,6 +14,10 @@ export class SheltersService {
     return this.sheltersRepository.getShelterById(id);
   }
 
+  getShelterByIdnew(id: string) {
+    return this.sheltersRepository.getShelterByIdnew(id);
+  }
+
   updatedProfile(id: string, shelter: Partial<ShelterEntity>) {
     return this.sheltersRepository.updatedProfile(id, shelter);
   }
