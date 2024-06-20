@@ -21,9 +21,14 @@ export class MapsService {
           limit: 1,
         },
         headers: {
-          'User-Agent': 'HuellasApp/5.0 (maurodiaz8778@gmail.com)', 
+          'User-Agent': 'HuellasApp/5.0 (contact@huellasapp.com)',
         },
       });
+
+      console.log('Request URL:', response.config.url);
+      console.log('Request Params:', response.config.params);
+      console.log('Response Status:', response.status);
+      console.log('Response Data:', response.data);
 
       if (response.status !== 200) {
         throw new HttpException(`Request failed with status code ${response.status}`, response.status);
