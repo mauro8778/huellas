@@ -15,7 +15,7 @@ export class MapsService {
     
   ) {}
 
-   async geocodeShelterAddress(address: string): Promise<any> {
+  async function geocodeShelterAddress(address: string): Promise<any> {
     try {
       const response = await axios.get('https://nominatim.openstreetmap.org/search', {
         params: {
@@ -25,11 +25,20 @@ export class MapsService {
           limit: 1,
         },
         headers: {
-
-          'User-Agent': 'HuellasApp/5.0(conhkhtasadaacto@huellasapp.com)', 
-
+          'User-Agent': 'HuellasApp/3.0 (contact@huellasapp.com)',
         },
       });
+  
+      if (response.data && response.data.length > 0) {
+        return response.data[0];
+      } else {
+        throw new Error('No results found');
+      }
+    } catch (error) {
+      console.error('Geocoding error:', error);
+      throw error;
+    }
+  }
       if (response.status !== 200) {
         throw new HttpException(`Request failed with status code ${response.status}`, response.status);
       }
@@ -49,7 +58,7 @@ export class MapsService {
       console.error('Error geocoding address:', error.message);
       throw new HttpException(`Error al geocodificar la dirección: ${error.message}`, error.response?.status || 500);
     }
-  }
+  }}
 
   async updateShelterGeocode(shelterId: string, address:string): Promise<any> {
     try {
