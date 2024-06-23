@@ -1,7 +1,13 @@
 import Image from "next/image"
 import Link from "next/link"
 
-const Footer= () => {
+
+interface FooterProps {
+  username: string | null;
+  className?: string; // Añade esta línea
+}
+
+const Footer: React.FC<FooterProps> = ({ username, className }) => {
     return (
         <footer className="bg-gray-50 font-sans dark:bg-gray-900 mt-10 border-t-2 border-gray-200 shadow-2xl ">
     <div className="container px-6 py-12 mx-auto ">

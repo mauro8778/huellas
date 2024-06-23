@@ -85,7 +85,7 @@ export const RefugioDetail: React.FC<IRefugios> = ({ id, name, description, imgU
 
       Swal.fire(`Tu donación de $${selectedAmount} fue agregada con éxito`);
 
-      // router.push('/refugios'); // Descomentado si necesitas redirigir
+      router.push('/refugios'); // Descomentado si necesitas redirigir
     } catch (error) {
       console.error('Error al agregar donación al carrito:', error);
       let errorMessage = 'Hubo un error al agregar la donación al carrito. Por favor, inténtalo nuevamente.';

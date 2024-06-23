@@ -32,7 +32,7 @@ export default function RootLayout({
           <Navbar/>
         </HiddenNavBar>
         {children}
-        <Footer/>
+        <Footer username={null}/>
        
         
       </body>
